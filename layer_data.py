@@ -1,17 +1,24 @@
-from shiny import App, render, ui
+import pandas as pd
 
-app_ui = ui.page_fluid(
-    ui.h2("Hello Shiny!"),
-    ui.input_slider("n", "N", 0, 100, 20),
-    ui.output_text_verbatim("txt"),
-)
+class LayerData:
+    def display_data(plot_data):
+        
+        if not plot_data.has_data():
+            return "Plot is Empty!"
+        
+        data_y = []
+        y_vars = plot_data.patches
+        for y in y_vars:
+            data_y.append(y.get_height())
 
+        data_x = []
+        x_vars = plot_data.get_xticklabels()
+        for x in x_vars:
+            data_x.append(x.get_text())
 
-def server(input, output, session):
-    @output
-    @render.text
-    def txt():
-        return f"n*2 is {input.n() * 2}"
+        data = {}
+        data['x'] = data_x
+        data['y'] = data_y
 
-
-app = App(app_ui, server)
+        df = pd.DataFrame(data)
+        print(df)
