@@ -1,7 +1,8 @@
 import pandas as pd
 
 class LayerData:
-    def display_data(plot_data):
+
+    def data_plot_count_bar(plot_data):
         
         if not plot_data.has_data():
             return "Plot is Empty!"
@@ -21,4 +22,24 @@ class LayerData:
         data['y'] = data_y
 
         df = pd.DataFrame(data)
-        print(df)
+        return df
+    
+
+    def data_plot_scatter(plot_data):
+        if not plot_data.has_data():
+            return "Plot is Empty!"
+        
+        data_y = []
+        data_x = []
+        data_sc = plot_data.collections[0].get_offsets()
+        for points in data_sc:
+            data_y.append(points.data[1])
+            data_x.append(points.data[0])
+
+        data = {}
+        data['x'] = data_x
+        data['y'] = data_y
+        
+        df = pd.DataFrame(data)
+        return df
+    
