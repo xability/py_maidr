@@ -1,5 +1,7 @@
+import pandas as pd
 import seaborn as sns
 from layer_data import LayerData
+import matplotlib.pyplot as plt
 
 
 def count_plot():
@@ -23,6 +25,15 @@ def scatter_plot():
     print(ext_data_scatter)
 
 
+def line_plot():
+    flights = sns.load_dataset("flights")
+    may_flights = flights.query("month == 'May'")
+    plot_data_lp = sns.lineplot(data=may_flights, x="year", y="passengers")
+    plt.show()
+    ext_data_line = LayerData.data_plot_line(plot_data_lp)
+    print(ext_data_line)
+
+
 def main():
     print("countplot data::::")
     count_plot()
@@ -30,8 +41,11 @@ def main():
     print("scatterplot data::::")
     scatter_plot()
 
-    # print("barplot data::::")
-    # bar_plot()
+    print("lineplot data::::")
+    line_plot()
+
+    print("barplot data::::")
+    bar_plot()
 
 
 if __name__ == '__main__':

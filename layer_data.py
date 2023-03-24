@@ -43,3 +43,21 @@ class LayerData:
         df = pd.DataFrame(data)
         return df
     
+
+    def data_plot_line(plot_data):
+        if not plot_data.has_data():
+            return "Plot is Empty!"
+        
+        data_y = []
+        data_x = []
+
+        print(len(plot_data.lines))
+        for data in plot_data.lines:
+            y = data.get_ydata()
+            data_y.append(y)
+
+            x = data.get_xdata()
+            data_x.append(x)
+
+        df = pd.DataFrame({'x': data_x[0], 'y': data_y[0]})
+        return df
