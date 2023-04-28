@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 class LayerData:
 
     def __init__(self, data):
@@ -32,6 +31,63 @@ class LayerData:
 
     def data_plot_bar(self, name, is_json):
         _data = self.data_plot_count(name, is_json)
+
+        with open("barplot.svg", "r") as text_file:
+            svg_ = text_file.read()
+
+        html_template = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart2music"></script>
+        </head>
+        <body>
+            {}
+            <div id="cc"></div>
+            <script>
+                const x = ["Torgerson", "Biscoe Island", "Dream"];
+                const err = c2mChart({{
+                    type: "bar",
+                    element: document.getElementById("MyChart"),
+                    cc: document.getElementById("cc"),
+                    axes: {{
+                        x: {{
+                            label: "class",
+                            format: (index) => x[index]
+                        }},
+                        y: {{
+                            label: "count",
+                            minimum: 0
+                        }}
+                    }},
+                    data: [3706.37, 4716.02, 3712.9],
+                    options: {{
+                        onFocusCallback: (index) => {{
+                            Array.from(document.querySelectorAll("#MyChart rect")).slice(5).forEach((elem) => {{
+                                elem.style.fill = "#595959";
+                            }})
+                            document.querySelectorAll("#MyChart rect")[index+5].style.fill = "cyan";
+                        }}
+                    }}
+                }});
+                if(err){{
+                    console.error(err);
+                }}
+            </script>
+        </body>
+        </html>
+        """
+
+        html_template = html_template.format(svg_)
+
+        with open('chart.html', 'w') as f:
+            f.write(html_template)
+
         return _data
 
     def data_plot_scatter(self, name, is_json):
