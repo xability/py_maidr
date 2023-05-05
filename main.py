@@ -1,6 +1,7 @@
 import seaborn as sns
 from layer_data import LayerData
-import matplotlib.pyplot as plt
+import pandas as pd
+
 
 def count_plot(plot_type, isJson):
     df_cp = sns.load_dataset('titanic')
@@ -16,7 +17,15 @@ def bar_plot(plot_type, isJson):
     ext_data_bar = LayerData(plot_data_bp)
     
     # plt.savefig("barplot.svg", format="svg")
-    print(ext_data_bar.data_plot_bar(plot_type, isJson))
+    data = ext_data_bar.data_plot_bar(plot_type, isJson)
+
+    _data = None
+    if isJson:
+        _data = to_json(plot_type, data[0], data[1])
+    else:
+        _data = to_df(data[0], data[1])
+    print(_data)
+
     plot_data_bp.clear()
 
 
@@ -38,6 +47,28 @@ def box_plot(plot_type, isJson):
     tips = sns.load_dataset("tips")
     plot_data_bxp = sns.boxplot(x="day", y="total_bill", data=tips)
     # plt.show()
+
+
+def to_json(name, x_data, y_data):
+    values = []
+    for i in range(len(x_data)):
+        values.append({'x': x_data[i], 'y': y_data[i]})
+
+    data = {
+        'type': name,
+        'data': {
+            'datasets': [{
+                'data': values
+            }]
+        }
+    }
+
+    return data
+
+
+def to_df(self, x_data, y_data):
+    data = pd.DataFrame({'x': x_data, 'y': y_data})
+    return data
 
 
 def main():

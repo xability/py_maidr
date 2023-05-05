@@ -1,5 +1,3 @@
-import pandas as pd
-
 class LayerData:
 
     def __init__(self, data):
@@ -20,12 +18,7 @@ class LayerData:
         for y in y_vars:
             data_y.append(y.get_height())
 
-        _data = None
-        if is_json:
-            _data = self.to_json(name, data_x, data_y)
-
-        else:
-            _data = self.to_df(data_x, data_y)
+        _data = [data_x, data_y]
 
         return _data
 
@@ -34,6 +27,8 @@ class LayerData:
 
         with open("barplot.svg", "r") as text_file:
             svg_ = text_file.read()
+
+        print(_data[0], _data[1])
 
         html_template = """
         <!DOCTYPE html>
@@ -47,10 +42,13 @@ class LayerData:
             <script src="https://cdn.jsdelivr.net/npm/chart2music"></script>
         </head>
         <body>
-            {}
+            <div>
+                {svg}
+            </div>
             <div id="cc"></div>
+
             <script>
-                const x = ["Torgerson", "Biscoe Island", "Dream"];
+                const x = {data_x};
                 const err = c2mChart({{
                     type: "bar",
                     element: document.getElementById("MyChart"),
@@ -65,7 +63,7 @@ class LayerData:
                             minimum: 0
                         }}
                     }},
-                    data: [3706.37, 4716.02, 3712.9],
+                    data: {data_y},
                     options: {{
                         onFocusCallback: (index) => {{
                             Array.from(document.querySelectorAll("#MyChart rect")).slice(5).forEach((elem) => {{
@@ -83,7 +81,8 @@ class LayerData:
         </html>
         """
 
-        html_template = html_template.format(svg_)
+        html_template = html_template.format(
+            svg=svg_, data_x=_data[0], data_y=_data[1])
 
         with open('chart.html', 'w') as f:
             f.write(html_template)
@@ -134,23 +133,3 @@ class LayerData:
             _data = self.to_df(data_x[0], data_y[0])
 
         return _data
-
-    def to_json(self, name, x_data, y_data):
-        values = []
-        for i in range(len(x_data)):
-            values.append({'x': x_data[i], 'y': y_data[i]})
-
-        data = {
-            'type': name,
-            'data': {
-                'datasets': [{
-                    'data': values
-                }]
-            }
-        }
-
-        return data
-
-    def to_df(self, x_data, y_data):
-        data = pd.DataFrame({'x': x_data, 'y': y_data})
-        return data
