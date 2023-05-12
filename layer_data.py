@@ -3,7 +3,7 @@ class LayerData:
     def __init__(self, data):
         self.plot_data = data
 
-    def data_plot_count(self, name, is_json):
+    def data_plot_count(self, name):
         if not self.plot_data.has_data():
             return "Plot is Empty!"
 
@@ -19,16 +19,57 @@ class LayerData:
             data_y.append(y.get_height())
 
         _data = [data_x, data_y]
+        self.html(name, _data)
 
         return _data
 
-    def data_plot_bar(self, name, is_json):
-        _data = self.data_plot_count(name, is_json)
+    def data_plot_bar(self, name):
+        _data = self.data_plot_count(name)
+        self.html(name, _data)
 
-        with open("barplot.svg", "r") as text_file:
+        return _data
+
+    def data_plot_scatter(self, name):
+        if not self.plot_data.has_data():
+            return "Plot is Empty!"
+
+        data_y = []
+        data_x = []
+        data_sc = self.plot_data.collections[0].get_offsets()
+        for points in data_sc:
+            data_y.append(points.data[1])
+            data_x.append(points.data[0])
+
+        _data = [data_x, data_y]
+        self.html(name, _data)
+
+        return _data
+
+    def data_plot_line(self, name):
+        if not self.plot_data.has_data():
+            return "Plot is Empty!"
+
+        data_y = []
+        data_x = []
+
+        for data in self.plot_data.lines:
+            y = data.get_ydata()
+            data_y.append(y)
+
+            x = data.get_xdata()
+            data_x.append(x)    
+
+        _data = [data_x, data_y]
+        self.html(name, _data)
+
+        return _data
+
+    def html(self, name, _data):
+        with open("generated_svg/"+name+"plot.svg", "r") as text_file:
             svg_ = text_file.read()
 
-        print(_data[0], _data[1])
+        id_attr = 'id="MyChart"'
+        svg_ = svg_.replace('<svg ', f'<svg {id_attr} ')
 
         html_template = """
         <!DOCTYPE html>
@@ -50,7 +91,7 @@ class LayerData:
             <script>
                 const x = {data_x};
                 const err = c2mChart({{
-                    type: "bar",
+                    type: "{name}",
                     element: document.getElementById("MyChart"),
                     cc: document.getElementById("cc"),
                     axes: {{
@@ -82,54 +123,7 @@ class LayerData:
         """
 
         html_template = html_template.format(
-            svg=svg_, data_x=_data[0], data_y=_data[1])
+            svg=svg_, data_x=_data[0], name=name, data_y=_data[1])
 
         with open('chart.html', 'w') as f:
             f.write(html_template)
-
-        return _data
-
-    def data_plot_scatter(self, name, is_json):
-        if not self.plot_data.has_data():
-            return "Plot is Empty!"
-
-        data_y = []
-        data_x = []
-        data_sc = self.plot_data.collections[0].get_offsets()
-        for points in data_sc:
-            data_y.append(points.data[1])
-            data_x.append(points.data[0])
-
-        _data = None
-
-        if is_json:
-            _data = self.to_json(name, data_x, data_y)
-
-        else:
-            _data = self.to_df(data_x, data_y)
-
-        return _data
-
-    def data_plot_line(self, name, is_json):
-        if not self.plot_data.has_data():
-            return "Plot is Empty!"
-
-        data_y = []
-        data_x = []
-
-        for data in self.plot_data.lines:
-            y = data.get_ydata()
-            data_y.append(y)
-
-            x = data.get_xdata()
-            data_x.append(x)
-
-        _data = None
-
-        if is_json:
-            _data = self.to_json(name, data_x[0], data_y[0])
-
-        else:
-            _data = self.to_df(data_x[0], data_y[0])
-
-        return _data
