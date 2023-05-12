@@ -65,11 +65,11 @@ class LayerData:
                     }},
                     data: {data_y},
                     options: {{
-                        onFocusCallback: (index) => {{
-                            Array.from(document.querySelectorAll("#MyChart rect")).slice(5).forEach((elem) => {{
+                        onFocusCallback: ({{index}}) => {{
+                            Array.from(document.querySelectorAll("#MyChart path")).slice(2).forEach((elem) => {{
                                 elem.style.fill = "#595959";
                             }})
-                            document.querySelectorAll("#MyChart rect")[index+5].style.fill = "cyan";
+                            document.querySelectorAll("#MyChart path")[index+2].style.fill = "cyan";
                         }}
                     }}
                 }});
