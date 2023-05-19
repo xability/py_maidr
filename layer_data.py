@@ -3,7 +3,7 @@ class LayerData:
     def __init__(self, data):
         self.plot_data = data
 
-    def data_plot_count(self, name):
+    def dataplotCount(self, name):
         if not self.plot_data.has_data():
             return "Plot is Empty!"
 
@@ -19,17 +19,17 @@ class LayerData:
             data_y.append(y.get_height())
 
         _data = [data_x, data_y]
-        self.html(name, _data)
+        self.createHtmlTemplate(name, _data, 'path', 2)
 
         return _data
 
-    def data_plot_bar(self, name):
+    def dataplotBar(self, name):
         _data = self.data_plot_count(name)
-        self.html(name, _data)
+        self.createHtmlTemplate(name, _data, 'path', 2)
 
         return _data
 
-    def data_plot_scatter(self, name):
+    def dataplotScatter(self, name):
         if not self.plot_data.has_data():
             return "Plot is Empty!"
 
@@ -41,11 +41,11 @@ class LayerData:
             data_x.append(points.data[0])
 
         _data = [data_x, data_y]
-        self.html(name, _data)
+        self.createHtmlTemplate(name, _data, 'use', 0)
 
         return _data
 
-    def data_plot_line(self, name):
+    def dataplotLine(self, name):
         if not self.plot_data.has_data():
             return "Plot is Empty!"
 
@@ -54,17 +54,18 @@ class LayerData:
 
         for data in self.plot_data.lines:
             y = data.get_ydata()
+            print(y)
             data_y.append(y)
 
             x = data.get_xdata()
             data_x.append(x)    
 
         _data = [data_x, data_y]
-        self.html(name, _data)
+        self.createHtmlTemplate(name, _data, 'path', 2)
 
         return _data
 
-    def html(self, name, _data):
+    def createHtmlTemplate(self, name, _data, element, slice_count):
         with open("generated_svg/"+name+"plot.svg", "r") as text_file:
             svg_ = text_file.read()
 
@@ -107,10 +108,10 @@ class LayerData:
                     data: {data_y},
                     options: {{
                         onFocusCallback: ({{index}}) => {{
-                            Array.from(document.querySelectorAll("#MyChart path")).slice(2).forEach((elem) => {{
+                            Array.from(document.querySelectorAll("#MyChart {element}")).slice({slice_count})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  .forEach((elem) => {{
                                 elem.style.fill = "#595959";
                             }})
-                            document.querySelectorAll("#MyChart path")[index+2].style.fill = "cyan";
+                            document.querySelectorAll("#MyChart {element}")[index+{slice_count}].style.fill = "cyan";
                         }}
                     }}
                 }});
@@ -123,7 +124,7 @@ class LayerData:
         """
 
         html_template = html_template.format(
-            svg=svg_, data_x=_data[0], name=name, data_y=_data[1])
+            svg=svg_, data_x=_data[0], name=name, data_y=_data[1], element=element, slice_count = slice_count)
 
         with open('chart.html', 'w') as f:
             f.write(html_template)
