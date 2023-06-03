@@ -1,7 +1,7 @@
 import numpy as np
 
-class LayerData:
 
+class LayerData:
     def __init__(self, data):
         self.plot_data = data
 
@@ -21,13 +21,13 @@ class LayerData:
             data_y.append(y.get_height())
 
         _data = [data_x, data_y]
-        self.createHtmlTemplate(name, _data, 'path', 2)
+        self.createHtmlTemplate(name, _data, "path", 2)
 
         return _data
 
     def dataplotBar(self, name):
         _data = self.dataplotCount(name)
-        self.createHtmlTemplate(name, _data, 'path', 2)
+        self.createHtmlTemplate(name, _data, "path", 2)
 
         return _data
 
@@ -43,7 +43,7 @@ class LayerData:
             data_x.append(points.data[0])
 
         _data = [data_x, data_y]
-        self.createHtmlTemplate(name, _data, 'use', 0)
+        self.createHtmlTemplate(name, _data, "use", 0)
 
         return _data
 
@@ -61,10 +61,9 @@ class LayerData:
             data_y.append(y)
 
             x = data.get_xdata()
-            data_x.append(x)    
+            data_x.append(x)
 
         # values = {}
-
 
         # _data = [x_data, y_data]
         # print(":::: ",_data)
@@ -79,18 +78,18 @@ class LayerData:
         y = np.array(data_y[0]).tolist()
         _data = [x, y]
         print("hjvhfhfhfhfhtftfhtftr45678987654ew345678987654", _data)
-        self.createHtmlTemplate(name, _data, 'path', 14)
+        self.createHtmlTemplate(name, _data, "path", 14)
 
         return _data
 
     def createHtmlTemplate(self, name, _data, element, slice_count):
         # if name == 'line':
         #     for
-        with open("generated_svg/"+name+"plot.svg", "r") as text_file:
+        with open("generated_svg/" + name + "plot.svg", "r") as text_file:
             svg_ = text_file.read()
 
         id_attr = 'id="MyChart"'
-        svg_ = svg_.replace('<svg ', f'<svg {id_attr}')
+        svg_ = svg_.replace("<svg ", f"<svg {id_attr}")
 
         html_template = """
         <!DOCTYPE html>
@@ -144,12 +143,17 @@ class LayerData:
         """
 
         html_template = html_template.format(
-            svg=svg_, data_x=_data[0], name=name, data_y=_data[1], element=element, slice_count = slice_count)
+            svg=svg_,
+            data_x=_data[0],
+            name=name,
+            data_y=_data[1],
+            element=element,
+            slice_count=slice_count,
+        )
 
-        with open('chart.html', 'w') as f:
+        with open("chart.html", "w") as f:
             f.write(html_template)
 
-    
     # def createHtmlTemplateLine(self, name, _data, element, slice_count):
     #     with open("generated_svg/"+name+"plot.svg", "r") as text_file:
     #         svg_ = text_file.read()
@@ -180,7 +184,7 @@ class LayerData:
 
     #         <script>
     #             values = {data}
-                
+
     #             const datasets = [{{
     #                 label: "O'Hare",
     #                 backgroundColor: "navy",
@@ -206,7 +210,6 @@ class LayerData:
 
     #             const myChart = new Chart(canvas, config);
 
-                
     #             const err = c2mChart({{
     #                 type: "{name}",
     #                 element: document.getElementById("MyChart"),
@@ -222,7 +225,7 @@ class LayerData:
     #                     }}
     #                 }},
     #                 data: {{'vvv': data.map(row => ({{ x: row.x, y: row.y }}))}},
-                    
+
     #             }});
     #             if(err){{
     #                 console.error(err);
@@ -237,4 +240,3 @@ class LayerData:
 
     #     with open('chart.html', 'w') as f:
     #         f.write(html_template)
-

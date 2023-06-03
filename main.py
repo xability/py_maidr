@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 
 
 def countPlot(plot_type, is_json):
-    df_cp = sns.load_dataset('titanic')
+    df_cp = sns.load_dataset("titanic")
     plot_data_cp = sns.countplot(x=df_cp["class"])
     ext_data_count = LayerData(plot_data_cp)
 
-    plt.savefig("generated_svg/" + plot_type +"plot.svg", format="svg")
+    plt.savefig("generated_svg/" + plot_type + "plot.svg", format="svg")
     data = ext_data_count.dataplotCount(plot_type)
 
     _data = None
@@ -27,7 +27,7 @@ def barPlot(plot_type, is_json):
     plot_data_bp = sns.barplot(data=df_bp, x="island", y="body_mass_g")
     ext_data_bar = LayerData(plot_data_bp)
 
-    plt.savefig("generated_svg/" + plot_type +"plot.svg", format="svg")
+    plt.savefig("generated_svg/" + plot_type + "plot.svg", format="svg")
     data = ext_data_bar.dataplotBar(plot_type)
 
     _data = None
@@ -81,22 +81,15 @@ def boxPlot(plot_type, is_json):
 def toJson(name, x_data, y_data):
     values = []
     for i in range(len(x_data)):
-        values.append({'x': x_data[i], 'y': y_data[i]})
+        values.append({"x": x_data[i], "y": y_data[i]})
 
-    data = {
-        'type': name,
-        'data': {
-            'datasets': [{
-                'data': values
-            }]
-        }
-    }
+    data = {"type": name, "data": {"datasets": [{"data": values}]}}
 
     return data
 
 
 def toDf(x_data, y_data):
-    data = pd.DataFrame({'x': x_data, 'y': y_data})
+    data = pd.DataFrame({"x": x_data, "y": y_data})
     return data
 
 
@@ -111,7 +104,7 @@ def main():
     # scatterPlot('scatter', True)
 
     print("lineplot data::::")
-    linePlot('line', True)
+    linePlot("line", True)
 
     # print("boxplot data::::")
     # boxPlot('box', True)
