@@ -8,4 +8,3 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: psf/black@stable
-        jupyter: true
