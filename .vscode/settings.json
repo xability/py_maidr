@@ -7,8 +7,15 @@
         "editor.tabSize": 4,
         "editor.formatOnType": true,
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "ms-python.black-formatter"
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
     },
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
     "files.exclude": {
         "**/__pycache__": true,
         "build/**": true

@@ -18,7 +18,8 @@
 		"ms-toolsai.jupyter-renderers",
 		"ms-toolsai.vscode-jupyter-slideshow",
 		"github.vscode-github-actions",
-		"ms-vscode.vscode-github-issue-notebooks"
+		"ms-vscode.vscode-github-issue-notebooks",
+		"ms-python.isort"
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": []
