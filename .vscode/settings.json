@@ -1,5 +1,6 @@
 {
     "python.languageServer": "Pylance",
+    "python.linting.flake8Enabled": true,
     "python.analysis.completeFunctionParens": true,
     "python.formatting.provider": "none",
     "[python]": {
