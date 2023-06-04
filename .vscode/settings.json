@@ -16,6 +16,7 @@
         "--profile",
         "black"
     ],
+    "black-formatter.showNotifications": "always",
     "files.exclude": {
         "**/__pycache__": true,
         "build/**": true
