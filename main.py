@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 def countPlot(plot_type, is_json):
-    df_cp = sns.load_dataset('titanic')
+    df_cp = sns.load_dataset("titanic")
     plot_data_cp = sns.countplot(x=df_cp["class"])
     ext_data_count = LayerData(plot_data_cp)
 
