@@ -1,46 +1,44 @@
 {
-    "python.languageServer": "Pylance",
-    "python.linting.flake8Enabled": true,
-    "python.analysis.completeFunctionParens": true,
-    "python.formatting.provider": "none",
-    "[python]": {
-        "editor.tabSize": 4,
-        "editor.formatOnType": true,
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "ms-python.black-formatter",
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true
-        }
-    },
-    "isort.args": [
-        "--profile",
-        "black"
-    ],
-    "black-formatter.showNotifications": "always",
-    "files.exclude": {
-        "**/__pycache__": true,
-        "build/**": true
-    },
-    "search.exclude": {
-        "build/**": true
-    },
-    "autoDocstring.docstringFormat": "sphinx",
-    "editor.wordBreak": "keepAll",
-    "explorer.copyRelativePathSeparator": "/",
-    "files.trimTrailingWhitespace": true,
-    "files.insertFinalNewline": true,
-    "files.encoding": "utf8",
-    "files.eol": "\n",
-    "[html]": {
-        "editor.defaultFormatter": "vscode.html-language-features"
-    },
-    "[css]": {
-        "editor.defaultFormatter": "vscode.css-language-features"
-    },
-    "[json]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
-    "[jsonc]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
+  "python.languageServer": "Pylance",
+  "python.linting.flake8Enabled": true,
+  "python.analysis.completeFunctionParens": true,
+  "python.formatting.provider": "none",
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.formatOnType": true,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "isort.args": ["--profile", "black"],
+  "black-formatter.showNotifications": "always",
+  "files.exclude": {
+    "**/__pycache__": true,
+    "build/**": true
+  },
+  "search.exclude": {
+    "build/**": true
+  },
+  "autoDocstring.docstringFormat": "sphinx",
+  "editor.wordBreak": "keepAll",
+  "explorer.copyRelativePathSeparator": "/",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "editor.stickyScroll.enabled": true,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

@@ -19,7 +19,11 @@
 		"ms-toolsai.vscode-jupyter-slideshow",
 		"github.vscode-github-actions",
 		"ms-vscode.vscode-github-issue-notebooks",
-		"ms-python.isort"
+		"ms-python.isort",
+		"ms-vsliveshare.vsliveshare",
+		"ms-vsliveshare.vsliveshare-pack",
+		"ban.spellright",
+		"ms-python.flake8"
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": []
