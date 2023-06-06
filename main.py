@@ -1,7 +1,8 @@
-import seaborn as sns
-from layer_data import LayerData
-import pandas as pd
 import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
+from layer_data import LayerData
 
 
 def countPlot(plot_type, is_json):
@@ -72,6 +73,17 @@ def linePlot(plot_type, is_json):
     print(_data)
 
 
+def heatPlot(plot_type, is_json):
+    df_hp = sns.load_dataset("flights")
+    print(df_hp.head())
+    flights = df_hp.pivot("month", "year", "passengers")
+    plot_data_hp = sns.heatmap(flights)
+    ext_data_line = LayerData(plot_data_hp)
+
+    plt.savefig("generated_svg/" + plot_type + "plot.svg", format="svg")
+    data = ext_data_line.dataplotHeat(plot_type)
+
+
 def boxPlot(plot_type, is_json):
     tips = sns.load_dataset("tips")
     plot_data_bxp = sns.boxplot(x="day", y="total_bill", data=tips)
@@ -103,8 +115,11 @@ def main():
     # print("scatterplot data::::")
     # scatterPlot('scatter', True)
 
-    print("lineplot data::::")
-    linePlot("line", True)
+    # print("lineplot data::::")
+    # linePlot("line", True)
+
+    print("heatmap data::::")
+    heatPlot("matrix", True)
 
     # print("boxplot data::::")
     # boxPlot('box', True)
