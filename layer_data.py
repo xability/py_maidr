@@ -90,8 +90,8 @@ class LayerData:
         return
 
     def createHtmlTemplate(self, name, _data, element, slice_count):
-        with open("generated_svg/" + name + "plot.svg", "r") as text_file:
-            svg_ = text_file.read()
+        # with open("generated_svg/" + name + "plot.svg", "r") as text_file:
+        # svg_ = text_file.read()
 
         id_attr = 'id="MyChart"'
         svg_ = svg_.replace("<svg ", f"<svg {id_attr}")
