@@ -4,14 +4,19 @@ import tempfile
 import webbrowser
 
 import matplotlib.pyplot as plt
+import numpy as np
 import seaborn as sns
 
 # Temp original sns.countplot function to override
-original_countplot = sns.countplot
+sns_countplot = sns.countplot
 
 
-def new_countplot(*args, **kwargs):
-    plot_data = original_countplot(*args, **kwargs)
+def countplot(*args, **kwargs):
+    browse = kwargs.pop("browse", True)
+    file = kwargs.pop("file", None)
+
+    plot_data = sns_countplot(*args, **kwargs)
+
     data_y = []
     data_x = []
     x_vars = plot_data.get_xticklabels()
@@ -21,6 +26,66 @@ def new_countplot(*args, **kwargs):
     for y in y_vars:
         data_y.append(y.get_height())
     _data = [data_x, data_y]
+    create_html_template("bar", _data, "path", 2, browse=browse, file=file)
+    return plot_data
+
+
+sns.countplot = countplot
+
+# Barplot
+# sns.barplot = countplot
+
+
+# Scatterplot
+sns_scatterplot = sns.scatterplot
+
+
+def scatterplot(*args, **kwargs):
+    browse = kwargs.pop("browse", True)
+    file = kwargs.pop("file", None)
+    plot_data = sns_scatterplot(*args, **kwargs)
+    data_y = []
+    data_x = []
+    data_sc = plot_data.collections[0].get_offsets()
+    for points in data_sc:
+        data_y.append(points.data[1])
+        data_x.append(points.data[0])
+    _data = [data_x, data_y]
+    create_html_template("scatter", _data, "use", 0, browse=browse, file=file)
+    return plot_data
+
+
+sns.scatterplot = scatterplot
+
+# Lineplot
+
+# lineplot
+sns_lineplot = sns.lineplot
+
+
+def lineplot(*args, **kwargs):
+    browse = kwargs.pop("browse", True)
+    file = kwargs.pop("file", None)
+    plot_data = sns_lineplot(*args, **kwargs)
+
+    data_y = []
+    data_x = []
+    for data in plot_data.lines:
+        y = data.get_ydata()
+        data_y.append(y)
+        x = data.get_xdata()
+        data_x.append(x)
+    x = np.array(data_x[0]).tolist()
+    y = np.array(data_y[0]).tolist()
+    _data = [x, y]
+    create_html_template("line", _data, "path", 14, browse=browse, file=file)
+    return plot_data
+
+
+sns.lineplot = lineplot
+
+
+def create_html_template(name, _data, element, slice_count, browse, file):
     # Create an io.BytesIO object and save the seaborn plot as SVG to it
     svg_file = io.BytesIO()
     plt.savefig(svg_file, format="svg", bbox_inches="tight")
@@ -28,13 +93,6 @@ def new_countplot(*args, **kwargs):
     # Seek to the beginning of the file and read it into a variable
     svg_file.seek(0)
     svg_ = svg_file.read().decode("utf-8")
-    createHtmlTemplate(svg_, "bar", _data, "path", 2)
-
-
-sns.countplot = new_countplot
-
-
-def createHtmlTemplate(svg_, name, _data, element, slice_count):
     id_attr = 'id="MyChart"'
     # TODO: string replacement may not be reliable. We need to think about directly modifying DOM tree
     # TODO2: Need to remove opening `<xml>` tag
@@ -99,14 +157,18 @@ def createHtmlTemplate(svg_, name, _data, element, slice_count):
         slice_count=slice_count,
     )
 
-    # Save the HTML string to a file in the temp directory
-    temp_dir = tempfile.gettempdir()
-    html_file_path = os.path.join(temp_dir, "my_plot.html")
+    if file is None:
+        # Save the HTML string to a file in the temp directory
+        temp_dir = tempfile.gettempdir()
+        html_file_path = os.path.join(temp_dir, "my_plot.html")
+    else:
+        html_file_path = file
 
     with open(html_file_path, "w") as f:
         f.write(html_template)
 
-    print(f"HTML file saved at: {html_file_path}")
-
     # Open in the default web browser
-    webbrowser.open("file://" + os.path.realpath(html_file_path))
+    if browse:
+        webbrowser.open("file://" + os.path.realpath(html_file_path))
+    else:
+        print(f"HTML file saved at: {html_file_path}")
