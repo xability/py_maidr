@@ -71,21 +71,42 @@ class LayerData:
         if not self.plot_data.has_data():
             return "Plot is Empty!"
 
-        years = self.plot_data.get_yticklabels()
-        print(years)
+        x_ticks = self.plot_data.get_xticklabels()
 
-        months = self.plot_data.get_xticklabels()
-        print(months)
+        y_ticks = self.plot_data.get_yticklabels()
+
+        x_labels = []
+        for x in x_ticks:
+            x_labels.append(x.get_text())
+
+        y_labels = []
+        for y in y_ticks:
+            y_labels.append(y.get_text())
+
+        print("axes", x_labels, y_labels)
 
         datapoints = self.plot_data.collections[0].get_array()
-        print(datapoints)
 
-        # data_y = []
-        # data_x = []
+        yearly_data = []
+        for i, year in enumerate(x_labels):
+            year = []
+            for j, month in enumerate(y_labels):
+                index = j * len(x_labels) + i
+                data_value = datapoints[index]
+                print(f"Data for {month} {year}: {data_value}")
+                year.append(data_value)
+            yearly_data.append(year)
 
-        # data_points = self.plot_data.values.flatten()
-        # _data = [data_x, data_y]
-        # self.createHtmlTemplate(name, _data, 'path', 4)
+        print("yearly data:: ", yearly_data)
+
+        _data = []
+        data_y = y_labels
+        data_x = x_labels
+        data_z = yearly_data
+
+        _data = [data_x, data_y, data_z]
+        print(_data)
+        self.createHtmlTemplateHeatMap(name, _data, "path", 2)
 
         return
 
@@ -152,6 +173,77 @@ class LayerData:
             data_x=_data[0],
             name=name,
             data_y=_data[1],
+            element=element,
+            slice_count=slice_count,
+        )
+
+        with open("chart.html", "w") as f:
+            f.write(html_template)
+
+    def createHtmlTemplateHeatMap(self, name, _data, element, slice_count):
+        with open("generated_svg/" + name + "plot.svg", "r") as text_file:
+            svg_ = text_file.read()
+
+        id_attr = 'id="MyChart"'
+        svg_ = svg_.replace("<svg ", f"<svg {id_attr}")
+
+        html_template = """
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Document</title>
+
+                <script src="https://cdn.jsdelivr.net/npm/chart2music"></script>
+            </head>
+            <body>
+                <div>
+                    {svg}
+                </div>
+                <div id="cc"></div>
+
+                <script>
+                    const x = {data_x};
+                    const err = c2mChart({{
+                        type: "{name}",
+                        element: document.getElementById("MyChart"),
+                        cc: document.getElementById("cc"),
+                        axes: {{
+                            x: {{
+                                label: "class",
+                                format: (index) => x[index]
+                            }},
+                            y: {{
+                                label: "count",
+                                minimum: 0
+                            }}
+                        }},
+                        data: {data_z},
+                        options: {{
+                            onFocusCallback: ({{index}}) => {{
+                                Array.from(document.querySelectorAll("#MyChart {element}")).slice({slice_count})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  .forEach((elem) => {{
+                                    elem.style.fill = "#5959";
+                                }})
+                                document.querySelectorAll("#MyChart {element}")[index+{slice_count}].style.fill = "cyan";
+                            }}
+                        }}
+                    }});
+                    if(err){{
+                        console.error(err);
+                    }}
+                </script>
+            </body>
+            </html>
+            """
+
+        html_template = html_template.format(
+            svg=svg_,
+            data_x=_data[0],
+            name=name,
+            data_y=_data[1],
+            data_z=_data[2][0],
             element=element,
             slice_count=slice_count,
         )
