@@ -6,6 +6,7 @@ import webbrowser
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+from lxml import etree
 
 # Temp original sns.countplot function to override
 sns_countplot = sns.countplot
@@ -33,8 +34,29 @@ def countplot(*args, **kwargs):
 sns.countplot = countplot
 
 # Barplot
-# sns.barplot = countplot
 
+# Temp original sns.barplot function to override
+sns_barplot = sns.barplot
+
+
+def barplot(*args, **kwargs):
+    browse = kwargs.pop("browse", True)
+    file = kwargs.pop("file", None)
+
+    plot_data = sns_barplot(*args, **kwargs)
+
+    # The y values can be extracted as follows:
+    data_y = [patch.get_height() for patch in plot_data.patches]
+
+    # The x labels can be extracted using get_xticklabels()
+    data_x = [label.get_text() for label in plot_data.get_xticklabels()]
+
+    _data = [data_x, data_y]
+    create_html_template("bar", _data, "path", 2, browse=browse, file=file)
+    return plot_data
+
+
+sns.barplot = barplot
 
 # Scatterplot
 sns_scatterplot = sns.scatterplot
@@ -92,11 +114,21 @@ def create_html_template(name, _data, element, slice_count, browse, file):
     plt.close()
     # Seek to the beginning of the file and read it into a variable
     svg_file.seek(0)
-    svg_ = svg_file.read().decode("utf-8")
-    id_attr = 'id="MyChart"'
-    # TODO: string replacement may not be reliable. We need to think about directly modifying DOM tree
-    # TODO2: Need to remove opening `<xml>` tag
-    svg_ = svg_.replace("<svg ", f"<svg {id_attr}")
+    svg_data = svg_file.read().decode("utf-8")
+
+    # Parse the SVG data
+    svg_tree = etree.fromstring(svg_data.encode("utf-8"))
+
+    # Find and remove all <xml> tags
+    for xml_tag in svg_tree.xpath("//xml"):
+        xml_tag.getparent().remove(xml_tag)
+
+    # Find the opening <svg> tag and add an id attribute
+    svg_tree.set("id", "MyChart")
+
+    # Serialize the modified SVG back into a string
+    svg_ = etree.tostring(svg_tree, pretty_print=True, method="xml").decode("utf-8")
+
     html_template = """
         <!DOCTYPE html>
         <html lang="en">
@@ -120,7 +152,7 @@ def create_html_template(name, _data, element, slice_count, browse, file):
                     type: "{name}",
                     element: document.getElementById("MyChart"),
                     cc: document.getElementById("cc"),
-                    axes: {{
+                    plot_dataes: {{
                         x: {{
                             label: "class",
                             format: (index) => x[index]
