@@ -28,7 +28,21 @@ def countplot(*args, **kwargs):
     for y in y_vars:
         data_y.append(y.get_height())
     _data = [data_x, data_y]
-    create_html_template("bar", _data, "path", 2, browse=browse, file=file)
+
+    # Get x and y label
+    x_label = plot_data.get_xlabel()
+    y_label = plot_data.get_ylabel()
+
+    create_html_template(
+        name="bar",
+        _data=_data,
+        x_label=x_label,
+        y_label=y_label,
+        element="path",
+        slice_count=2,
+        browse=browse,
+        file=file,
+    )
     return plot_data
 
 
@@ -53,7 +67,21 @@ def barplot(*args, **kwargs):
     data_x = [label.get_text() for label in plot_data.get_xticklabels()]
 
     _data = [data_x, data_y]
-    create_html_template("bar", _data, "path", 2, browse=browse, file=file)
+
+    # Get x and y label
+    x_label = plot_data.get_xlabel()
+    y_label = plot_data.get_ylabel()
+
+    create_html_template(
+        name="bar",
+        _data=_data,
+        x_label=x_label,
+        y_label=y_label,
+        element="path",
+        slice_count=2,
+        browse=browse,
+        file=file,
+    )
     return plot_data
 
 
@@ -74,7 +102,21 @@ def scatterplot(*args, **kwargs):
         data_y.append(points.data[1])
         data_x.append(points.data[0])
     _data = [data_x, data_y]
-    create_html_template("scatter", _data, "use", 0, browse=browse, file=file)
+
+    # Get x and y label
+    x_label = plot_data.get_xlabel()
+    y_label = plot_data.get_ylabel()
+
+    create_html_template(
+        name="scatter",
+        _data=_data,
+        x_label=x_label,
+        y_label=y_label,
+        element="use",
+        slice_count=0,
+        browse=browse,
+        file=file,
+    )
     return plot_data
 
 
@@ -101,14 +143,30 @@ def lineplot(*args, **kwargs):
     x = np.array(data_x[0]).tolist()
     y = np.array(data_y[0]).tolist()
     _data = [x, y]
-    create_html_template("line", _data, "path", 14, browse=browse, file=file)
+
+    # Get x and y label
+    x_label = plot_data.get_xlabel()
+    y_label = plot_data.get_ylabel()
+
+    create_html_template(
+        name="line",
+        _data=_data,
+        x_label=x_label,
+        y_label=y_label,
+        element="path",
+        slice_count=14,
+        browse=browse,
+        file=file,
+    )
     return plot_data
 
 
 sns.lineplot = lineplot
 
 
-def create_html_template(name, _data, element, slice_count, browse, file):
+def create_html_template(
+    name, _data, x_label, y_label, element, slice_count, browse, file
+):
     # Create an io.BytesIO object and save the seaborn plot as SVG to it
     svg_file = io.BytesIO()
     plt.savefig(svg_file, format="svg", bbox_inches="tight")
@@ -161,11 +219,11 @@ def create_html_template(name, _data, element, slice_count, browse, file):
                     cc: document.getElementById("cc"),
                     axes: {{
                         x: {{
-                            label: "class",
+                            label: "{x_label}",
                             format: (index) => x[index]
                         }},
                         y: {{
-                            label: "count",
+                            label: "{y_label}",
                             minimum: 0
                         }}
                     }},
@@ -193,6 +251,8 @@ def create_html_template(name, _data, element, slice_count, browse, file):
         name=name,
         id=id,
         data_y=_data[1],
+        x_label=x_label,
+        y_label=y_label,
         element=element,
         slice_count=slice_count,
     )

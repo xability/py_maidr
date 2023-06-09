@@ -5,12 +5,8 @@ import seaborn as sns
 import c2m
 
 # # Let's say you have a barplot
-mpg = pydataset.data("mpg")
-
-# # Count `class` column
-mpg["class"].value_counts().index
-
-# # Create a barplot
-sns.barplot(x="class", y="hwy", data=mpg)
-
-# sns.countplot(mpg, x="class")
+# df = pydataset.data("diamonds")
+# sns.countplot(df, x="cut", file="jy.html")
+df = pydataset.data("economics")
+# Line plot
+sns.lineplot(df, x="date", y="pop", file="jy.html")
