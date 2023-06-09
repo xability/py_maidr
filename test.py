@@ -8,9 +8,9 @@ import c2m
 mpg = pydataset.data("mpg")
 
 # # Count `class` column
-# mpg["class"].value_counts().index
+mpg["class"].value_counts().index
 
 # # Create a barplot
-# sns.barplot(x="class", y="hwy", data=mpg)
+sns.barplot(x="class", y="hwy", data=mpg)
 
-sns.countplot(x="class", data=mpg)
+# sns.countplot(mpg, x="class")

@@ -159,7 +159,7 @@ def create_html_template(name, _data, element, slice_count, browse, file):
                     type: "{name}",
                     element: document.getElementById("{id}"),
                     cc: document.getElementById("cc"),
-                    plot_dataes: {{
+                    axes: {{
                         x: {{
                             label: "class",
                             format: (index) => x[index]

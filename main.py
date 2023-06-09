@@ -107,10 +107,10 @@ def toDf(x_data, y_data):
 
 def main():
     # print("countplot data::::")
-    # countPlot('bar', True)
+    # countPlot("bar", True)
 
-    # print("barplot data::::")
-    # barPlot('bar', True)
+    print("barplot data::::")
+    barPlot("bar", True)
 
     # print("scatterplot data::::")
     # scatterPlot('scatter', True)
@@ -118,8 +118,8 @@ def main():
     # print("lineplot data::::")
     # linePlot("line", True)
 
-    print("heatmap data::::")
-    heatPlot("matrix", True)
+    # print("heatmap data::::")
+    # heatPlot("matrix", True)
 
     # print("boxplot data::::")
     # boxPlot('box', True)
