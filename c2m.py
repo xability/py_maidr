@@ -116,8 +116,6 @@ def scatterplot(*args, **kwargs):
 
 sns.scatterplot = scatterplot
 
-# Lineplot
-
 # lineplot
 sns_lineplot = sns.lineplot
 
@@ -127,13 +125,8 @@ def lineplot(*args, **kwargs):
     file = kwargs.pop("file", None)
     plot_data = sns_lineplot(*args, **kwargs)
 
-    data_y = []
-    data_x = []
-    for data in plot_data.lines:
-        y = data.get_ydata()
-        data_y.append(y)
-        x = data.get_xdata()
-        data_x.append(x)
+    data_y = [data.get_ydata() for data in plot_data.lines]
+    data_x = [data.get_xdata() for data in plot_data.lines]
     x = np.array(data_x[0]).tolist()
     y = np.array(data_y[0]).tolist()
     _data = [x, y]
