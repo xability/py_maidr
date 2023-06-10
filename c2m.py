@@ -89,12 +89,9 @@ def scatterplot(*args, **kwargs):
     browse = kwargs.pop("browse", True)
     file = kwargs.pop("file", None)
     plot_data = sns_scatterplot(*args, **kwargs)
-    data_y = []
-    data_x = []
     data_sc = plot_data.collections[0].get_offsets()
-    for points in data_sc:
-        data_y.append(points.data[1])
-        data_x.append(points.data[0])
+    data_x = [points.data[0] for points in data_sc]
+    data_y = [points.data[1] for points in data_sc]
     _data = [data_x, data_y]
 
     # Get x and y label
