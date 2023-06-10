@@ -19,14 +19,8 @@ def countplot(*args, **kwargs):
 
     plot_data = sns_countplot(*args, **kwargs)
 
-    data_y = []
-    data_x = []
-    x_vars = plot_data.get_xticklabels()
-    for x in x_vars:
-        data_x.append(x.get_text())
-    y_vars = plot_data.patches
-    for y in y_vars:
-        data_y.append(y.get_height())
+    data_x = [x.get_text() for x in plot_data.get_xticklabels()]
+    data_y = [y.get_height() for y in plot_data.patches]
     _data = [data_x, data_y]
 
     # Get x and y label
