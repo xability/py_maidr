@@ -993,19 +993,6 @@ pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
 
 [[package]]
-name = "pydataset"
-version = "0.2.0"
-description = "Provides instant access to many popular datasets right from Python (in dataframe structure)."
-optional = false
-python-versions = "*"
-files = [
-    {file = "pydataset-0.2.0.tar.gz", hash = "sha256:e12a7b8a21fea3fc50ef93f13bd0819f820826d4078f791c2abe40fe8be04c0b"},
-]
-
-[package.dependencies]
-pandas = "*"
-
-[[package]]
 name = "pygments"
 version = "2.15.1"
 description = "Pygments is a syntax highlighting package written in Python."
@@ -1394,4 +1381,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.3)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "41a6f0745a4fb6cbf45b854a432caa4b7f6e7f62b4c02a3cbbcf08e480ecc425"
+content-hash = "872833646803083ca98eb049b8ceefd6e173428511bb3da0bbddcb8a48a35454"
