@@ -1,8 +1,7 @@
 # import matplotlib.pyplot as plt
+import c2m
 import pydataset
 import seaborn as sns
-
-import c2m
 
 # # Let's say you have a barplot
 # df = pydataset.data("diamonds")
