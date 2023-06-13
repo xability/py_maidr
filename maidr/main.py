@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from maidr.layer_data import LayerData
+from layer_data import LayerData
 
 
 def countPlot(plot_type, is_json):

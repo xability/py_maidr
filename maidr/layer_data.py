@@ -87,25 +87,24 @@ class LayerData:
 
         datapoints = self.plot_data.collections[0].get_array()
 
-        yearly_data = []
-        for i, year in enumerate(x_labels):
+        yearly_data = {}
+        for i in range(len(x_labels)):
             year = []
-            for j, month in enumerate(y_labels):
+            for j in range(len(y_labels)):
                 index = j * len(x_labels) + i
                 data_value = datapoints[index]
-                print(f"Data for {month} {year}: {data_value}")
                 year.append(data_value)
-            yearly_data.append(year)
+            yearly_data.update({y_labels[i]: year})
 
         print("yearly data:: ", yearly_data)
 
         _data = []
-        data_y = y_labels
         data_x = x_labels
-        data_z = yearly_data
+        data_y = yearly_data
+        # # data_z = yearly_data
 
-        _data = [data_x, data_y, data_z]
-        print(_data)
+        _data = [data_x, data_y]
+        # print(_data)
         self.createHtmlTemplateHeatMap(name, _data, "path", 2)
 
         return
@@ -220,13 +219,18 @@ class LayerData:
                                 minimum: 0
                             }}
                         }},
-                        data: {data_z},
+                        data: {data_y},
                         options: {{
                             onFocusCallback: ({{index}}) => {{
+                                const data_ = {data_y}
                                 Array.from(document.querySelectorAll("#MyChart {element}")).slice({slice_count})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  .forEach((elem) => {{
                                     elem.style.fill = "rgb(89, 89, 89)";
                                 }})
-                                document.querySelectorAll("#MyChart {element}")[index+{slice_count}].style.fill = "cyan";
+                                const point = data_[Object.keys(data_)[index]];
+                                point.map((val, ind)=>{{
+                                    console.log(ind, index)
+                                    document.querySelectorAll("#MyChart {element}")[(index*ind)+{slice_count}].style.fill = "cyan";
+                                }})
                             }}
                         }}
                     }});
@@ -238,12 +242,15 @@ class LayerData:
             </html>
             """
 
+        # Object.keys({data_y})[index].map((value, i) => {{
+        # document.querySelectorAll("#MyChart {element}")[index+{slice_count}][i].style.fill = "cyan";
+        # }})
+
         html_template = html_template.format(
             svg=svg_,
             data_x=_data[0],
             name=name,
             data_y=_data[1],
-            data_z=_data[2][0],
             element=element,
             slice_count=slice_count,
         )
