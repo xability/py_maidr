@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import pydataset
 import seaborn as sns
 
 from layer_data import LayerData
@@ -57,9 +58,12 @@ def scatterPlot(plot_type, is_json):
 
 
 def linePlot(plot_type, is_json):
-    df_lp = sns.load_dataset("flights")
-    may_flights = df_lp.query("month == 'May'")
-    plot_data_lp = sns.lineplot(data=may_flights, x="year", y="passengers")
+    df = pydataset.data("economics")
+    plot_data_lp = sns.lineplot(df, x="date", y="pop")
+
+    # df_lp = sns.load_dataset("flights")
+    # may_flights = df_lp.query("month == 'May'")
+    # plot_data_lp = sns.lineplot(data=may_flights, x="year", y="passengers")
     ext_data_line = LayerData(plot_data_lp)
 
     plt.savefig("generated_svg/" + plot_type + "plot.svg", format="svg")
@@ -75,19 +79,23 @@ def linePlot(plot_type, is_json):
 
 def heatPlot(plot_type, is_json):
     df_hp = sns.load_dataset("flights")
-    print(df_hp.head())
     flights = df_hp.pivot("month", "year", "passengers")
     plot_data_hp = sns.heatmap(flights)
-    ext_data_line = LayerData(plot_data_hp)
+    ext_data_heat = LayerData(plot_data_hp)
 
     plt.savefig("generated_svg/" + plot_type + "plot.svg", format="svg")
-    data = ext_data_line.dataplotHeat(plot_type)
+    data = ext_data_heat.dataplotHeat(plot_type)
+
+    # TODO: display in df annd json
 
 
 def boxPlot(plot_type, is_json):
-    tips = sns.load_dataset("tips")
-    plot_data_bxp = sns.boxplot(x="day", y="total_bill", data=tips)
-    # plt.show()
+    df_bxp = sns.load_dataset("titanic")
+    plot_data_bxp = sns.boxplot(data=df_bxp, x="age", y="class")
+    ext_data_box = LayerData(plot_data_bxp)
+
+    plt.savefig("generated_svg/" + plot_type + "plot.svg", format="svg")
+    data = ext_data_box.dataplotBox(plot_type)
 
 
 def toJson(name, x_data, y_data):
@@ -118,11 +126,11 @@ def main():
     # print("lineplot data::::")
     # linePlot("line", True)
 
-    print("heatmap data::::")
-    heatPlot("matrix", True)
+    # print("heatmap data::::")
+    # heatPlot("matrix", True)
 
-    # print("boxplot data::::")
-    # boxPlot('box', True)
+    print("boxplot data::::")
+    boxPlot("box", True)
 
 
 if __name__ == "__main__":

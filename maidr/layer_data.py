@@ -63,7 +63,8 @@ class LayerData:
         x = np.array(data_x[0]).tolist()
         y = np.array(data_y[0]).tolist()
         _data = [x, y]
-        self.createHtmlTemplate(name, _data, "path", 14)
+        print(_data)
+        self.createHtmlTemplateLine(name, _data, "path", 14)
 
         return _data
 
@@ -87,25 +88,38 @@ class LayerData:
 
         datapoints = self.plot_data.collections[0].get_array()
 
-        yearly_data = {}
+        x_ax_data = {}
         for i in range(len(x_labels)):
             year = []
             for j in range(len(y_labels)):
                 index = j * len(x_labels) + i
                 data_value = datapoints[index]
                 year.append(data_value)
-            yearly_data.update({y_labels[i]: year})
-
-        print("yearly data:: ", yearly_data)
+            x_ax_data.update({y_labels[i]: year})
 
         _data = []
         data_x = x_labels
-        data_y = yearly_data
-        # # data_z = yearly_data
+        data_y = x_ax_data
 
         _data = [data_x, data_y]
-        # print(_data)
         self.createHtmlTemplateHeatMap(name, _data, "path", 2)
+
+        return
+
+    def dataplotBox(self, name):
+        if not self.plot_data.has_data():
+            return "Plot is Empty!"
+
+        # print(self.plot_data.get_xticklabels())
+        # print(self.plot_data.collections)
+        # _data = []
+        # data_x = x_labels
+        # data_y = yearly_data
+        # # # data_z = yearly_data
+
+        # _data = [data_x, data_y]
+        # # print(_data)
+        # self.createHtmlTemplateHeatMap(name, _data, "path", 2)
 
         return
 
@@ -215,22 +229,16 @@ class LayerData:
                                 format: (index) => x[index]
                             }},
                             y: {{
-                                label: "count",
-                                minimum: 0
+                                label: "count"
                             }}
                         }},
                         data: {data_y},
                         options: {{
                             onFocusCallback: ({{index}}) => {{
-                                const data_ = {data_y}
                                 Array.from(document.querySelectorAll("#MyChart {element}")).slice({slice_count})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  .forEach((elem) => {{
                                     elem.style.fill = "rgb(89, 89, 89)";
                                 }})
-                                const point = data_[Object.keys(data_)[index]];
-                                point.map((val, ind)=>{{
-                                    console.log(ind, index)
-                                    document.querySelectorAll("#MyChart {element}")[(index*ind)+{slice_count}].style.fill = "cyan";
-                                }})
+                                document.querySelectorAll("#MyChart {element}")[index+{slice_count}].style.fill = "cyan";
                             }}
                         }}
                     }});
@@ -242,9 +250,104 @@ class LayerData:
             </html>
             """
 
+        # data: Object.fromEntries(
+        #                     {data_y}.map((label, index) => [label, {data_y}[index]])
+        #                 ),
+        #                 options: {{
+        #                     onFocusCallback: ({{index, slice}}) => {{
+        #                         const data_ = {data_y}
+        #                         Array.from(document.querySelectorAll("#MyChart {element}")).slice({slice_count})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  .forEach((elem) => {{
+        #                             elem.style.fill = "rgb(89, 89, 89)";
+        #                         }})
+        #                         document.querySelectorAll("#MyChart {element}")[index+{slice_count}].style.fill = "cyan";
+        #                     }}
+        #                 }}
+
+        # onFocusCallback: ({{index}}) => {{
+        #                     const data_ = {data_y}
+        #                     Array.from(document.querySelectorAll("#MyChart {element}")).slice({slice_count})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  .forEach((elem) => {{
+        #                         elem.style.fill = "rgb(89, 89, 89)";
+        #                     }})
+        #                     const point = data_[Object.keys(data_)[index]];
+        #                     point.map((val, ind)=>{{
+        #                         console.log(ind, index)
+        #                         document.querySelectorAll("#MyChart {element}")[(index*ind)+{slice_count}].style.fill = "cyan";
+        #                     }})
+        #                 }}
+
         # Object.keys({data_y})[index].map((value, i) => {{
         # document.querySelectorAll("#MyChart {element}")[index+{slice_count}][i].style.fill = "cyan";
         # }})
+
+        html_template = html_template.format(
+            svg=svg_,
+            data_x=_data[0],
+            name=name,
+            data_y=_data[1],
+            element=element,
+            slice_count=slice_count,
+        )
+
+        with open("chart.html", "w") as f:
+            f.write(html_template)
+
+    def createHtmlTemplateLine(self, name, _data, element, slice_count):
+        with open("generated_svg/" + name + "plot.svg", "r") as text_file:
+            svg_ = text_file.read()
+
+        id_attr = 'id="MyChart"'
+        svg_ = svg_.replace("<svg ", f"<svg {id_attr}")
+
+        html_template = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart2music"></script>
+        </head>
+        <body>
+            <div>
+                {svg}
+            </div>
+            <div id="cc"></div>
+
+            <script>
+                const x = {data_x};
+                const err = c2mChart({{
+                    type: "{name}",
+                    element: document.getElementById("MyChart"),
+                    cc: document.getElementById("cc"),
+                    axes: {{
+                        x: {{
+                            label: "class",
+                            format: (index) => x[index]
+                        }},
+                        y: {{
+                            label: "count",
+                            minimum: 0
+                        }}
+                    }},
+                    data: {data_y}[0],
+                    options: {{
+                        onFocusCallback: ({{index}}) => {{
+                            Array.from(document.querySelectorAll("#MyChart {element}")).slice({slice_count})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  .forEach((elem) => {{
+                                elem.style.fill = "#595959";
+                            }})
+                            document.querySelectorAll("#MyChart {element}")[index+{slice_count}].style.fill = "cyan";
+                        }}
+                    }}
+                }});
+                if(err){{
+                    console.error(err);
+                }}
+            </script>
+        </body>
+        </html>
+        """
 
         html_template = html_template.format(
             svg=svg_,
