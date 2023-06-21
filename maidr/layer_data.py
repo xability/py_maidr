@@ -99,9 +99,10 @@ class LayerData:
 
         _data = []
         data_x = x_labels
+        slices = y_labels
         data_y = x_ax_data
 
-        _data = [data_x, data_y]
+        _data = [data_x, slices, data_y]
         self.createHtmlTemplateHeatMap(name, _data, "path", 2)
 
         return
@@ -110,12 +111,11 @@ class LayerData:
         if not self.plot_data.has_data():
             return "Plot is Empty!"
 
-        # print(self.plot_data.get_xticklabels())
-        # print(self.plot_data.collections)
-        # _data = []
-        # data_x = x_labels
-        # data_y = yearly_data
-        # # # data_z = yearly_data
+        print("Hi", self.plot_data.artists, len(self.plot_data.artists))
+        print("Hi", self.plot_data.lines, len(self.plot_data.lines))
+
+        for i in self.plot_data.lines:
+            print(i)
 
         # _data = [data_x, data_y]
         # # print(_data)
@@ -219,6 +219,7 @@ class LayerData:
 
                 <script>
                     const x = {data_x};
+                    const slices = {slices}
                     const err = c2mChart({{
                         type: "{name}",
                         element: document.getElementById("MyChart"),
@@ -234,11 +235,12 @@ class LayerData:
                         }},
                         data: {data_y},
                         options: {{
-                            onFocusCallback: ({{index}}) => {{
+                            onFocusCallback: ({{index, slice}}) => {{
+                                const rowIndex = slices.indexOf(slice);
                                 Array.from(document.querySelectorAll("#MyChart {element}")).slice({slice_count})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  .forEach((elem) => {{
                                     elem.style.fill = "rgb(89, 89, 89)";
                                 }})
-                                document.querySelectorAll("#MyChart {element}")[index+{slice_count}].style.fill = "cyan";
+                                document.querySelectorAll("#MyChart {element}")[(rowIndex*12)+index+{slice_count}].style.fill = "cyan";
                             }}
                         }}
                     }});
@@ -282,8 +284,9 @@ class LayerData:
         html_template = html_template.format(
             svg=svg_,
             data_x=_data[0],
+            slices=_data[1],
             name=name,
-            data_y=_data[1],
+            data_y=_data[2],
             element=element,
             slice_count=slice_count,
         )

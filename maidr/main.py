@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pydataset
 import seaborn as sns
-
 from layer_data import LayerData
 
 
