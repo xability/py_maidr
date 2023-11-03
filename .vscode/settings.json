@@ -1,6 +1,5 @@
 {
   "python.languageServer": "Pylance",
-  "python.linting.flake8Enabled": true,
   "python.analysis.completeFunctionParens": true,
   "python.analysis.autoImportCompletions": true,
   "python.formatting.provider": "none",
@@ -15,7 +14,6 @@
   },
   "isort.args": ["--profile", "black"],
   "black-formatter.showNotifications": "always",
-  "python.linting.flake8Args": ["--max-line-length=88"],
   "flake8.args": ["--max-line-length=88"],
   "python.formatting.blackArgs": ["--line-length", "88"],
   "black-formatter.args": ["--line-length", "88"],
