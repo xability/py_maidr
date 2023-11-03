@@ -1,4 +1,6 @@
 {
+  "python.experiments.optInto": ["pythonREPLSmartSend"],
+  "python.terminal.activateEnvironment": true,
   "python.languageServer": "Pylance",
   "python.analysis.completeFunctionParens": true,
   "python.analysis.autoImportCompletions": true,
