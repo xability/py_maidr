@@ -47,5 +47,6 @@
   },
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "githubPullRequests.pullRequestDescription": "Copilot"
 }
