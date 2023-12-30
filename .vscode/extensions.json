@@ -3,10 +3,12 @@
   // Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
   // List of extensions which should be recommended for users of this workspace.
   "recommendations": [
-    "ms-python.black-formatter",
-    "njpwerner.autodocstring",
-    "ms-python.vscode-pylance",
     "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.black-formatter",
+    "ms-python.flake8",
+    "ms-python.isort",
+    "njpwerner.autodocstring",
     "dbaeumer.vscode-eslint",
     "github.vscode-pull-request-github",
     "github.remotehub",
@@ -19,14 +21,20 @@
     "ms-toolsai.vscode-jupyter-slideshow",
     "github.vscode-github-actions",
     "ms-vscode.vscode-github-issue-notebooks",
-    "ms-python.isort",
     "ms-vsliveshare.vsliveshare",
-    "ms-vsliveshare.vsliveshare-pack",
     "ban.spellright",
-    "ms-python.flake8",
-    "github.copilot-nightly",
-    "github.copilot-chat"
+    "github.copilot",
+    "github.copilot-chat",
+    "ms-vscode.vscode-speech",
+    "posit.shiny-python",
+    "posit.shinyuieditor",
+    "quarto.quarto",
+    "github.codespaces",
+    "usernamehw.errorlens",
+    "editorconfig.editorconfig",
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-containers"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
-  "unwantedRecommendations": ["GitHub.copilot"]
+  "unwantedRecommendations": []
 }
