@@ -53,5 +53,8 @@
   "conventionalCommits.autoCommit": true,
   "git.enableSmartCommit": true,
   "git.smartCommitChanges": "all",
-  "git.postCommitCommand": "sync"
+  "git.postCommitCommand": "sync",
+  "conventionalCommits.scopes": [
+    ".vscode"
+  ]
 }
