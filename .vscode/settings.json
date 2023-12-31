@@ -48,5 +48,10 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "githubPullRequests.pullRequestDescription": "Copilot"
+  "githubPullRequests.pullRequestDescription": "Copilot",
+  "githubPullRequests.pushBranch": "always",
+  "conventionalCommits.autoCommit": true,
+  "git.enableSmartCommit": true,
+  "git.smartCommitChanges": "all",
+  "git.postCommitCommand": "sync"
 }
