@@ -1,29 +1,16 @@
-name: Lint Commit Messages
+name: "Lint Commit Messages"
 
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
+on: [push, pull_request]
 
 jobs:
   commitlint:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Check out the repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0  # Ensures commit history is pulled
+      - name: Check out code
+        uses: actions/checkout@v2
 
-    - name: Install Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20.3.1'
-
-    - name: Install commitlint
-      run: |
-        npm install @commitlint/{config-conventional,cli}
-
-    - name: Lint Commit Messages
-      run: npx commitlint --from=HEAD~1 --to=HEAD --verbose
+      - name: Lint Commit Messages
+        uses: wagoid/commitlint-github-action@v4
+        with:
+          configFile: './commitlint.config.js'
+          token: ${{ secrets.GITHUB_TOKEN }}
