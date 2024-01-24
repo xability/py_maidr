@@ -19,6 +19,7 @@ black = "23.3.0"
 sphinx = "^7.0.1"
 pre-commit = "^3.3.2"
 pytest = "^7.3.2"
+python-semantic-release = "^8.7.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -26,3 +27,9 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 88
+
+[tool.semantic_release]
+branch = "main"
+version_variable = "maidr/__init__.py:__version__"
+upload_to_pypi = "true"
+upload_to_release = "true"
