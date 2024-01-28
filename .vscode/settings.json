@@ -50,11 +50,11 @@
   },
   "githubPullRequests.pullRequestDescription": "Copilot",
   "githubPullRequests.pushBranch": "always",
+  "githubPullRequests.defaultMergeMethod": "squash",
+
   "conventionalCommits.autoCommit": true,
   "git.enableSmartCommit": true,
   "git.smartCommitChanges": "all",
   "git.postCommitCommand": "sync",
-  "conventionalCommits.scopes": [
-    ".vscode"
-  ]
+  "conventionalCommits.scopes": [".vscode"]
 }
