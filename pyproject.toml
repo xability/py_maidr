@@ -19,6 +19,7 @@ mypy = "^1.5.1"
 pre-commit = "^3.4.0"
 tox = "^4.11.1"
 ruff = "^0.2.1"
+python-semantic-release = "^9.0.3"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.4.2"
@@ -124,3 +125,9 @@ docstring-code-format = false
 # This only has an effect when the `docstring-code-format` setting is
 # enabled.
 docstring-code-line-length = "dynamic"
+
+[tool.semantic_release]
+branch = "main"
+version_variable = "maidr/__init__.py:__version__"
+upload_to_pypi = "true"
+upload_to_release = "true"
