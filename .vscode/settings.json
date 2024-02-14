@@ -50,6 +50,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "githubPullRequests.pullRequestDescription": "Copilot",
+  "git.ignoreRebaseWarning": true,
   "githubPullRequests.pushBranch": "always",
   "githubPullRequests.defaultMergeMethod": "squash",
 
