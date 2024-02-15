@@ -113,18 +113,35 @@ class BarPlotData(MaidrPlotData):
             If the plot object is incompatible for data extraction.
         """
         plot = self.plot
+        data = None
 
-        if isinstance(plot, BarContainer) and isinstance(plot.datavalues, Iterable):
-            bc_data = []
-            for value in plot.datavalues:
-                if isinstance(value, np.integer):
-                    bc_data.append(int(value))
-                elif isinstance(value, np.floating):
-                    bc_data.append(float(value))
-                else:
-                    bc_data.append(value)
-            data = bc_data
-        else:
+        if isinstance(plot, Axes):
+            plot = BarPlotData.__extract_bar_container(plot)
+        if isinstance(plot, BarContainer):
+            data = BarPlotData.__extract_bar_container_data(plot)
+
+        if data is None:
             raise ExtractionError(self.type, self.plot)
 
         return data
+
+    @staticmethod
+    def __extract_bar_container_data(plot: BarContainer) -> list | None:
+        if not isinstance(plot.datavalues, Iterable):
+            return None
+
+        data = []
+        for value in plot.datavalues:
+            if isinstance(value, np.integer):
+                data.append(int(value))
+            elif isinstance(value, np.floating):
+                data.append(float(value))
+            else:
+                data.append(value)
+        return data
+
+    @staticmethod
+    def __extract_bar_container(plot: Axes) -> BarContainer | None:
+        for container in plot.containers:
+            if isinstance(container, BarContainer):
+                return container

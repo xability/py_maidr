@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from matplotlib.axes import Axes
 from matplotlib.container import BarContainer
 
 from maidr.core.enum.plot_type import PlotType
@@ -7,13 +8,13 @@ from maidr.core.maidr import Maidr
 from maidr.utils.figure_manager import FigureManager
 
 
-def bar(plot: BarContainer) -> Maidr:
+def bar(plot: Axes | BarContainer) -> Maidr:
     """
     Create a Maidr object for a bar plot.
 
     Parameters
     ----------
-    plot : BarContainer
+    plot : Axes | BarContainer
             The bar plot for which a Maidr object is to be created.
 
     Returns
