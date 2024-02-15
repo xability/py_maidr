@@ -1,4 +1,5 @@
 from __future__ import annotations
+from matplotlib.axes import Axes
 
 from matplotlib.container import BarContainer
 from matplotlib.figure import Figure
@@ -35,13 +36,17 @@ class FigureManager:
         return Maidr(fig, maidr_data)
 
     @staticmethod
-    def get_figure(artist: BarContainer | None) -> Figure | None:
+    def get_figure(artist: Axes | BarContainer | None) -> Figure | None:
         if not artist:
             return None
 
         fig = None
-        # bar container - get figure from the first occurrence of any artist
-        if isinstance(artist, BarContainer):
+        # axes - get figure from the the artist
+        if isinstance(artist, Axes):
+            fig = artist.get_figure()
+
+        # bar container - get figure from the first occurrence of any child artist
+        elif isinstance(artist, BarContainer):
             fig = next(
                 (
                     child_artist.get_figure()

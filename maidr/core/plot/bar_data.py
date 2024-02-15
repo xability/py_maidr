@@ -43,18 +43,31 @@ class BarData(MaidrData):
     def __extract_data(self) -> list | None:
         plot = self.plot
 
-        if isinstance(plot, BarContainer) and isinstance(plot.datavalues, Iterable):
-            bc_data = []
-            for value in plot.datavalues:
-                if isinstance(value, np.integer):
-                    bc_data.append(int(value))
-                elif isinstance(value, np.floating):
-                    bc_data.append(float(value))
-                else:
-                    bc_data.append(value)
-            data = bc_data
+        if isinstance(plot, Axes):
+            plot = self.__extract_bar_container(plot)
+        if isinstance(plot, BarContainer):
+            data = self.__extract_bar_container_data(plot)
         else:
             # TODO: What would be the right exception? ExtractionError?
             raise TypeError("")
 
         return data
+
+    def __extract_bar_container_data(self, plot: BarContainer) -> list | None:
+        if not isinstance(plot.datavalues, Iterable):
+            return None
+
+        data = []
+        for value in plot.datavalues:
+            if isinstance(value, np.integer):
+                data.append(int(value))
+            elif isinstance(value, np.floating):
+                data.append(float(value))
+            else:
+                data.append(value)
+        return data
+
+    def __extract_bar_container(self, plot: Axes) -> BarContainer | None:
+        for container in plot.containers:
+            if isinstance(container, BarContainer):
+                return container
