@@ -92,7 +92,7 @@ class MaidrData(ABC):
         numpy.ndarray
             The maidr data.
         """
-        return self.maidr
+        return np.array(self.maidr)
 
     def set_id(self, maidr_id: str) -> None:
         """
