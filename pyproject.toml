@@ -27,6 +27,10 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Visualization"
 ]
 
+[project.urls]
+homepage = "https://github.com/uiuc-ischool-accessible-computing-lab/py_maidr"
+
+
 [tool.poetry.dependencies]
 python = "^3.10"
 matplotlib = "^3.7.1"
