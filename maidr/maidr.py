@@ -14,5 +14,9 @@ def bar(plot: Axes | BarContainer) -> Maidr:
     return FigureManager.create_maidr(fig, plot, plot_type)
 
 
+def count(plot: Axes | BarContainer) -> Maidr:
+    return bar(plot)
+
+
 def close() -> None:
     pass
