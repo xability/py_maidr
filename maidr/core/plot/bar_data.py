@@ -1,21 +1,71 @@
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Any, Iterable
 
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.container import BarContainer
 
-from maidr.core.maidr_data import MaidrData
 from maidr.core.enum.maidr_key import MaidrKey
 from maidr.core.enum.plot_type import PlotType
+from maidr.core.maidr_plot_data import MaidrPlotData
+from maidr.exception.extraction_error import ExtractionError
 
 
-class BarData(MaidrData):
-    def __init__(self, axes: Axes, plot, plot_type: PlotType) -> None:
+class BarPlotData(MaidrPlotData):
+    """
+    A class encapsulating all the MAIDR representation of the axes in a figure
+    along with the plot.
+
+    This class extends `MaidrPlotData` to specifically handle data extraction and
+    representation for bar plots. It encapsulates the details required to represent a
+    bar plot as a part of an interactive MAIDR visualization, including plot type,
+    titles, axes labels, and the plot data itself.
+
+    Parameters
+    ----------
+    axes : Axes
+        The matplotlib axes object on which the bar plot is drawn.
+    plot : Any
+        The plot object containing the data points and the graphical representations of
+        the bar plot.
+    plot_type : PlotType
+        Enumerated type indicating this is a bar plot.
+
+    Warnings
+    --------
+    End users will typically not have to use this class directly.
+
+    See Also
+    --------
+    MaidrPlotData : The base class for MAIDR plot data objects.
+    """
+
+    def __init__(self, axes: Axes, plot: Any, plot_type: PlotType) -> None:
+        """
+        Initializes the BarPlotData object with matplotlib axes, the bar plot, and
+        its specified plot type.
+
+        Parameters
+        ----------
+        axes : Axes
+            The axes object associated with the bar plot.
+        plot : Any
+            The bar plot.
+        plot_type : PlotType
+            Specifies that this instance represents a bar plot.
+        """
         super().__init__(axes, plot, plot_type)
 
-    def _extract_maidr(self) -> dict:
+    def _extract_maidr_data(self) -> dict:
+        """
+        Extracts and structures bar plot data for MAIDR visualization.
+
+        Returns
+        -------
+        dict
+            A dictionary containing the extracted maidr bar plot data.
+        """
         plt_type = self.type.value
         ax = self.axes
 
@@ -37,10 +87,31 @@ class BarData(MaidrData):
 
         return maidr
 
-    def __extract_level(self) -> list | None:
+    def __extract_level(self) -> list:
+        """
+        Extracts x-axis level values based on tick labels.
+
+        Returns
+        -------
+        list
+            A list of strings representing the x-axis levels.
+        """
         return [label.get_text() for label in self.axes.get_xticklabels()]
 
-    def __extract_data(self) -> list | None:
+    def __extract_data(self) -> list:
+        """
+        Extracts numerical data from the bar plot.
+
+        Returns
+        -------
+        list
+            A list of numerical data extracted from the bar plot.
+
+        Raises
+        ------
+        TypeError
+            If the plot object is incompatible for data extraction.
+        """
         plot = self.plot
 
         if isinstance(plot, BarContainer) and isinstance(plot.datavalues, Iterable):
@@ -54,7 +125,6 @@ class BarData(MaidrData):
                     bc_data.append(value)
             data = bc_data
         else:
-            # TODO: What would be the right exception? ExtractionError?
-            raise TypeError("")
+            raise ExtractionError(self.type, self.plot)
 
         return data

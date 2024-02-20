@@ -2,6 +2,10 @@ from enum import Enum
 
 
 class MaidrKey(Enum):
+    """
+    Enumeration class representing keys used in the Maidr application.
+    """
+
     AXES = "axes"
     CAPTION = "caption"
     DATA = "data"
