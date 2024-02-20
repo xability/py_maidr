@@ -109,7 +109,7 @@ class BarPlotData(MaidrPlotData):
 
         Raises
         ------
-        TypeError
+        ExtractionError
             If the plot object is incompatible for data extraction.
         """
         plot = self.plot
@@ -127,6 +127,20 @@ class BarPlotData(MaidrPlotData):
 
     @staticmethod
     def __extract_bar_container_data(plot: BarContainer) -> list | None:
+        """
+        Extracts numerical data from the specified BarContainer object if possible.
+
+        Parameters
+        ----------
+        plot : BarContainer
+            The BarContainer from which to extract the data.
+
+        Returns
+        -------
+        list | None
+            A list containing the numerical data extracted from the BarContainer, or None
+            if the plot does not contain valid data values or is not a BarContainer.
+        """
         if not isinstance(plot.datavalues, Iterable):
             return None
 
@@ -142,6 +156,22 @@ class BarPlotData(MaidrPlotData):
 
     @staticmethod
     def __extract_bar_container(plot: Axes) -> BarContainer | None:
+        """
+        Extracts the BarContainer from the given Axes object if possible.
+
+        Parameters
+        ----------
+        plot : Axes
+            The Axes object to search for a BarContainer.
+
+        Returns
+        -------
+        BarContainer | None
+            The first BarContainer found within the given Axes object, or None if no
+            BarContainer is present.
+        """
+        # TODO
+        # If the Axes contains multiple bar plots, track and extract the correct one.
         for container in plot.containers:
             if isinstance(container, BarContainer):
                 return container
