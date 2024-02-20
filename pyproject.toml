@@ -1,9 +1,35 @@
 [tool.poetry]
 name = "maidr"
-version = "0.1.0"
 description = "Multimodal Access and Interactive Data Representations"
-authors = ["JooYoung Seo <jseo1005@illinois.edu>"]
 readme = "README.md"
+keywords = ["accessibility", "visualization", "sonification", "braille", "tactile", "multimodal", "data representation", "blind", "low vision", "visual impairments"]
+license.file = "LICENSE"
+authors = [
+    { name = "JooYoung Seo", email = "jseo1005@illinois.edu" },
+    { name = "Saairam Venkatesh", email = "saairam2@illinois.edu" }
+]
+dynamic = ["version"]
+classifiers = [
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Healthcare Industry",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup :: HTML",
+    "Topic :: Scientific/Engineering :: Visualization"
+]
+
+[project.urls]
+homepage = "https://github.com/uiuc-ischool-accessible-computing-lab/py_maidr"
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -11,7 +37,7 @@ matplotlib = "^3.7.1"
 numpy = "^1.24.3"
 seaborn = "^0.12.2"
 lxml = "^4.9.2"
-htmltools = "^0.4.1"
+htmltools = ">=0.5.1"
 
 
 [tool.poetry.group.dev.dependencies]
