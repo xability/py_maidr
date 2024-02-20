@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 from matplotlib.container import BarContainer
 from matplotlib.figure import Figure
@@ -29,16 +29,14 @@ class FigureManager:
     """
 
     @staticmethod
-    def create_maidr(
-        fig: Optional[Figure], plot: Any, plot_type: list[PlotType]
-    ) -> Maidr:
+    def create_maidr(fig: Figure | None, plot: Any, plot_type: list[PlotType]) -> Maidr:
         """
         Creates and returns a Maidr object that encapsulates the figure and its
         associated plot data.
 
         Parameters
         ----------
-        fig : Optional[Figure]
+        fig : Figure | None
             The figure to which the plot is associated.
         plot : Any
             The plot object containing the plot data.
@@ -78,18 +76,18 @@ class FigureManager:
         return Maidr(fig, maidr_data)
 
     @staticmethod
-    def get_figure(artist: Optional[BarContainer]) -> Optional[Figure]:
+    def get_figure(artist: BarContainer | None) -> Figure | None:
         """
         Retrieves the `Figure` object associated with a given matplotlib `Artist`.
 
         Parameters
         ----------
-        artist : Optional[BarContainer]
+        artist : BarContainer | None
             The artist for which to retrieve the figure.
 
         Returns
         -------
-        Optional[Figure]
+        Figure | None
             The figure associated with the artist, or None if the artist is None or no
             figure is found.
         """
