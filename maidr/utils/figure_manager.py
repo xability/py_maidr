@@ -1,40 +1,61 @@
 from __future__ import annotations
 
+from typing import Any, Optional
+
 from matplotlib.container import BarContainer
 from matplotlib.figure import Figure
 
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr import Maidr
-from maidr.core.maidr_data_factory import MaidrDataFactory
+from maidr.core.maidr_plot_data_factory import MaidrPlotDataFactory
 
 
 class FigureManager:
     """
-    A class that manages figures and creates Maidr objects.
+    A helper class responsible for creating and associating `Maidr` objects with
+    `Figure` objects.
 
-    Methods:
-    - create_maidr(fig, plot, plot_type): Create a Maidr object.
-    - get_figure(artist): Get the figure associated with the given artist.
+    Methods
+    -------
+    create_maidr(fig, plot, plot_type)
+        Creates a `Maidr` object with associated plot data based on the plot and its
+        type.
+    get_figure(artist)
+        Retrieves the `Figure` object associated with a given matplotlib `Artist`.
+
+    Warnings
+    --------
+    End users will typically not have to use this class directly.
     """
 
     @staticmethod
     def create_maidr(
-        fig: Figure | None, plot, plot_type: list[PlotType] | None
+        fig: Optional[Figure], plot: Any, plot_type: list[PlotType]
     ) -> Maidr:
         """
-        Create a Maidr object.
+        Creates and returns a Maidr object that encapsulates the figure and its
+        associated plot data.
 
-        Parameters:
-        - fig (Figure | None): The figure object.
-        - plot: The plot object.
-        - plot_type (list[PlotType] | None): The list of plot types.
+        Parameters
+        ----------
+        fig : Figure | None
+            The figure to which the plot is associated.
+        plot : Any
+            The plot object containing the plot data.
+        plot_type : list[PlotType]
+            The list of plot types corresponding to the axes associated with this
+            figure.
 
-        Returns:
-        - Maidr: The Maidr object.
+        Returns
+        -------
+        Maidr
+            The Maidr object.
 
-        Raises:
-        - ValueError: If the figure, axes, plot, or plot type is not found.
-        - ValueError: If the lengths of plots and their types do not match.
+        Raises
+        ------
+        ValueError
+            - If the figure, axes, plot, or plot type is not found.
+            - If the lengths of plots and their types do not match.
         """
         if not fig:
             raise ValueError("Figure not found")
@@ -46,27 +67,31 @@ class FigureManager:
             raise ValueError("Plot type not found")
         if len(fig.axes) != len(plot_type):
             raise ValueError(
-                "Lengths of plots {0} and their {1} types do not match".format(
-                    len(fig.axes), len(plot_type)
-                )
+                f"Lengths of plots {len(fig.axes)} and their {len(plot_type)} types do \
+                not match"
             )
 
         maidr_data = [
-            MaidrDataFactory.create(ax, plot, plt_type)
+            MaidrPlotDataFactory.create(ax, plot, plt_type)
             for ax, plt_type in zip(fig.axes, plot_type)
         ]
         return Maidr(fig, maidr_data)
 
     @staticmethod
-    def get_figure(artist: BarContainer | None) -> Figure | None:
+    def get_figure(artist: BarContainer | None) -> Optional[Figure]:
         """
-        Get the figure associated with the given artist.
+        Retrieves the `Figure` object associated with a given matplotlib `Artist`.
 
-        Parameters:
-            artist (BarContainer | None): The artist for which to retrieve the figure.
+        Parameters
+        ----------
+        artist : BarContainer | None
+            The artist for which to retrieve the figure.
 
-        Returns:
-            Figure | None: The figure associated with the artist, or None if the artist is None or no figure is found.
+        Returns
+        -------
+        Figure | None
+            The figure associated with the artist, or None if the artist is None or no
+            figure is found.
         """
         if not artist:
             return None

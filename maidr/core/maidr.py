@@ -7,61 +7,37 @@ from uuid import uuid4
 from lxml import etree, html
 from matplotlib.figure import Figure
 
-from maidr.core.maidr_data import MaidrData
+from maidr.core.maidr_plot_data import MaidrPlotData
 
 
 class Maidr:
     """
-    The MAIDR class represents a MAIDR object.
+    A container for the figure and its MAIDR data representation.
 
-    Parameters
-    ----------
-    fig : Figure
-        The matplotlib Figure object to be used for plotting.
-    maidr_data : list[MaidrData]
-        A list of MaidrData objects containing the data for MAIDR.
-
-    Attributes
-    ----------
-    _fig : Figure
-        The matplotlib Figure object used for plotting.
-    _maidr_data : list[MaidrData]
-        A list of MaidrData objects containing the data for MAIDR.
-    _html : str
-        The HTML string with SVG plot and maidr metadata.
+    This class allows the conversion of matplotlib figures into interactive MAIDR
+    visualizations. It handles the generation of SVG representations of the plots,
+    assembles the MAIDR data structure, and packages everything into a single HTML file.
 
     Methods
     -------
-    save(filename: str) -> None:
-        Save the MAIDR file as HTML.
-    __create_html() -> str:
-        Create an HTML string with SVG plot and maidr metadata.
-    __unflatten_maidr() -> dict | list[dict]:
-        Unflattens the MAIDR data.
-    __get_svg() -> str:
-        Generate and return the SVG representation of the figure.
-    __set_maidr_id(maidr_id: str) -> None:
-        Set the maidr_id for all maidr objects in the _maidr_data list.
-    __get_unique_id() -> str:
-        Generate a unique identifier using UUID.
-    __get_html_template() -> str:
-        Returns the HTML template for the MAIDR application.
+    save(filename: str)
+        Saves the MAIDR content as an HTML file with the specified filename.
+
+    Notes
+    -----
+    End users should use the maidr API to create an instance of this class.
     """
 
-    def __init__(self, fig: Figure, maidr_data: list[MaidrData]) -> None:
+    def __init__(self, fig: Figure, maidr_data: list[MaidrPlotData]) -> None:
         """
-        Initialize the MAIDR object.
+        Initializes a MAIDR object with the given matplotlib figure and MAIDR data.
 
         Parameters
         ----------
         fig : Figure
             The matplotlib Figure object to be used for plotting.
-        maidr_data : list[MaidrData]
-            A list of MaidrData objects containing the data for MAIDR.
-
-        Returns
-        -------
-        None
+        maidr_data : list[MaidrPlotData]
+            A list of MaidrPlotData objects containing the data for MAIDR.
         """
         self._fig = fig
         self._maidr_data = maidr_data
@@ -69,24 +45,24 @@ class Maidr:
 
     def save(self, filename: str) -> None:
         """
-        Save the MAIDR file as HTML.
+        Saves the MAIDR file as HTML.
+
+        The method writes the HTML representation of the MAIDR object, including the SVG
+        visualization of the figure, the extracted MAIDR metadata, and the core MAIDR JS
+        library, to the specified file.
 
         Parameters
         ----------
         filename : str
-            The name of the file to save.
-
-        Returns
-        -------
-        None
+            The name of the file to which the MAIDR HTML content should be saved.
         """
         with open(filename, "w") as f:
             f.write(self._html)
-        print("Successfully saved the MAIDR file to {0}.".format(filename))
+        print(f"Successfully saved the MAIDR file to {filename}.")
 
     def __create_html(self) -> str:
         """
-        Create an HTML string with SVG plot and maidr metadata.
+        Create an HTML string with SVG representation of the plot and MAIDR metadata.
 
         Returns
         -------
@@ -101,31 +77,32 @@ class Maidr:
 
         # inject svg and maidr into html
         str_html = Maidr.__get_html_template()
-        str_html = str_html.replace("<!-- <SVG PLOT> -->", "\n{0}\n".format(self._svg))
+        str_html = str_html.replace("<!-- <SVG PLOT> -->", f"\n{self._svg}\n")
         str_html = str_html.replace(
             "<!-- <MAIDR METADATA> -->",
-            "\nlet maidr = {0}\n".format(json.dumps(maidr, indent=2)),
+            f"\nlet maidr = {json.dumps(maidr, indent=2)}\n",
         )
 
         # format html with indentation
         tree_html = html.fromstring(str_html)
-        return etree.tostring(tree_html)
+        return etree.tostring(tree_html, pretty_print=True, encoding="unicode")  # type: ignore # noqa
 
     def __unflatten_maidr(self) -> dict | list[dict]:
         """
-        Unflattens the MAIDR data.
+        Unflattens the MAIDR data into a dictionary format.
 
         Returns
         -------
         dict | list[dict]
-            The unflattened MAIDR data.
+            The JSON structured MAIDR data, potentially as a single dictionary or a
+            list of dictionaries.
         """
         maidr = [m_data.data() for m_data in self._maidr_data]
         return maidr if len(maidr) != 1 else maidr[0]
 
     def __get_svg(self) -> str:
         """
-        Generate and return the SVG representation of the figure.
+        Creates an SVG representation of the matplotlib figure.
 
         Returns
         -------
@@ -148,22 +125,20 @@ class Maidr:
             break
 
         svg_buffer = io.StringIO()  # Reset the buffer
-        svg_buffer.write(etree.tostring(root_svg))
+        svg_buffer.write(
+            etree.tostring(root_svg, pretty_print=True, encoding="unicode")  # type: ignore # noqa
+        )
 
         return svg_buffer.getvalue()
 
     def __set_maidr_id(self, maidr_id: str) -> None:
         """
-        Set the maidr_id for all maidr objects in the _maidr_data list.
+        Sets a unique `maidr_id` for all MAIDR objects.
 
         Parameters
         ----------
         maidr_id : str
             The maidr_id to be set for all maidr objects.
-
-        Returns
-        -------
-        None
         """
         for maidr in self._maidr_data:
             maidr.set_id(maidr_id)
@@ -171,19 +146,19 @@ class Maidr:
     @staticmethod
     def __get_unique_id() -> str:
         """
-        Generate a unique identifier using UUID.
+        Create a unique identifier using UUID.
 
         Returns
         -------
         str
-            A string representing a unique identifier.
+            A unique identifier string.
         """
         return str(uuid4())
 
     @staticmethod
     def __get_html_template() -> str:
         """
-        Returns the HTML template for the MAIDR application.
+        Retrieves the HTML template for embedding the SVG and MAIDR metadata.
 
         Returns
         -------

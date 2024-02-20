@@ -4,9 +4,7 @@ from enum import Enum
 class PlotType(Enum):
     """
     Enumeration class for different plot types.
-
-    Attributes:
-        BAR (str): Represents the bar plot type.
+    Each plot type corresponds to a different kind of MAIDR representation.
     """
 
     BAR = "bar"
