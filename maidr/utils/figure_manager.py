@@ -38,7 +38,7 @@ class FigureManager:
 
         Parameters
         ----------
-        fig : Figure | None
+        fig : Optional[Figure]
             The figure to which the plot is associated.
         plot : Any
             The plot object containing the plot data.
@@ -78,18 +78,18 @@ class FigureManager:
         return Maidr(fig, maidr_data)
 
     @staticmethod
-    def get_figure(artist: BarContainer | None) -> Optional[Figure]:
+    def get_figure(artist: Optional[BarContainer]) -> Optional[Figure]:
         """
         Retrieves the `Figure` object associated with a given matplotlib `Artist`.
 
         Parameters
         ----------
-        artist : BarContainer | None
+        artist : Optional[BarContainer]
             The artist for which to retrieve the figure.
 
         Returns
         -------
-        Figure | None
+        Optional[Figure]
             The figure associated with the artist, or None if the artist is None or no
             figure is found.
         """
