@@ -109,22 +109,69 @@ class BarPlotData(MaidrPlotData):
 
         Raises
         ------
-        TypeError
+        ExtractionError
             If the plot object is incompatible for data extraction.
         """
         plot = self.plot
+        data = None
 
-        if isinstance(plot, BarContainer) and isinstance(plot.datavalues, Iterable):
-            bc_data = []
-            for value in plot.datavalues:
-                if isinstance(value, np.integer):
-                    bc_data.append(int(value))
-                elif isinstance(value, np.floating):
-                    bc_data.append(float(value))
-                else:
-                    bc_data.append(value)
-            data = bc_data
-        else:
+        if isinstance(plot, Axes):
+            plot = BarPlotData.__extract_bar_container(plot)
+        if isinstance(plot, BarContainer):
+            data = BarPlotData.__extract_bar_container_data(plot)
+
+        if data is None:
             raise ExtractionError(self.type, self.plot)
 
         return data
+
+    @staticmethod
+    def __extract_bar_container_data(plot: BarContainer) -> list | None:
+        """
+        Extracts numerical data from the specified BarContainer object if possible.
+
+        Parameters
+        ----------
+        plot : BarContainer
+            The BarContainer from which to extract the data.
+
+        Returns
+        -------
+        list | None
+            A list containing the numerical data extracted from the BarContainer, or None
+            if the plot does not contain valid data values or is not a BarContainer.
+        """
+        if not isinstance(plot.datavalues, Iterable):
+            return None
+
+        data = []
+        for value in plot.datavalues:
+            if isinstance(value, np.integer):
+                data.append(int(value))
+            elif isinstance(value, np.floating):
+                data.append(float(value))
+            else:
+                data.append(value)
+        return data
+
+    @staticmethod
+    def __extract_bar_container(plot: Axes) -> BarContainer | None:
+        """
+        Extracts the BarContainer from the given Axes object if possible.
+
+        Parameters
+        ----------
+        plot : Axes
+            The Axes object to search for a BarContainer.
+
+        Returns
+        -------
+        BarContainer | None
+            The first BarContainer found within the given Axes object, or None if no
+            BarContainer is present.
+        """
+        # TODO
+        # If the Axes contains multiple bar plots, track and extract the correct one.
+        for container in plot.containers:
+            if isinstance(container, BarContainer):
+                return container

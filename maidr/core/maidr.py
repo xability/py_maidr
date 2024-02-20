@@ -89,7 +89,7 @@ class Maidr:
 
     def __unflatten_maidr(self) -> dict | list[dict]:
         """
-        Unflattens the MAIDR data into a dictionary format.
+        Unflatten the MAIDR data into a dictionary format.
 
         Returns
         -------
