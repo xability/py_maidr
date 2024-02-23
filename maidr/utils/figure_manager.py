@@ -53,21 +53,19 @@ class FigureManager:
         Raises
         ------
         ValueError
-            - If the figure, axes, plot, or plot type is not found.
+            - If the figure, plot, or plot type is not found.
             - If the lengths of plots and their types do not match.
         """
-        if not fig:
+        if fig is None:
             raise ValueError("Figure not found")
-        if not fig.axes:
-            raise ValueError("Axes not found")
-        if not plot:
+        if plot is None:
             raise ValueError("Plot not found")
-        if not plot_type:
+        if plot_type is None:
             raise ValueError("Plot type not found")
         if len(fig.axes) != len(plot_type):
             raise ValueError(
-                f"Lengths of plots {len(fig.axes)} and their {len(plot_type)} types do \
-                not match"
+                f"Lengths of plots {len(fig.axes)} and their {len(plot_type)} types do "
+                "not match"
             )
 
         maidr_data = [

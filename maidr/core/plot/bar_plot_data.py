@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Iterable
+from typing import Any
 
-import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.container import BarContainer
 
@@ -112,17 +111,19 @@ class BarPlotData(MaidrPlotData):
         ExtractionError
             If the plot object is incompatible for data extraction.
         """
-        plot = self.plot
+        ax = self.axes
+        plot = None
         data = None
 
-        if isinstance(plot, Axes):
-            plot = BarPlotData.__extract_bar_container(plot)
+        if isinstance(ax, Axes):
+            plot = BarPlotData.__extract_bar_container(ax)
         if isinstance(plot, BarContainer):
             data = BarPlotData.__extract_bar_container_data(plot)
 
         if data is None:
             raise ExtractionError(self.type, self.plot)
 
+        # noinspection PyTypeChecker
         return data
 
     @staticmethod
@@ -141,18 +142,10 @@ class BarPlotData(MaidrPlotData):
             A list containing the numerical data extracted from the BarContainer, or None
             if the plot does not contain valid data values or is not a BarContainer.
         """
-        if not isinstance(plot.datavalues, Iterable):
+        if plot.patches is None:
             return None
 
-        data = []
-        for value in plot.datavalues:
-            if isinstance(value, np.integer):
-                data.append(int(value))
-            elif isinstance(value, np.floating):
-                data.append(float(value))
-            else:
-                data.append(value)
-        return data
+        return [float(patch.get_height()) for patch in plot.patches]
 
     @staticmethod
     def __extract_bar_container(plot: Axes) -> BarContainer | None:

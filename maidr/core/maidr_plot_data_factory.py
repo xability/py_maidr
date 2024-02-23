@@ -6,7 +6,7 @@ from matplotlib.axes import Axes
 
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr_plot_data import MaidrPlotData
-from maidr.core.plot.bar_data import BarPlotData
+from maidr.core.plot.bar_plot_data import BarPlotData
 
 
 class MaidrPlotDataFactory:

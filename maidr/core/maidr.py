@@ -43,6 +43,14 @@ class Maidr:
         self._maidr_data = maidr_data
         self._html = self.__create_html()
 
+    @property
+    def fig(self) -> Figure:
+        return self._fig
+
+    @property
+    def data(self) -> list[MaidrPlotData]:
+        return self._maidr_data
+
     def save(self, filename: str) -> None:
         """
         Saves the MAIDR file as HTML.
