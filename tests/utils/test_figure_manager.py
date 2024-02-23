@@ -21,24 +21,21 @@ def test_get_figure_from_none():
     assert FigureManager.get_figure(None) is None
 
 
-def test_create_maidr_with_none_figure(fig_and_axes):
-    _, ax = fig_and_axes
+def test_create_maidr_with_none_figure(mocker):
     with pytest.raises(ValueError) as e:
-        FigureManager.create_maidr(None, ax, [])
+        FigureManager.create_maidr(None, mocker.Mock(), mocker.Mock())
     assert "Figure not found" == str(e.value)
 
 
-def test_create_maidr_with_none_plot(fig_and_axes):
-    fig, _ = fig_and_axes
+def test_create_maidr_with_none_plot(mocker):
     with pytest.raises(ValueError) as e:
-        FigureManager.create_maidr(fig, None, [])
+        FigureManager.create_maidr(mocker.Mock(), None, mocker.Mock())
     assert "Plot not found" == str(e.value)
 
 
-def test_create_maidr_with_none_plot_type(fig_and_axes):
-    fig, ax = fig_and_axes
+def test_create_maidr_with_none_plot_type(mocker):
     with pytest.raises(ValueError) as e:
-        FigureManager.create_maidr(fig, ax, None)  # type: ignore
+        FigureManager.create_maidr(mocker.Mock(), mocker.Mock(), None)  # type: ignore
     assert "Plot type not found" == str(e.value)
 
 

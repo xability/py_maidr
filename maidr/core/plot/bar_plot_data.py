@@ -28,8 +28,6 @@ class BarPlotData(MaidrPlotData):
     plot : Any
         The plot object containing the data points and the graphical representations of
         the bar plot.
-    plot_type : PlotType
-        Enumerated type indicating this is a bar plot.
 
     Warnings
     --------
@@ -40,7 +38,7 @@ class BarPlotData(MaidrPlotData):
     MaidrPlotData : The base class for MAIDR plot data objects.
     """
 
-    def __init__(self, axes: Axes, plot: Any, plot_type: PlotType) -> None:
+    def __init__(self, axes: Axes, plot: Any) -> None:
         """
         Initializes the BarPlotData object with matplotlib axes, the bar plot, and
         its specified plot type.
@@ -51,10 +49,9 @@ class BarPlotData(MaidrPlotData):
             The axes object associated with the bar plot.
         plot : Any
             The bar plot.
-        plot_type : PlotType
-            Specifies that this instance represents a bar plot.
         """
-        super().__init__(axes, plot, plot_type)
+        self.type = PlotType.BAR
+        super().__init__(axes, plot)
 
     def _extract_maidr_data(self) -> dict:
         """

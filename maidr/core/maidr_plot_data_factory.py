@@ -54,6 +54,6 @@ class MaidrPlotDataFactory:
             subclass.
         """
         if PlotType.BAR == plot_type:
-            return BarPlotData(axes, plot, plot_type)
+            return BarPlotData(axes, plot)
         else:
             raise TypeError(f"Unsupported plot type: {plot_type}")
