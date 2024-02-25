@@ -23,6 +23,8 @@ class MaidrPlotData(ABC):
         The axes object on which the plot is displayed.
     plot : Any
         The plot object containing the plot data.
+    type : PlotType
+        The type of the plot.
 
     Attributes
     ----------
