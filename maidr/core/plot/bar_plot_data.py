@@ -50,8 +50,7 @@ class BarPlotData(MaidrPlotData):
         plot : Any
             The bar plot.
         """
-        self.type = PlotType.BAR
-        super().__init__(axes, plot)
+        super().__init__(axes, plot, PlotType.BAR)
 
     def _extract_maidr_data(self) -> dict:
         """

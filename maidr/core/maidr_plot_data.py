@@ -23,6 +23,8 @@ class MaidrPlotData(ABC):
         The axes object on which the plot is displayed.
     plot : Any
         The plot object containing the plot data.
+    type : PlotType
+        The type of the plot.
 
     Attributes
     ----------
@@ -51,7 +53,7 @@ class MaidrPlotData(ABC):
     BarData : Subclass of `MaidrPlotData` specialized for bar plots.
     """
 
-    def __init__(self, axes: Axes, plot: Any) -> None:
+    def __init__(self, axes: Axes, plot: Any, plot_type: PlotType) -> None:
         """
         Initialize the MaidrData object.
 
@@ -65,6 +67,8 @@ class MaidrPlotData(ABC):
         # graphic object
         self.axes = axes
         self.plot = plot
+
+        self.type = plot_type
 
         # extract maidr data from `Axes`
         self.maidr_data = self._extract_maidr_data()

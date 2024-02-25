@@ -1,5 +1,3 @@
-import pytest
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -7,13 +5,9 @@ from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr import Maidr
 from maidr.utils.figure_manager import FigureManager
 
+import pytest
 
-# setup and teardown
-@pytest.fixture()  # create new fig, ax for each test
-def fig_and_axes():
-    fig, ax = plt.subplots()
-    yield fig, ax
-    plt.close(fig)  # close the figure automatically after each test
+from tests.core.enum.library import Library
 
 
 # test cases for invalid inputs
@@ -46,20 +40,47 @@ def test_create_maidr_with_mismatched_axes_and_plot_types_length(fig_and_axes):
     assert "Lengths of plots 1 and their 2 types do not match" == str(e.value)
 
 
+# Parametrize the test to run with different libraries and plot types
+@pytest.mark.parametrize(
+    "lib, plot_type",
+    [
+        (Library.MATPLOTLIB, PlotType.BAR),
+        (Library.SEABORN, PlotType.BAR),
+    ],
+)
+def test_create_maidr_with_single_axes(plot_fixture, lib, plot_type):
+    fig, ax = plot_fixture(lib, plot_type)
+    maidr = FigureManager.create_maidr(fig, plot_fixture, [plot_type])
+
+    assert isinstance(maidr, Maidr)
+    assert maidr.fig is fig
+
+    assert len(maidr.data) == len([plot_type]) == 1
+    for m_data, p_type in zip(maidr.data, [plot_type]):
+        assert m_data.type == p_type
+
+
+@pytest.mark.parametrize(
+    "lib, plot_types",
+    [
+        (Library.MATPLOTLIB, [PlotType.BAR, PlotType.BAR]),
+        (Library.SEABORN, [PlotType.BAR, PlotType.BAR]),
+    ],
+)
+def test_create_maidr_with_multiple_same_axes(plot_fixture, lib, plot_types):
+    fig, ax = plot_fixture(lib, plot_types)
+    maidr = FigureManager.create_maidr(fig, plot_fixture, plot_types)
+
+    assert isinstance(maidr, Maidr)
+    assert maidr.fig is fig
+
+    assert len(maidr.data) == len(plot_types)
+    for m_data, p_type in zip(maidr.data, plot_types):
+        assert m_data.type == p_type
+
+
 # group tests related to matplotlib
 class TestMatplotlibFigureManager:
-    # test `create_maidr()` for matplotlib plots
-    def test_create_maidr_with_single_axes(self, fig_and_axes):
-        fig, ax = fig_and_axes
-        bc = ax.bar([1, 2, 3], [4, 5, 6])
-        assert_create_maidr_with_single_axes(fig, bc)
-
-    def test_create_maidr_with_multiple_same_axes(self):
-        fig, axs = plt.subplots(1, 2)
-        axs[0].bar([1, 2, 3], [1, 2, 3])
-        axs[1].bar([4, 5, 6], [4, 5, 6])
-        assert_create_maidr_with_multiple_axes(fig, axs)
-
     # test `get_figure()` for matplotlib plots
     def test_get_figure_from_subplot_axes(self, fig_and_axes):
         fig, ax = fig_and_axes
@@ -73,18 +94,6 @@ class TestMatplotlibFigureManager:
 
 # group tests related to seaborn
 class TestSeabornFigureManager:
-    # test `create_maidr()` for matplotlib plots
-    def test_create_maidr_with_single_axes(self, fig_and_axes):
-        fig, _ = fig_and_axes
-        ax = sns.barplot(x=[1, 2, 3], y=[4, 5, 6])
-        assert_create_maidr_with_single_axes(fig, ax)
-
-    def test_create_maidr_with_multiple_same_axes(self):
-        fig, axs = plt.subplots(1, 2)
-        sns.barplot(x=[1, 2, 3], y=[1, 2, 3], ax=axs[0])
-        sns.barplot(x=[4, 5, 6], y=[4, 5, 6], ax=axs[1])
-        assert_create_maidr_with_multiple_axes(fig, axs)
-
     # test `get_figure()` for seaborn plots
     def test_get_figure_from_barplot_axes(self, fig_and_axes):
         fig, _ = fig_and_axes
@@ -95,28 +104,3 @@ class TestSeabornFigureManager:
         fig, _ = fig_and_axes
         count_ax = sns.countplot(x=[1, 2, 2, 3, 3, 3])
         assert FigureManager.get_figure(count_ax) is fig
-
-
-# common tests
-def assert_create_maidr_with_single_axes(fig, plot):
-    plot_type = [PlotType.BAR]
-    maidr = FigureManager.create_maidr(fig, plot, plot_type)
-
-    assert isinstance(maidr, Maidr)
-    assert maidr.fig is fig
-
-    assert len(maidr.data) == len(plot_type) == 1
-    for m_data, p_type in zip(maidr.data, plot_type):
-        assert m_data.type == p_type
-
-
-def assert_create_maidr_with_multiple_axes(fig, plots):
-    plot_types = [PlotType.BAR, PlotType.BAR]
-    maidr = FigureManager.create_maidr(fig, plots, plot_types)
-
-    assert isinstance(maidr, Maidr)
-    assert maidr.fig is fig
-
-    assert len(maidr.data) == len(plot_types)
-    for m_data, p_type in zip(maidr.data, plot_types):
-        assert m_data.type == p_type
