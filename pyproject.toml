@@ -8,7 +8,7 @@ authors = [
     "JooYoung Seo <jseo1005@illinois.edu>",
     "Saairam Venkatesh <saairam2@illinois.edu>"
 ]
-version = "0.0.1"
+version = "0.0.0"
 classifiers = [
     "Intended Audience :: End Users/Desktop",
     "Intended Audience :: Financial and Insurance Industry",
@@ -32,7 +32,7 @@ homepage = "https://github.com/xability/py_maidr"
 
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 matplotlib = "^3.7.1"
 numpy = "^1.24.3"
 seaborn = "^0.13.2"
