@@ -3,12 +3,12 @@ name = "maidr"
 description = "Multimodal Access and Interactive Data Representations"
 readme = "README.md"
 keywords = ["accessibility", "visualization", "sonification", "braille", "tactile", "multimodal", "data representation", "blind", "low vision", "visual impairments"]
-license.file = "LICENSE"
+license = "GPL-3.0-or-later"
 authors = [
-    { name = "JooYoung Seo", email = "jseo1005@illinois.edu" },
-    { name = "Saairam Venkatesh", email = "saairam2@illinois.edu" }
+    "JooYoung Seo <jseo1005@illinois.edu>",
+    "Saairam Venkatesh <saairam2@illinois.edu>"
 ]
-dynamic = ["version"]
+version = "0.0.0"
 classifiers = [
     "Intended Audience :: End Users/Desktop",
     "Intended Audience :: Financial and Insurance Industry",
@@ -35,8 +35,8 @@ homepage = "https://github.com/uiuc-ischool-accessible-computing-lab/py_maidr"
 python = "^3.10"
 matplotlib = "^3.7.1"
 numpy = "^1.24.3"
-seaborn = "^0.12.2"
-lxml = "^4.9.2"
+seaborn = "^0.13.2"
+lxml = "^5.1.0"
 htmltools = ">=0.5.1"
 
 
@@ -47,10 +47,14 @@ pre-commit = "^3.3.2"
 pytest = "^7.3.2"
 python-semantic-release = "^8.7.0"
 pytest-mock = "^3.12.0"
+tox = "^4.13.0"
+
+[tool.poetry-dynamic-versioning]
+enable = true
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.black]
 line-length = 88
