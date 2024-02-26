@@ -15,3 +15,6 @@ class SeabornFactory(MatplotlibFactory):
 
     def create_bar_plot(self, ax: Axes) -> Any:
         sns.barplot(x=[1, 2, 3], y=[4, 5, 6], ax=ax)
+        ax.set_title("Test seaborn title")
+        ax.set_xlabel("Test seaborn x label")
+        ax.set_ylabel("Test seaborn y label")

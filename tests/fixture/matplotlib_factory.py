@@ -18,6 +18,7 @@ class MatplotlibFactory(LibraryFactory):
 
         for ax, plot_type in zip(axs, plot_types):
             self.plot_on_ax(ax, plot_type)
+        axs = axs if isinstance(axs, np.ndarray) else axs[0]
 
         try:
             yield fig, axs
@@ -29,4 +30,9 @@ class MatplotlibFactory(LibraryFactory):
             self.create_bar_plot(ax)
 
     def create_bar_plot(self, ax: Axes) -> Any:
-        ax.bar([1, 2, 3], [4, 5, 6])
+        # TODO: using numbers makes matplotlib to add additional ticks messing with the
+        # level extraction
+        ax.bar(["1", "2", "3"], [4, 5, 6])
+        ax.set_title("Test matplotlib title")
+        ax.set_xlabel("Test matplotlib x label")
+        ax.set_ylabel("Test matplotlib y label")
