@@ -50,7 +50,7 @@ def test_create_maidr_with_mismatched_axes_and_plot_types_length(fig_and_axes):
 )
 def test_create_maidr_with_single_axes(plot_fixture, lib, plot_type):
     fig, ax = plot_fixture(lib, plot_type)
-    maidr = FigureManager.create_maidr(fig, plot_fixture, [plot_type])
+    maidr = FigureManager.create_maidr(fig, ax, [plot_type])
 
     assert isinstance(maidr, Maidr)
     assert maidr.fig is fig
