@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from matplotlib.axes import Axes
+from matplotlib.collections import QuadMesh
 from matplotlib.container import BarContainer
 
 from maidr.core.enum.plot_type import PlotType
@@ -44,7 +45,7 @@ def bar(plot: Axes | BarContainer) -> Maidr:
     """
     fig = FigureManager.get_figure(plot)
     plot_type = [PlotType.BAR for _ in fig.axes] if fig and fig.axes else []
-    return FigureManager.create_maidr(fig, plot, plot_type)
+    return FigureManager.create_maidr(fig, plot_type)
 
 
 def count(plot: Axes | BarContainer) -> Maidr:
@@ -91,6 +92,12 @@ def count(plot: Axes | BarContainer) -> Maidr:
         >>> count_maidr.save("maidr_count_plot.html")  # Save the plot to an HTML file
     """
     return bar(plot)
+
+
+def heat(plot: Axes | QuadMesh) -> Maidr:
+    fig = FigureManager.get_figure(plot)
+    plot_type = [PlotType.HEAT for _ in fig.axes] if fig and fig.axes else []
+    return FigureManager.create_maidr(fig, plot_type)
 
 
 def close() -> None:

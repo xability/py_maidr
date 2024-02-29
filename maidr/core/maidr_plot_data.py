@@ -1,7 +1,5 @@
 from __future__ import annotations
-
 from abc import ABC, abstractmethod
-from typing import Any
 
 from matplotlib.axes import Axes
 
@@ -21,8 +19,6 @@ class MaidrPlotData(ABC):
     ----------
     axes : Axes
         The axes object on which the plot is displayed.
-    plot : Any
-        The plot object containing the plot data.
     type : PlotType
         The type of the plot.
 
@@ -30,8 +26,6 @@ class MaidrPlotData(ABC):
     ----------
     axes : Axes
         The axes object on which the plot is displayed.
-    plot : Any
-        The plot object containing the plot data.
     type : PlotType
         The type of the plot.
     maidr_data : dict
@@ -53,7 +47,7 @@ class MaidrPlotData(ABC):
     BarData : Subclass of `MaidrPlotData` specialized for bar plots.
     """
 
-    def __init__(self, axes: Axes, plot: Any, plot_type: PlotType) -> None:
+    def __init__(self, axes: Axes, plot_type: PlotType) -> None:
         """
         Initialize the MaidrData object.
 
@@ -61,12 +55,9 @@ class MaidrPlotData(ABC):
         ----------
         axes : Axes
             The axes object on which the plot is displayed.
-        plot : Any
-            The plot object containing the plot data.
         """
         # graphic object
         self.axes = axes
-        self.plot = plot
 
         self.type = plot_type
 

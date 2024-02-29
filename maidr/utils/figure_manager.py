@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
 from matplotlib.axes import Axes
 from matplotlib.container import BarContainer
 from matplotlib.figure import Figure
@@ -30,7 +28,7 @@ class FigureManager:
     """
 
     @staticmethod
-    def create_maidr(fig: Figure | None, plot: Any, plot_type: list[PlotType]) -> Maidr:
+    def create_maidr(fig: Figure | None, plot_type: list[PlotType]) -> Maidr:
         """
         Creates and returns a Maidr object that encapsulates the figure and its
         associated plot data.
@@ -39,8 +37,6 @@ class FigureManager:
         ----------
         fig : Figure | None
             The figure to which the plot is associated.
-        plot : Any
-            The plot object containing the plot data.
         plot_type : list[PlotType]
             The list of plot types corresponding to the axes associated with this
             figure.
@@ -58,8 +54,6 @@ class FigureManager:
         """
         if fig is None:
             raise ValueError("Figure not found")
-        if plot is None:
-            raise ValueError("Plot not found")
         if plot_type is None:
             raise ValueError("Plot type not found")
         if len(fig.axes) != len(plot_type):
@@ -69,7 +63,7 @@ class FigureManager:
             )
 
         maidr_data = [
-            MaidrPlotDataFactory.create(ax, plot, plt_type)
+            MaidrPlotDataFactory.create(ax, plt_type)
             for ax, plt_type in zip(fig.axes, plot_type)
         ]
         return Maidr(fig, maidr_data)

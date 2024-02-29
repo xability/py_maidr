@@ -20,15 +20,6 @@ class ExtractionError(Exception):
         A human-readable message describing the error. Includes information about
         the plot type and the type of the plot object involved in the extraction error.
 
-    Examples
-    --------
-    >>> from matplotlib.pyplot import figure
-    >>> fig = figure()
-    >>> ax = fig.add_subplot(111)
-    >>> bar_plot = ax.bar([1, 2, 3], [3, 2, 1])
-    >>> raise ExtractionError(PlotType.BAR, bar_plot)
-    ExtractionError: Error extracting data for bar plot type from <class 'matplotlib.container.BarContainer'>.  # noqa: E501 (ignore line length warning)
-
     Notes
     -----
     This exception is intended to be used within the data extraction functions or

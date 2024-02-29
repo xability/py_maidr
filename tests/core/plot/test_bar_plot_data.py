@@ -26,6 +26,6 @@ def test_bar_plot_data(plot_fixture, lib):
     }
 
     _, ax = plot_fixture(lib, PlotType.BAR)
-    actual_maidr = BarPlotData(ax, ax)
+    actual_maidr = BarPlotData(ax)
 
     assert actual_maidr.data() == expected_maidr_data
