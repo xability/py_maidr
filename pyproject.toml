@@ -28,7 +28,7 @@ classifiers = [
 ]
 
 [project.urls]
-homepage = "https://github.com/uiuc-ischool-accessible-computing-lab/py_maidr"
+homepage = "https://github.com/xability/py_maidr"
 
 
 [tool.poetry.dependencies]
