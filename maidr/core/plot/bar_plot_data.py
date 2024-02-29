@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Any
-
 from matplotlib.axes import Axes
 from matplotlib.container import BarContainer
 
@@ -25,9 +23,6 @@ class BarPlotData(MaidrPlotData):
     ----------
     axes : Axes
         The matplotlib axes object on which the bar plot is drawn.
-    plot : Any
-        The plot object containing the data points and the graphical representations of
-        the bar plot.
 
     Warnings
     --------
@@ -38,19 +33,16 @@ class BarPlotData(MaidrPlotData):
     MaidrPlotData : The base class for MAIDR plot data objects.
     """
 
-    def __init__(self, axes: Axes, plot: Any) -> None:
+    def __init__(self, axes: Axes) -> None:
         """
-        Initializes the BarPlotData object with matplotlib axes, the bar plot, and
-        its specified plot type.
+        Initializes the BarPlotData object with matplotlib axes containing the bar plot.
 
         Parameters
         ----------
         axes : Axes
             The axes object associated with the bar plot.
-        plot : Any
-            The bar plot.
         """
-        super().__init__(axes, plot, PlotType.BAR)
+        super().__init__(axes, PlotType.BAR)
 
     def _extract_maidr_data(self) -> dict:
         """
@@ -67,7 +59,6 @@ class BarPlotData(MaidrPlotData):
         maidr = {
             MaidrKey.TYPE.value: plt_type,
             MaidrKey.TITLE.value: ax.get_title(),
-            MaidrKey.SELECTOR.value: "TODO: Enter your bar plot selector here",
             MaidrKey.AXES.value: {
                 MaidrKey.X.value: {
                     MaidrKey.LABEL.value: ax.get_xlabel(),
@@ -117,7 +108,7 @@ class BarPlotData(MaidrPlotData):
             data = BarPlotData.__extract_bar_container_data(plot)
 
         if data is None:
-            raise ExtractionError(self.type, self.plot)
+            raise ExtractionError(self.type, plot)
 
         # noinspection PyTypeChecker
         return data
@@ -135,8 +126,9 @@ class BarPlotData(MaidrPlotData):
         Returns
         -------
         list | None
-            A list containing the numerical data extracted from the BarContainer, or None
-            if the plot does not contain valid data values or is not a BarContainer.
+            A list containing the numerical data extracted from the BarContainer, or
+            None if the plot does not contain valid data values or is not a
+            BarContainer.
         """
         if plot.patches is None:
             return None
