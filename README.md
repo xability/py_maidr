@@ -9,5 +9,5 @@ Python binder for maidr library
 pip install -U maidr
 
 # or install the development version from GitHub
-pip install -U git+https://github.com/uiuc-ischool-accessible-computing-lab/py_maidr.git
+pip install -U git+https://github.com/xability/py_maidr.git
 ```
