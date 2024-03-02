@@ -1,11 +1,9 @@
 from __future__ import annotations
 
+import pytest
 from matplotlib import pyplot as plt
 
 from maidr.core.enum.plot_type import PlotType
-
-import pytest
-
 from tests.core.enum.library import Library
 from tests.fixture.matplotlib_factory import MatplotlibFactory
 from tests.fixture.seaborn_factory import SeabornFactory
@@ -33,7 +31,7 @@ def plot_fixture():
 
 
 @pytest.fixture
-def fig_and_axes():
+def axes():
     fig, ax = plt.subplots()
-    yield fig, ax
+    yield ax
     plt.close(fig)

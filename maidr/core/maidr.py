@@ -28,7 +28,7 @@ class Maidr:
     End users should use the maidr API to create an instance of this class.
     """
 
-    def __init__(self, fig: Figure, maidr_data: list[MaidrPlotData]) -> None:
+    def __init__(self, fig: Figure) -> None:
         """
         Initializes a MAIDR object with the given matplotlib figure and MAIDR data.
 
@@ -36,12 +36,9 @@ class Maidr:
         ----------
         fig : Figure
             The matplotlib Figure object to be used for plotting.
-        maidr_data : list[MaidrPlotData]
-            A list of MaidrPlotData objects containing the data for MAIDR.
         """
         self._fig = fig
-        self._maidr_data = maidr_data
-        self._html = self.__create_html()
+        self._maidr_data = list()
 
     @property
     def fig(self) -> Figure:
@@ -50,6 +47,9 @@ class Maidr:
     @property
     def data(self) -> list[MaidrPlotData]:
         return self._maidr_data
+
+    def add_plot(self, maidr_data: MaidrPlotData) -> None:
+        self._maidr_data.append(maidr_data)
 
     def save(self, filename: str) -> None:
         """
@@ -65,7 +65,7 @@ class Maidr:
             The name of the file to which the MAIDR HTML content should be saved.
         """
         with open(filename, "w") as f:
-            f.write(self._html)
+            f.write(self.__create_html())
         print(f"Successfully saved the MAIDR file to {filename}.")
 
     def __create_html(self) -> str:
