@@ -18,6 +18,7 @@ def plot():
     # Plot a heatmap
     plt.figure(figsize=(10, 8))
     heatmap = sns.heatmap(glue, annot=True)
+    plt.title("Heatmap of Model Scores by Task")
     plt.show()
 
     return heatmap
