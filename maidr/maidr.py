@@ -3,13 +3,16 @@ from __future__ import annotations
 from matplotlib.axes import Axes
 from matplotlib.collections import QuadMesh
 from matplotlib.container import BarContainer
+from numpy import ndarray
 
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr import Maidr
-from maidr.utils.figure_manager import FigureManager
+from maidr.core.figure_manager import FigureManager
 
 
-def bar(plot: Axes | BarContainer) -> Maidr:
+def bar(
+    plot: Axes | list[Axes] | BarContainer | list[BarContainer] | ndarray,
+) -> Maidr | tuple[Maidr]:
     """
     Create a Maidr object for a bar plot.
 
@@ -43,18 +46,20 @@ def bar(plot: Axes | BarContainer) -> Maidr:
         >>> bar_maidr = maidr.bar(bar_plot)  # Convert the plot to a Maidr object
         >>> bar_maidr.save("maidr_bar_plot.html")  # Save the plot to an HTML file
     """
-    fig = FigureManager.get_figure(plot)
-    plot_type = [PlotType.BAR for _ in fig.axes] if fig and fig.axes else []
-    return FigureManager.create_maidr(fig, plot_type)
+    axs = __get_axes(plot)
+    plot_type = [PlotType.BAR for _ in axs]
+    return FigureManager.create_maidr(axs, plot_type)
 
 
-def count(plot: Axes | BarContainer) -> Maidr:
+def count(
+    plot: Axes | list[Axes] | BarContainer | list[BarContainer] | ndarray,
+) -> Maidr | tuple[Maidr]:
     """
     Create a Maidr object for a count plot.
 
     Parameters
     ----------
-    plot : Axes | BarContainer
+    plot : Axes | list[Axes] | BarContainer | list[BarContainer]
         The count plot for which a Maidr object is to be created.
 
     Returns
@@ -94,11 +99,17 @@ def count(plot: Axes | BarContainer) -> Maidr:
     return bar(plot)
 
 
-def heat(plot: Axes | QuadMesh) -> Maidr:
-    fig = FigureManager.get_figure(plot)
-    plot_type = [PlotType.HEAT for _ in fig.axes] if fig and fig.axes else []
-    return FigureManager.create_maidr(fig, plot_type)
+def heat(plot: Axes | QuadMesh | list | ndarray) -> Maidr | tuple[Maidr]:
+    axs = __get_axes(plot)
+    plot_type = [PlotType.HEAT for _ in axs]
+    return FigureManager.create_maidr(axs, plot_type)
 
 
 def close() -> None:
     pass
+
+
+def __get_axes(plot):
+    axs = FigureManager.get_axes(plot)
+    axs = axs if isinstance(axs, list) else [axs]
+    return axs

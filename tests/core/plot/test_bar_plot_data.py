@@ -12,7 +12,6 @@ def test_bar_plot_data(plot_fixture, lib):
     expected_maidr_data = {
         MaidrKey.TYPE.value: PlotType.BAR.value,
         MaidrKey.TITLE.value: f"Test {lib.value} title",
-        MaidrKey.SELECTOR.value: "TODO: Enter your bar plot selector here",
         MaidrKey.AXES.value: {
             MaidrKey.X.value: {
                 MaidrKey.LABEL.value: f"Test {lib.value} x label",
@@ -26,6 +25,6 @@ def test_bar_plot_data(plot_fixture, lib):
     }
 
     _, ax = plot_fixture(lib, PlotType.BAR)
-    actual_maidr = BarPlotData(ax)
+    actual_maidr = BarPlotData(ax.pop())
 
     assert actual_maidr.data() == expected_maidr_data

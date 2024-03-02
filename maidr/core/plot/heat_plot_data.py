@@ -67,10 +67,11 @@ class HeatPlotData(MaidrPlotData):
             MaidrKey.AXES.value: {
                 MaidrKey.X.value: {
                     MaidrKey.LABEL.value: ax.get_xlabel(),
-                    MaidrKey.LEVEL.value: self.__extract_level(),
+                    MaidrKey.LEVEL.value: self.__extract_x_level(),
                 },
                 MaidrKey.Y.value: {
                     MaidrKey.LABEL.value: ax.get_ylabel(),
+                    MaidrKey.LEVEL.value: self.__extract_y_level(),
                 },
             },
             MaidrKey.DATA.value: self.__extract_data(),
@@ -78,7 +79,7 @@ class HeatPlotData(MaidrPlotData):
 
         return maidr
 
-    def __extract_level(self) -> list:
+    def __extract_x_level(self) -> list:
         """
         Extracts x-axis level values based on tick labels.
 
@@ -88,6 +89,17 @@ class HeatPlotData(MaidrPlotData):
             A list of strings representing the x-axis levels.
         """
         return [label.get_text() for label in self.axes.get_xticklabels()]
+
+    def __extract_y_level(self) -> list:
+        """
+        Extracts y-axis level values based on tick labels.
+
+        Returns
+        -------
+        list
+            A list of strings representing the y-axis levels.
+        """
+        return [label.get_text() for label in self.axes.get_yticklabels()]
 
     def __extract_data(self) -> list[list]:
         """
