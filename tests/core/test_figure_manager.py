@@ -11,7 +11,7 @@ from tests.core.enum.library import Library
 
 # test cases for invalid inputs
 def test_get_axes_from_none():
-    assert FigureManager.get_axes(None) is None
+    assert FigureManager.get_axes(None) == [None]
 
 
 def test_create_maidr_with_none_axes(mocker):
@@ -80,11 +80,11 @@ def test_create_maidr_with_multiple_same_axes(plot_fixture, lib, plot_types):
 class TestMatplotlibFigureManager:
     # test `get_figure()` for matplotlib plots
     def test_get_axes_from_subplot_axes(self, axes):
-        assert FigureManager.get_axes(axes) is axes
+        assert FigureManager.get_axes(axes) == axes
 
     def test_get_figure_from_bar_container(self, axes):
         bar = plt.bar([1, 2, 3], [4, 5, 6])
-        assert FigureManager.get_axes(bar) is axes
+        assert FigureManager.get_axes(bar) == axes
 
 
 # group tests related to seaborn
@@ -92,8 +92,8 @@ class TestSeabornFigureManager:
     # test `get_figure()` for seaborn plots
     def test_get_figure_from_barplot_axes(self, axes):
         bar_ax = sns.barplot(x=[1, 2, 3], y=[4, 5, 6])
-        assert FigureManager.get_axes(bar_ax) is axes
+        assert FigureManager.get_axes(bar_ax) == axes
 
     def test_get_figure_from_countplot_axes(self, axes):
         count_ax = sns.countplot(x=[1, 2, 2, 3, 3, 3])
-        assert FigureManager.get_axes(count_ax) is axes
+        assert FigureManager.get_axes(count_ax) == axes

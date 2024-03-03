@@ -33,5 +33,5 @@ def plot_fixture():
 @pytest.fixture
 def axes():
     fig, ax = plt.subplots()
-    yield ax
+    yield [ax]
     plt.close(fig)
