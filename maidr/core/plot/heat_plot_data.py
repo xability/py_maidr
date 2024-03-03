@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 from matplotlib.axes import Axes
-from matplotlib.collections import QuadMesh
+from matplotlib.cm import ScalarMappable
 
 from maidr.core.enum.maidr_key import MaidrKey
 from maidr.core.enum.plot_type import PlotType
@@ -120,9 +120,9 @@ class HeatPlotData(MaidrPlotData):
         data = None
 
         if isinstance(ax, Axes):
-            plot = HeatPlotData.__extract_quad_mesh(ax)
-        if isinstance(plot, QuadMesh):
-            data = HeatPlotData.__extract_quad_mesh_data(plot)
+            plot = HeatPlotData.__extract_scalar_mappable(ax)
+        if isinstance(plot, ScalarMappable):
+            data = HeatPlotData.__extract_scalar_mappable_data(plot)
 
         if data is None:
             raise ExtractionError(self.type, plot)
@@ -130,20 +130,21 @@ class HeatPlotData(MaidrPlotData):
         return data
 
     @staticmethod
-    def __extract_quad_mesh_data(plot: QuadMesh) -> list[list] | None:
+    def __extract_scalar_mappable_data(plot: ScalarMappable) -> list[list] | None:
         """
-        Extracts numerical data from the specified QuadMesh object if possible.
+        Extracts numerical data from the specified ScalarMappable object if possible.
 
         Parameters
         ----------
-        plot : QuadMesh
+        plot : ScalarMappable
             The QuadMesh from which to extract the data.
 
         Returns
         -------
         list[list] | None
-            A 2D list containing the numerical data extracted from the QuadMesh, or None
-            if the plot does not contain valid data values or is not a QuadMesh.
+            A 2D list containing the numerical data extracted from the ScalarMappable,
+            or None if the plot does not contain valid data values or is not a
+            ScalarMappable.
         """
         if plot is None or plot.get_array() is None:
             return None
@@ -164,22 +165,22 @@ class HeatPlotData(MaidrPlotData):
         return data
 
     @staticmethod
-    def __extract_quad_mesh(plot: Axes) -> QuadMesh | None:
+    def __extract_scalar_mappable(plot: Axes) -> ScalarMappable | None:
         """
-        Extracts the QuadMesh from the given Axes object if possible.
+        Extracts the ScalarMappable from the given Axes object if possible.
 
         Parameters
         ----------
         plot : Axes
-            The Axes object to search for a QuadMesh.
+            The Axes object to search for a ScalarMappable.
 
         Returns
         -------
-        QuadMesh | None
-            The first QuadMesh found within the given Axes object, or None if no
-            QuadMesh is present.
+        ScalarMappable | None
+            The first ScalarMappable found within the given Axes object, or None if no
+            ScalarMappable is present.
         """
-        # Ideally, there should only be one QuadMesh for a heatmap
-        for collection in plot.collections:
-            if isinstance(collection, QuadMesh):
-                return collection
+        # Ideally, there should only be one AxesImage/QuadMesh for a heatmap
+        for child in plot.get_children():
+            if isinstance(child, ScalarMappable):
+                return child

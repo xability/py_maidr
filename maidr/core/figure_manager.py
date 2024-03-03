@@ -1,11 +1,12 @@
 from __future__ import annotations
 from typing import Any
 
+import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.collections import QuadMesh
 from matplotlib.container import BarContainer
 from matplotlib.figure import Figure
-from numpy import ndarray
+from matplotlib.image import AxesImage
 
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr import Maidr
@@ -78,16 +79,29 @@ class FigureManager:
         return cls.figs[fig]
 
     @staticmethod
-    def get_axes(
-        artist: Axes | BarContainer | list | ndarray | None,
+    def get_axes(plot: Any) -> list[Axes | None]:
+        """
+        Extracts axes from various types of matplotlib artists or collections thereof.
+        Always returns a list of Axes objects, which may include None if an axes object
+        cannot be found for a given artist.
+        """
+        axs = FigureManager.__get_axes(plot)
+        # Ensure output is a flat list of Axes objects
+        return axs if isinstance(axs, list) else [axs]
+
+    @staticmethod
+    def __get_axes(
+        artist: Axes | AxesImage | BarContainer | list | np.ndarray | None,
     ) -> Any:
+        """
+        Recursively extracts Axes objects from the input artist or collection of artists.
+        """
         if artist is None:
             return None
-        # axes - return the axes itself
         elif isinstance(artist, Axes):
             return artist
-        # bar plot - get axes from the first occurrence of any child artist
         elif isinstance(artist, BarContainer):
+            # Get axes from the first occurrence of any child artist
             return next(
                 (
                     child_artist.axes
@@ -96,8 +110,15 @@ class FigureManager:
                 ),
                 None,
             )
-        # heatmap - get axes from the artist directly
-        elif isinstance(artist, QuadMesh):
+        elif isinstance(artist, (AxesImage, QuadMesh)):
             return artist.axes
-        elif isinstance(artist, (list, ndarray)):
-            return list(FigureManager.get_axes(a) for a in artist)
+        elif isinstance(artist, (list, np.ndarray)):
+            # Flatten list to avoid nested lists and handle np.ndarray correctly
+            flat_list = []
+            for a in artist:
+                extracted_axes = FigureManager.__get_axes(a)
+                if isinstance(extracted_axes, list):
+                    flat_list.extend(extracted_axes)
+                else:
+                    flat_list.append(extracted_axes)
+            return flat_list

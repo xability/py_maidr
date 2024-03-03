@@ -3,6 +3,7 @@ from __future__ import annotations
 from matplotlib.axes import Axes
 from matplotlib.collections import QuadMesh
 from matplotlib.container import BarContainer
+from matplotlib.image import AxesImage
 from numpy import ndarray
 
 from maidr.core.enum.plot_type import PlotType
@@ -11,7 +12,7 @@ from maidr.core.figure_manager import FigureManager
 
 
 def bar(
-    plot: Axes | list[Axes] | BarContainer | list[BarContainer] | ndarray,
+    plot: Axes | BarContainer | list[Axes | BarContainer] | ndarray,
 ) -> Maidr | tuple[Maidr]:
     """
     Create a Maidr object for a bar plot.
@@ -46,13 +47,13 @@ def bar(
         >>> bar_maidr = maidr.bar(bar_plot)  # Convert the plot to a Maidr object
         >>> bar_maidr.save("maidr_bar_plot.html")  # Save the plot to an HTML file
     """
-    axs = __get_axes(plot)
+    axs = FigureManager.get_axes(plot)
     plot_type = [PlotType.BAR for _ in axs]
     return FigureManager.create_maidr(axs, plot_type)
 
 
 def count(
-    plot: Axes | list[Axes] | BarContainer | list[BarContainer] | ndarray,
+    plot: Axes | BarContainer | list[Axes | BarContainer] | ndarray,
 ) -> Maidr | tuple[Maidr]:
     """
     Create a Maidr object for a count plot.
@@ -99,17 +100,13 @@ def count(
     return bar(plot)
 
 
-def heat(plot: Axes | QuadMesh | list | ndarray) -> Maidr | tuple[Maidr]:
-    axs = __get_axes(plot)
+def heat(
+    plot: Axes | AxesImage | QuadMesh | list[Axes | AxesImage | QuadMesh] | ndarray,
+) -> Maidr | tuple[Maidr]:
+    axs = FigureManager.get_axes(plot)
     plot_type = [PlotType.HEAT for _ in axs]
     return FigureManager.create_maidr(axs, plot_type)
 
 
 def close() -> None:
     pass
-
-
-def __get_axes(plot):
-    axs = FigureManager.get_axes(plot)
-    axs = axs if isinstance(axs, list) else [axs]
-    return axs
