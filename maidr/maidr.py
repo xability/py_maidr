@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.collections import QuadMesh
 from matplotlib.container import BarContainer
 from matplotlib.image import AxesImage
+from matplotlib.patches import Polygon
 from numpy import ndarray
 
 from maidr.core.enum.plot_type import PlotType
@@ -105,6 +107,14 @@ def heat(
 ) -> Maidr | tuple[Maidr]:
     axs = FigureManager.get_axes(plot)
     plot_type = [PlotType.HEAT for _ in axs]
+    return FigureManager.create_maidr(axs, plot_type)
+
+
+def hist(
+    plot: BarContainer | Polygon | list[BarContainer | Polygon] | np.ndarray,
+) -> Maidr | tuple[Maidr]:
+    axs = FigureManager.get_axes(plot)
+    plot_type = [PlotType.HIST for _ in axs]
     return FigureManager.create_maidr(axs, plot_type)
 
 

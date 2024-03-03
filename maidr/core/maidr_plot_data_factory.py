@@ -6,6 +6,7 @@ from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr_plot_data import MaidrPlotData
 from maidr.core.plot.bar_plot_data import BarPlotData
 from maidr.core.plot.heat_plot_data import HeatPlotData
+from maidr.core.plot.hist_plot_data import HistPlotData
 
 
 class MaidrPlotDataFactory:
@@ -54,5 +55,7 @@ class MaidrPlotDataFactory:
             return BarPlotData(ax)
         elif PlotType.HEAT == plot_type:
             return HeatPlotData(ax)
+        elif PlotType.HIST == plot_type:
+            return HistPlotData(ax)
         else:
             raise TypeError(f"Unsupported plot type: {plot_type}")

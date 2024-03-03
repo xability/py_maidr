@@ -2,11 +2,10 @@ from __future__ import annotations
 from typing import Any
 
 import numpy as np
+from matplotlib.artist import Artist
 from matplotlib.axes import Axes
-from matplotlib.collections import QuadMesh
 from matplotlib.container import BarContainer
 from matplotlib.figure import Figure
-from matplotlib.image import AxesImage
 
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr import Maidr
@@ -91,7 +90,7 @@ class FigureManager:
 
     @staticmethod
     def __get_axes(
-        artist: Axes | AxesImage | BarContainer | list | np.ndarray | None,
+        artist: Artist | Axes | BarContainer | list | np.ndarray | None,
     ) -> Any:
         """
         Recursively extracts Axes objects from the input artist or collection of artists.
@@ -110,10 +109,10 @@ class FigureManager:
                 ),
                 None,
             )
-        elif isinstance(artist, (AxesImage, QuadMesh)):
+        elif isinstance(artist, Artist):
             return artist.axes
         elif isinstance(artist, (list, np.ndarray)):
-            # Flatten list to avoid nested lists and handle np.ndarray correctly
+            # Flatten list to avoid nested lists
             flat_list = []
             for a in artist:
                 extracted_axes = FigureManager.__get_axes(a)

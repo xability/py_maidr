@@ -19,4 +19,8 @@ class MaidrKey(Enum):
     TITLE = "title"
     TYPE = "type"
     X = "x"
+    X_MIN = "xmin"
+    X_MAX = "xmax"
     Y = "y"
+    Y_MIN = "ymin"
+    Y_MAX = "ymax"
