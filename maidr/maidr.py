@@ -5,6 +5,7 @@ from matplotlib.axes import Axes
 from matplotlib.collections import QuadMesh
 from matplotlib.container import BarContainer
 from matplotlib.image import AxesImage
+from matplotlib.lines import Line2D
 from matplotlib.patches import Polygon
 from numpy import ndarray
 
@@ -115,6 +116,12 @@ def hist(
 ) -> Maidr | tuple[Maidr]:
     axs = FigureManager.get_axes(plot)
     plot_type = [PlotType.HIST for _ in axs]
+    return FigureManager.create_maidr(axs, plot_type)
+
+
+def line(plot: Line2D | list[Line2D]) -> Maidr | tuple[Maidr]:
+    axs = FigureManager.get_axes(plot)
+    plot_type = [PlotType.LINE for _ in axs]
     return FigureManager.create_maidr(axs, plot_type)
 
 
