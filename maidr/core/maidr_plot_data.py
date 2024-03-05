@@ -23,7 +23,7 @@ class MaidrPlotData(ABC):
         The axes object on which the plot is displayed.
     plot : Any
         The plot object containing the plot data.
-    plot_type : PlotType
+    type : PlotType
         The type of the plot.
 
     Attributes
@@ -63,14 +63,11 @@ class MaidrPlotData(ABC):
             The axes object on which the plot is displayed.
         plot : Any
             The plot object containing the plot data.
-        plot_type : PlotType
-            The type of the plot.
         """
         # graphic object
         self.axes = axes
         self.plot = plot
 
-        # common maidr data
         self.type = plot_type
 
         # extract maidr data from `Axes`
