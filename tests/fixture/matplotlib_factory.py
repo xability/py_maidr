@@ -4,9 +4,10 @@ from typing import Any
 
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
-import numpy as np
+from numpy import ndarray
 
 from maidr.core.enum.plot_type import PlotType
+from maidr.core.figure_manager import FigureManager
 from tests.fixture.library_factory import LibraryFactory
 
 
@@ -14,14 +15,13 @@ class MatplotlibFactory(LibraryFactory):
     @contextmanager
     def create_plot(self, plot_types: list[PlotType]) -> Any:
         fig, axs = plt.subplots(1, len(plot_types))
-        axs = axs if isinstance(axs, np.ndarray) else [axs]
+        axs = axs if isinstance(axs, ndarray) else [axs]
 
         for ax, plot_type in zip(axs, plot_types):
             self.plot_on_ax(ax, plot_type)
-        axs = axs if isinstance(axs, np.ndarray) else axs[0]
 
         try:
-            yield fig, axs
+            yield fig, FigureManager.get_axes(axs)
         finally:
             plt.close(fig)
 

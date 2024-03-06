@@ -26,8 +26,6 @@ def test_create_plot_data(mocker, plot_type, expected_plot_data):
         return_value=mock_plot_data,
     )
 
-    actual_plot_data = MaidrPlotDataFactory.create(
-        mocker.Mock(), mocker.Mock(), plot_type
-    )
+    actual_plot_data = MaidrPlotDataFactory.create(mocker.Mock(), plot_type)
 
     assert isinstance(actual_plot_data, expected_plot_data)

@@ -1,14 +1,22 @@
 from __future__ import annotations
 
+import numpy as np
 from matplotlib.axes import Axes
+from matplotlib.collections import QuadMesh
 from matplotlib.container import BarContainer
+from matplotlib.image import AxesImage
+from matplotlib.lines import Line2D
+from matplotlib.patches import Polygon
+from numpy import ndarray
 
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr import Maidr
-from maidr.utils.figure_manager import FigureManager
+from maidr.core.figure_manager import FigureManager
 
 
-def bar(plot: Axes | BarContainer) -> Maidr:
+def bar(
+    plot: Axes | BarContainer | list[Axes | BarContainer] | ndarray,
+) -> Maidr | tuple[Maidr]:
     """
     Create a Maidr object for a bar plot.
 
@@ -42,18 +50,20 @@ def bar(plot: Axes | BarContainer) -> Maidr:
         >>> bar_maidr = maidr.bar(bar_plot)  # Convert the plot to a Maidr object
         >>> bar_maidr.save("maidr_bar_plot.html")  # Save the plot to an HTML file
     """
-    fig = FigureManager.get_figure(plot)
-    plot_type = [PlotType.BAR for _ in fig.axes] if fig and fig.axes else []
-    return FigureManager.create_maidr(fig, plot, plot_type)
+    axs = FigureManager.get_axes(plot)
+    plot_type = [PlotType.BAR for _ in axs]
+    return FigureManager.create_maidr(axs, plot_type)
 
 
-def count(plot: Axes | BarContainer) -> Maidr:
+def count(
+    plot: Axes | BarContainer | list[Axes | BarContainer] | ndarray,
+) -> Maidr | tuple[Maidr]:
     """
     Create a Maidr object for a count plot.
 
     Parameters
     ----------
-    plot : Axes | BarContainer
+    plot : Axes | list[Axes] | BarContainer | list[BarContainer]
         The count plot for which a Maidr object is to be created.
 
     Returns
@@ -91,6 +101,28 @@ def count(plot: Axes | BarContainer) -> Maidr:
         >>> count_maidr.save("maidr_count_plot.html")  # Save the plot to an HTML file
     """
     return bar(plot)
+
+
+def heat(
+    plot: Axes | AxesImage | QuadMesh | list[Axes | AxesImage | QuadMesh] | ndarray,
+) -> Maidr | tuple[Maidr]:
+    axs = FigureManager.get_axes(plot)
+    plot_type = [PlotType.HEAT for _ in axs]
+    return FigureManager.create_maidr(axs, plot_type)
+
+
+def hist(
+    plot: BarContainer | Polygon | list[BarContainer | Polygon] | np.ndarray,
+) -> Maidr | tuple[Maidr]:
+    axs = FigureManager.get_axes(plot)
+    plot_type = [PlotType.HIST for _ in axs]
+    return FigureManager.create_maidr(axs, plot_type)
+
+
+def line(plot: Line2D | list[Line2D]) -> Maidr | tuple[Maidr]:
+    axs = FigureManager.get_axes(plot)
+    plot_type = [PlotType.LINE for _ in axs]
+    return FigureManager.create_maidr(axs, plot_type)
 
 
 def close() -> None:

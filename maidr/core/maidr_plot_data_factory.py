@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-from typing import Any
-
 from matplotlib.axes import Axes
 
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr_plot_data import MaidrPlotData
 from maidr.core.plot.bar_plot_data import BarPlotData
+from maidr.core.plot.heat_plot_data import HeatPlotData
+from maidr.core.plot.hist_plot_data import HistPlotData
+from maidr.core.plot.line_plot_data import LinePlotData
 
 
 class MaidrPlotDataFactory:
@@ -28,16 +29,14 @@ class MaidrPlotDataFactory:
     """
 
     @staticmethod
-    def create(axes: Axes, plot: Any, plot_type: PlotType) -> MaidrPlotData:
+    def create(ax: Axes, plot_type: PlotType) -> MaidrPlotData:
         """
         Creates an instance of `MaidrPlotData` based on the provided plot type.
 
         Parameters
         ----------
-        axes : Axes
+        ax : Axes
             The axes object on which the plot is displayed.
-        plot : Any
-            The plot object.
         plot_type : PlotType
             The type of plot.
 
@@ -54,6 +53,12 @@ class MaidrPlotDataFactory:
             subclass.
         """
         if PlotType.BAR == plot_type:
-            return BarPlotData(axes, plot)
+            return BarPlotData(ax)
+        elif PlotType.HEAT == plot_type:
+            return HeatPlotData(ax)
+        elif PlotType.HIST == plot_type:
+            return HistPlotData(ax)
+        elif PlotType.LINE == plot_type:
+            return LinePlotData(ax)
         else:
             raise TypeError(f"Unsupported plot type: {plot_type}")

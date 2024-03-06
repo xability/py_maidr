@@ -9,49 +9,27 @@ from maidr.core.maidr_plot_data import MaidrPlotData
 from maidr.exception.extraction_error import ExtractionError
 
 
-class BarPlotData(MaidrPlotData):
-    """
-    A class encapsulating all the MAIDR representation of the axes in a figure
-    along with the plot.
-
-    This class extends `MaidrPlotData` to specifically handle data extraction and
-    representation for bar plots. It encapsulates the details required to represent a
-    bar plot as a part of an interactive MAIDR visualization, including plot type,
-    titles, axes labels, and the plot data itself.
-
-    Parameters
-    ----------
-    axes : Axes
-        The matplotlib axes object on which the bar plot is drawn.
-
-    Warnings
-    --------
-    End users will typically not have to use this class directly.
-
-    See Also
-    --------
-    MaidrPlotData : The base class for MAIDR plot data objects.
-    """
-
+class HistPlotData(MaidrPlotData):
     def __init__(self, axes: Axes) -> None:
         """
-        Initializes the BarPlotData object with matplotlib axes containing the bar plot.
+        Initializes the HistPlotData object with matplotlib axes with matplotlib axes
+        containing the histogram.
 
         Parameters
         ----------
         axes : Axes
-            The axes object associated with the bar plot.
+            The axes object associated with the histogram.
         """
-        super().__init__(axes, PlotType.BAR)
+        super().__init__(axes, PlotType.HIST)
 
     def _extract_maidr_data(self) -> dict:
         """
-        Extracts and structures bar plot data for MAIDR visualization.
+        Extracts and structures histogram data for MAIDR visualization.
 
         Returns
         -------
         dict
-            A dictionary containing the extracted maidr bar plot data.
+            A dictionary containing the extracted maidr heatmap data.
         """
         plt_type = self.type.value
         ax = self.axes
@@ -62,7 +40,6 @@ class BarPlotData(MaidrPlotData):
             MaidrKey.AXES.value: {
                 MaidrKey.X.value: {
                     MaidrKey.LABEL.value: ax.get_xlabel(),
-                    MaidrKey.LEVEL.value: self.__extract_level(),
                 },
                 MaidrKey.Y.value: {
                     MaidrKey.LABEL.value: ax.get_ylabel(),
@@ -73,25 +50,14 @@ class BarPlotData(MaidrPlotData):
 
         return maidr
 
-    def __extract_level(self) -> list:
+    def __extract_data(self) -> list[dict]:
         """
-        Extracts x-axis level values based on tick labels.
+        Extracts numerical data from the histogram.
 
         Returns
         -------
-        list
-            A list of strings representing the x-axis levels.
-        """
-        return [label.get_text() for label in self.axes.get_xticklabels()]
-
-    def __extract_data(self) -> list:
-        """
-        Extracts numerical data from the bar plot.
-
-        Returns
-        -------
-        list
-            A list of numerical data extracted from the bar plot.
+        list[dict]
+            A 2D list of numerical data extracted from the heatmap.
 
         Raises
         ------
@@ -103,20 +69,19 @@ class BarPlotData(MaidrPlotData):
         data = None
 
         if isinstance(ax, Axes):
-            plot = BarPlotData.__extract_bar_container(ax)
+            plot = HistPlotData.__extract_bar_container(ax)
         if isinstance(plot, BarContainer):
-            data = BarPlotData.__extract_bar_container_data(plot)
+            data = HistPlotData.__extract_bar_container_data(plot)
 
         if data is None:
             raise ExtractionError(self.type, plot)
 
-        # noinspection PyTypeChecker
         return data
 
     @staticmethod
-    def __extract_bar_container_data(plot: BarContainer) -> list | None:
+    def __extract_bar_container_data(plot: BarContainer) -> list[dict] | None:
         """
-        Extracts numerical data from the specified BarContainer object if possible.
+        Extracts numerical data from the specified ScalarMappable object if possible.
 
         Parameters
         ----------
@@ -125,15 +90,31 @@ class BarPlotData(MaidrPlotData):
 
         Returns
         -------
-        list | None
-            A list containing the numerical data extracted from the BarContainer, or
-            None if the plot does not contain valid data values or is not a
+        list[dict] | None
+            A 2D list containing the numerical data extracted from the BarContainer,
+            or None if the plot does not contain valid data values or is not a
             BarContainer.
         """
-        if plot.patches is None:
+        if plot is None or plot.patches is None:
             return None
 
-        return [float(patch.get_height()) for patch in plot.patches]
+        data = list()
+        for patch in plot.patches:
+            y = float(patch.get_height())
+            x = float(patch.get_x())
+            width = float(patch.get_width())
+            data.append(
+                {
+                    MaidrKey.Y.value: y,
+                    MaidrKey.X.value: x + width / 2,
+                    MaidrKey.X_MIN.value: x,
+                    MaidrKey.X_MAX.value: x + width,
+                    MaidrKey.Y_MIN.value: 0,
+                    MaidrKey.Y_MAX.value: y,
+                }
+            )
+
+        return data
 
     @staticmethod
     def __extract_bar_container(plot: Axes) -> BarContainer | None:
@@ -151,8 +132,6 @@ class BarPlotData(MaidrPlotData):
             The first BarContainer found within the given Axes object, or None if no
             BarContainer is present.
         """
-        # TODO
-        # If the Axes contains multiple bar plots, track and extract the correct one.
         for container in plot.containers:
             if isinstance(container, BarContainer):
                 return container
