@@ -5,26 +5,26 @@ readme = "README.md"
 keywords = ["accessibility", "visualization", "sonification", "braille", "tactile", "multimodal", "data representation", "blind", "low vision", "visual impairments"]
 license = "GPL-3.0-or-later"
 authors = [
-    "JooYoung Seo <jseo1005@illinois.edu>",
-    "Saairam Venkatesh <saairam2@illinois.edu>"
+  "JooYoung Seo <jseo1005@illinois.edu>",
+  "Saairam Venkatesh <saairam2@illinois.edu>"
 ]
-version = "0.0.1"
+version = "0.1.0"
 classifiers = [
-    "Intended Audience :: End Users/Desktop",
-    "Intended Audience :: Financial and Insurance Industry",
-    "Intended Audience :: Science/Research",
-    "Intended Audience :: Healthcare Industry",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: Implementation :: PyPy",
-    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Text Processing :: Markup :: HTML",
-    "Topic :: Scientific/Engineering :: Visualization"
+  "Intended Audience :: End Users/Desktop",
+  "Intended Audience :: Financial and Insurance Industry",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Healthcare Industry",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Text Processing :: Markup :: HTML",
+  "Topic :: Scientific/Engineering :: Visualization"
 ]
 
 [project.urls]
@@ -32,7 +32,7 @@ homepage = "https://github.com/xability/py_maidr"
 
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 matplotlib = "^3.7.1"
 numpy = "^1.24.3"
 seaborn = "^0.13.2"
@@ -49,12 +49,9 @@ python-semantic-release = "^8.7.0"
 pytest-mock = "^3.12.0"
 tox = "^4.13.0"
 
-[tool.poetry-dynamic-versioning]
-enable = true
-
 [build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
-build-backend = "poetry_dynamic_versioning.backend"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 88
