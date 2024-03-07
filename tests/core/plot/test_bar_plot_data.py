@@ -1,6 +1,6 @@
 from maidr.core.enum.maidr_key import MaidrKey
 from maidr.core.enum.plot_type import PlotType
-from maidr.core.plot.bar_plot_data import BarPlotData
+from maidr.core.plot_data.bar_plot_data import BarPlotData
 
 import pytest
 

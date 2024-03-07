@@ -4,10 +4,11 @@ from matplotlib.axes import Axes
 
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr_plot_data import MaidrPlotData
-from maidr.core.plot.bar_plot_data import BarPlotData
-from maidr.core.plot.heat_plot_data import HeatPlotData
-from maidr.core.plot.hist_plot_data import HistPlotData
-from maidr.core.plot.line_plot_data import LinePlotData
+from maidr.core.plot_data.bar_plot_data import BarPlotData
+from maidr.core.plot_data.heat_plot_data import HeatPlotData
+from maidr.core.plot_data.hist_plot_data import HistPlotData
+from maidr.core.plot_data.line_plot_data import LinePlotData
+from maidr.core.plot_data.stacked_plot_data import StackedPlotData
 
 
 class MaidrPlotDataFactory:
@@ -60,5 +61,7 @@ class MaidrPlotDataFactory:
             return HistPlotData(ax)
         elif PlotType.LINE == plot_type:
             return LinePlotData(ax)
+        elif PlotType.STACKED == plot_type:
+            return StackedPlotData(ax)
         else:
             raise TypeError(f"Unsupported plot type: {plot_type}")

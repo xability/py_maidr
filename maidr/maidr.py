@@ -125,5 +125,11 @@ def line(plot: Line2D | list[Line2D]) -> Maidr | tuple[Maidr]:
     return FigureManager.create_maidr(axs, plot_type)
 
 
+def stacked(plot: Axes | list[BarContainer]) -> Maidr | tuple[Maidr]:
+    axs = list(set(FigureManager.get_axes(plot)))
+    plot_type = [PlotType.STACKED for _ in axs]
+    return FigureManager.create_maidr(axs, plot_type)
+
+
 def close() -> None:
     pass
