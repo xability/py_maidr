@@ -9,6 +9,7 @@ from maidr.core.plot_data.box_plot_data import BoxPlotData
 from maidr.core.plot_data.heat_plot_data import HeatPlotData
 from maidr.core.plot_data.hist_plot_data import HistPlotData
 from maidr.core.plot_data.line_plot_data import LinePlotData
+from maidr.core.plot_data.scatter_plot_data import ScatterPlotData
 from maidr.core.plot_data.stacked_plot_data import StackedPlotData
 
 
@@ -64,6 +65,8 @@ class MaidrPlotDataFactory:
             return HistPlotData(ax)
         elif PlotType.LINE == plot_type:
             return LinePlotData(ax)
+        elif PlotType.SCATTER == plot_type:
+            return ScatterPlotData(ax)
         elif PlotType.STACKED == plot_type:
             return StackedPlotData(ax)
         else:

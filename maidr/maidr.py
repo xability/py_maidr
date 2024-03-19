@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 from matplotlib.axes import Axes
-from matplotlib.collections import QuadMesh
+from matplotlib.collections import QuadMesh, PathCollection
 from matplotlib.container import BarContainer
 from matplotlib.image import AxesImage
 from matplotlib.lines import Line2D
@@ -131,7 +131,15 @@ def line(plot: Line2D | list[Line2D]) -> Maidr | tuple[Maidr]:
     return FigureManager.create_maidr(axs, plot_type)
 
 
-def stacked(plot: Axes | list[BarContainer]) -> Maidr | tuple[Maidr]:
+def scatter(plot: PathCollection | list[PathCollection]):
+    axs = FigureManager.get_axes(plot)
+    plot_type = [PlotType.SCATTER for _ in axs]
+    return FigureManager.create_maidr(axs, plot_type)
+
+
+def stacked(
+    plot: Axes | list[BarContainer] | Axes | list[Axes],
+) -> Maidr | tuple[Maidr]:
     axs = list(set(FigureManager.get_axes(plot)))
     plot_type = [PlotType.STACKED for _ in axs]
     return FigureManager.create_maidr(axs, plot_type)
