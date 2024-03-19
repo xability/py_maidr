@@ -5,6 +5,7 @@ from matplotlib.axes import Axes
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr_plot_data import MaidrPlotData
 from maidr.core.plot_data.bar_plot_data import BarPlotData
+from maidr.core.plot_data.box_plot_data import BoxPlotData
 from maidr.core.plot_data.heat_plot_data import HeatPlotData
 from maidr.core.plot_data.hist_plot_data import HistPlotData
 from maidr.core.plot_data.line_plot_data import LinePlotData
@@ -55,6 +56,8 @@ class MaidrPlotDataFactory:
         """
         if PlotType.BAR == plot_type:
             return BarPlotData(ax)
+        elif PlotType.BOX == plot_type:
+            return BoxPlotData(ax)
         elif PlotType.HEAT == plot_type:
             return HeatPlotData(ax)
         elif PlotType.HIST == plot_type:

@@ -55,6 +55,12 @@ def bar(
     return FigureManager.create_maidr(axs, plot_type)
 
 
+def box(plot: Axes) -> Maidr | tuple[Maidr]:
+    axs = FigureManager.get_axes(plot)
+    plot_type = [PlotType.BOX for _ in axs]
+    return FigureManager.create_maidr(axs, plot_type)
+
+
 def count(
     plot: Axes | BarContainer | list[Axes | BarContainer] | ndarray,
 ) -> Maidr | tuple[Maidr]:
