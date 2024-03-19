@@ -1,0 +1,30 @@
+name: Semantic Release
+
+on:
+  schedule:
+    # Run every day at 12:00 PM UTC
+    - cron: '0 12 * * *'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Specify your Python version here
+
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry install
+
+      - name: Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}  # Your PyPI username (usually __token__)
+          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}  # Your PyPI API token
+        run: poetry run semantic-release publish
