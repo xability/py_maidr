@@ -38,7 +38,6 @@ def plot():
 
 def main():
     line = plot()
-    # print(line[0].axes.get_lines()[0].get_xydata())
     line_maidr = maidr.line(line)
     line_maidr.save(get_filepath("example_mpl_line.html"))
 

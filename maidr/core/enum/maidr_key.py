@@ -11,6 +11,7 @@ class MaidrKey(Enum):
     DATA = "data"
     FILL = "fill"
     LABEL = "label"
+    LABELS = "labels"
     LEVEL = "level"
     ID = "id"
     ORIENTATION = "orientation"
