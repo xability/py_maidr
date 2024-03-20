@@ -8,6 +8,7 @@ class PlotType(Enum):
     """
 
     BAR = "bar"
+    BOX = "box"
     HEAT = "heat"
     HIST = "hist"
     LINE = "line"
