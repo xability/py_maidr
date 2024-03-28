@@ -1,34 +1,41 @@
 from enum import Enum
 
 
-class MaidrKey(Enum):
-    """
-    Enumeration class representing keys used in the Maidr application.
-    """
-
-    AXES = "axes"
-    CAPTION = "caption"
-    DATA = "data"
-    FILL = "fill"
-    LABEL = "label"
-    LABELS = "labels"
-    LEVEL = "level"
+class MaidrKey(str, Enum):
+    # Maidr info keys.
     ID = "id"
+    ORIENTATION = "orientation"
+    SELECTOR = "selector"
+    TYPE = "type"
+
+    # Plot data keys.
+    AXES = "axes"
+    DATA = "data"
+    LEVEL = "level"
+    X = "x"
+    Y = "y"
+
+    # Plot legend keys.
+    CAPTION = "caption"
+    LABEL = "label"
+    SUBTITLE = "subtitle"
+    TITLE = "title"
+
+    # Box plot keys.
     LOWER_OUTLIER = "lower_outlier"
     MIN = "min"
     MAX = "max"
-    ORIENTATION = "orientation"
     Q1 = "q1"
     Q2 = "q2"
     Q3 = "q3"
-    SELECTOR = "selector"
-    SUBTITLE = "subtitle"
-    TITLE = "title"
-    TYPE = "type"
     UPPER_OUTLIER = "upper_outlier"
-    X = "x"
+
+    # Grouped bar and heatmap plot keys.
+    FILL = "fill"
+    LABELS = "labels"
+
+    # Histogram plot keys.
     X_MIN = "xmin"
     X_MAX = "xmax"
-    Y = "y"
     Y_MIN = "ymin"
     Y_MAX = "ymax"

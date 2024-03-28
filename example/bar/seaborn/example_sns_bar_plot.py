@@ -20,7 +20,6 @@ def plot():
     b_plot = sns.barplot(
         x="species", y="body_mass_g", data=penguins, errorbar="sd", palette="Blues_d"
     )
-    b_plot.bar
     plt.title("Average Body Mass of Penguins by Species")
     plt.xlabel("Species")
     plt.ylabel("Body Mass (g)")

@@ -21,7 +21,7 @@ class MatplotlibFactory(LibraryFactory):
             self.plot_on_ax(ax, plot_type)
 
         try:
-            yield fig, FigureManager.get_axes(axs)
+            yield fig, FigureManager.get_axes(*axs)
         finally:
             plt.close(fig)
 
