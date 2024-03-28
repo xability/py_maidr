@@ -12,4 +12,5 @@ class PlotType(Enum):
     HEAT = "heat"
     HIST = "hist"
     LINE = "line"
+    SCATTER = "point"
     STACKED = "stacked_bar"
