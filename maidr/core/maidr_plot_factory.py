@@ -3,17 +3,17 @@ from __future__ import annotations
 from matplotlib.axes import Axes
 
 from maidr.core.enum.plot_type import PlotType
-from maidr.core.maidr_plot_data import MaidrPlotData
-from maidr.core.plot_data.bar_plot_data import BarPlotData
-from maidr.core.plot_data.box_plot_data import BoxPlotData
-from maidr.core.plot_data.heat_plot_data import HeatPlotData
-from maidr.core.plot_data.hist_plot_data import HistPlotData
-from maidr.core.plot_data.line_plot_data import LinePlotData
-from maidr.core.plot_data.scatter_plot_data import ScatterPlotData
-from maidr.core.plot_data.stacked_plot_data import StackedPlotData
+from maidr.core.maidr_plot import MaidrPlot
+from maidr.core.plot.bar_plot import BarPlot
+from maidr.core.plot.box_plot import BoxPlot
+from maidr.core.plot.heat_plot import HeatPlot
+from maidr.core.plot.hist_plot import HistPlot
+from maidr.core.plot.line_plot import LinePlot
+from maidr.core.plot.scatter_plot import ScatterPlot
+from maidr.core.plot.grouped_bar_plot import GroupedBarPlot
 
 
-class MaidrPlotDataFactory:
+class MaidrPlotFactory:
     """
     A factory for creating instances of `MaidrPlotData` based on the plot type.
 
@@ -32,7 +32,7 @@ class MaidrPlotDataFactory:
     """
 
     @staticmethod
-    def create(ax: Axes, plot_type: PlotType) -> MaidrPlotData:
+    def create(ax: Axes, plot_type: PlotType) -> MaidrPlot:
         """
         Creates an instance of `MaidrPlotData` based on the provided plot type.
 
@@ -45,7 +45,7 @@ class MaidrPlotDataFactory:
 
         Returns
         -------
-        MaidrPlotData
+        MaidrPlot
             An instance of the `MaidrPlotData` subclass corresponding to the specified
             `plot_type`.
 
@@ -56,18 +56,18 @@ class MaidrPlotDataFactory:
             subclass.
         """
         if PlotType.BAR == plot_type:
-            return BarPlotData(ax)
+            return BarPlot(ax)
         elif PlotType.BOX == plot_type:
-            return BoxPlotData(ax)
+            return BoxPlot(ax)
         elif PlotType.HEAT == plot_type:
-            return HeatPlotData(ax)
+            return HeatPlot(ax)
         elif PlotType.HIST == plot_type:
-            return HistPlotData(ax)
+            return HistPlot(ax)
         elif PlotType.LINE == plot_type:
-            return LinePlotData(ax)
+            return LinePlot(ax)
         elif PlotType.SCATTER == plot_type:
-            return ScatterPlotData(ax)
-        elif PlotType.STACKED == plot_type:
-            return StackedPlotData(ax)
+            return ScatterPlot(ax)
+        elif PlotType.DODGED == plot_type or PlotType.STACKED == plot_type:
+            return GroupedBarPlot(ax, plot_type)
         else:
             raise TypeError(f"Unsupported plot type: {plot_type}")

@@ -30,7 +30,6 @@ def plot():
 
 def main():
     scatter = plot()
-    scatter.axes.collections[0].get_offsets()
     scatter_maidr = maidr.scatter(scatter)
     scatter_maidr.save(get_filepath("example_mpl_scatter.html"))
 
