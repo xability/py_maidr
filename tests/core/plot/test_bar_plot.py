@@ -1,6 +1,6 @@
 from maidr.core.enum.maidr_key import MaidrKey
 from maidr.core.enum.plot_type import PlotType
-from maidr.core.plot_data.bar_plot_data import BarPlotData
+from maidr.core.plot.bar_plot import BarPlot
 
 import pytest
 
@@ -25,6 +25,6 @@ def test_bar_plot_data(plot_fixture, lib):
     }
 
     _, ax = plot_fixture(lib, PlotType.BAR)
-    actual_maidr = BarPlotData(ax.pop())
+    actual_maidr = BarPlot(ax)
 
-    assert actual_maidr.data() == expected_maidr_data
+    assert actual_maidr.schema == expected_maidr_data

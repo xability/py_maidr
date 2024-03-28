@@ -45,7 +45,6 @@ def plot():
 
 def main():
     box_plot = plot()
-    box_plot.artists
     box_maidr = maidr.box(box_plot)
     box_maidr.save(get_filepath("example_mpl_box.html"))
 
