@@ -32,33 +32,11 @@ class MaidrPlotFactory:
     """
 
     @staticmethod
-    def create(ax: Axes, plot_type: PlotType) -> MaidrPlot:
-        """
-        Creates an instance of `MaidrPlotData` based on the provided plot type.
-
-        Parameters
-        ----------
-        ax : Axes
-            The axes object on which the plot is displayed.
-        plot_type : PlotType
-            The type of plot.
-
-        Returns
-        -------
-        MaidrPlot
-            An instance of the `MaidrPlotData` subclass corresponding to the specified
-            `plot_type`.
-
-        Raises
-        ------
-        TypeError
-            If the provided `plot_type` does not have a corresponding `MaidrPlotData`
-            subclass.
-        """
+    def create(ax: Axes, plot_type: PlotType, **kwargs) -> MaidrPlot:
         if PlotType.BAR == plot_type:
             return BarPlot(ax)
         elif PlotType.BOX == plot_type:
-            return BoxPlot(ax)
+            return BoxPlot(ax, **kwargs)
         elif PlotType.HEAT == plot_type:
             return HeatPlot(ax)
         elif PlotType.HIST == plot_type:

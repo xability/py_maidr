@@ -10,6 +10,7 @@ from matplotlib.patches import Polygon
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr import Maidr
 from maidr.core.figure_manager import FigureManager
+from maidr.core.plot.box_plot import BoxPlotContainer
 
 
 def bar(plot: Axes | BarContainer) -> Maidr:
@@ -50,9 +51,30 @@ def bar(plot: Axes | BarContainer) -> Maidr:
     return FigureManager.create_maidr(ax, PlotType.BAR)
 
 
-def box(plot: Axes) -> Maidr:
+def get_sns_container():
+    from packaging import version
+    import seaborn.categorical
+
+    min_version = "0.12"
+    sns_version = seaborn.__version__
+
+    if version.parse(sns_version) < version.parse(min_version):
+        raise ImportError(
+            f"Seaborn>={min_version} is required, but found {sns_version}."
+        )
+    else:
+        return seaborn.categorical.BoxPlotContainer
+
+
+def box(plot: Axes | dict) -> Maidr:
     ax = FigureManager.get_axes(plot)
-    return FigureManager.create_maidr(ax, PlotType.BOX)
+    if not isinstance(plot, dict):
+        cntr_type = get_sns_container()
+    else:
+        ax.add_container(BoxPlotContainer(plot))
+        cntr_type = BoxPlotContainer
+
+    return FigureManager.create_maidr(ax, PlotType.BOX, container_type=cntr_type)
 
 
 def count(plot: Axes | BarContainer) -> Maidr:
