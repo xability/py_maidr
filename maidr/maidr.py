@@ -45,7 +45,7 @@ def bar(plot: Axes | BarContainer) -> Maidr:
         >>> import maidr
         >>> bar_plot = plt.bar(5, [1, 2, 3, 4, 5])  # Generate a bar plot
         >>> bar_maidr = maidr.bar(bar_plot)  # Convert the plot to a Maidr object
-        >>> bar_maidr.save("maidr_bar_plot.html")  # Save the plot to an HTML file
+        >>> bar_maidr.save_html("maidr_bar_plot.html")  # Save the plot to an HTML file
     """
     ax = FigureManager.get_axes(plot)
     return FigureManager.create_maidr(ax, PlotType.BAR)
@@ -118,7 +118,7 @@ def count(plot: Axes | BarContainer) -> Maidr:
         >>> data = sns.load_dataset("titanic")  # Load the dataset
         >>> count_plot = sns.countplot(x="class", data=data)  # Generate a count plot
         >>> count_maidr = maidr.count(count_plot)  # Convert the plot to a Maidr object
-        >>> count_maidr.save("maidr_count_plot.html")  # Save the plot to an HTML file
+        >>> count_maidr.save_html("maidr_count_plot.html")  # Save the plot to an HTML file
     """
     return bar(plot)
 

@@ -29,7 +29,7 @@ def plot():
 def main():
     bar_plot = plot()
     bar_maidr = maidr.bar(bar_plot)
-    bar_maidr.save(get_filepath("example_mpl_bar_plot.html"))
+    bar_maidr.save_html(get_filepath("example_mpl_bar_plot.html"))
 
 
 if __name__ == "__main__":

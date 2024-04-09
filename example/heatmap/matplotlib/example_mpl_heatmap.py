@@ -68,7 +68,7 @@ def plot():
 def main():
     heatmap = plot()
     heat_maidr = maidr.heat(heatmap)
-    heat_maidr.save(get_filepath("example_mpl_heatmap.html"))
+    heat_maidr.save_html(get_filepath("example_mpl_heatmap.html"))
 
 
 if __name__ == "__main__":
