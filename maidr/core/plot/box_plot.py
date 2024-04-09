@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from matplotlib.axes import Axes
-from seaborn.categorical import BoxPlotContainer
 
 from maidr.core.enum.maidr_key import MaidrKey
 from maidr.core.enum.plot_type import PlotType
@@ -12,6 +11,42 @@ from maidr.core.mixin.extractor_mixin import (
 )
 from maidr.core.mixin.merger_mixin import DictMergerMixin
 from maidr.exception.extraction_error import ExtractionError
+
+
+class BoxPlotContainer:
+    """Custom wrapper mirroring seaborn.categorical.BoxPlotContainer"""
+
+    def __init__(self, artist_dict):
+        self.boxes = artist_dict["boxes"]
+        self.medians = artist_dict["medians"]
+        self.whiskers = artist_dict["whiskers"]
+        self.caps = artist_dict["caps"]
+        self.fliers = artist_dict["fliers"]
+
+        self._label = None
+        self._children = [
+            *self.boxes,
+            *self.medians,
+            *self.whiskers,
+            *self.caps,
+            *self.fliers,
+        ]
+
+    def __repr__(self):
+        return f"<BoxPlotContainer object with {len(self.boxes)} boxes>"
+
+    def get_label(self):
+        return self._label
+
+    def set_label(self, value):
+        self._label = value
+
+    def get_children(self):
+        return self._children
+
+    def remove(self):
+        for child in self._children:
+            child.remove()
 
 
 class _BoxPlotExtractorMixin:
@@ -35,7 +70,7 @@ class _BoxPlotExtractorMixin:
 
         for start, end in zip(extremes[::2], extremes[1::2]):
             start_data = float(start.get_ydata()[0])
-            end_data = float(start.get_ydata()[0])
+            end_data = float(end.get_ydata()[0])
 
             data.append(
                 {
@@ -79,7 +114,8 @@ class BoxPlot(
     LevelExtractorMixin,
     DictMergerMixin,
 ):
-    def __init__(self, ax: Axes) -> None:
+    def __init__(self, ax: Axes, **kwargs) -> None:
+        self.__container_type = kwargs.pop("container_type", BoxPlotContainer)
         super().__init__(ax, PlotType.BOX)
 
     def _extract_axes_data(self) -> dict:
@@ -92,7 +128,7 @@ class BoxPlot(
         return self.merge_dict(base_ax_schema, box_ax_schema)
 
     def _extract_plot_data(self) -> list:
-        plot = self.extract_container(self.ax, BoxPlotContainer)
+        plot = self.extract_container(self.ax, self.__container_type)
         data = self.__extract_box_container_data(plot)
 
         if data is None:

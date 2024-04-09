@@ -24,8 +24,8 @@ class HeatPlot(
     def _init_maidr(self) -> dict:
         base_maidr = super()._init_maidr()
         heat_maidr = {
-            MaidrKey.LABEL.value: {
-                MaidrKey.FILL.value: None,
+            MaidrKey.LABELS: {
+                MaidrKey.FILL: "Fill value",
             },
         }
         return self.merge_dict(base_maidr, heat_maidr)
@@ -33,11 +33,11 @@ class HeatPlot(
     def _extract_axes_data(self) -> dict:
         base_ax_schema = super()._extract_axes_data()
         heat_ax_schema = {
-            MaidrKey.X.value: {
-                MaidrKey.LEVEL.value: self.extract_level(self.ax, MaidrKey.X),
+            MaidrKey.X: {
+                MaidrKey.LEVEL: self.extract_level(self.ax, MaidrKey.X),
             },
-            MaidrKey.Y.value: {
-                MaidrKey.LEVEL.value: self.extract_level(self.ax, MaidrKey.Y),
+            MaidrKey.Y: {
+                MaidrKey.LEVEL: self.extract_level(self.ax, MaidrKey.Y),
             },
         }
         return self.merge_dict(base_ax_schema, heat_ax_schema)

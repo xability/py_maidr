@@ -15,7 +15,7 @@ class FigureManager:
     figs = dict()
 
     @classmethod
-    def create_maidr(cls, ax: Axes, plot_type: PlotType) -> Maidr:
+    def create_maidr(cls, ax: Axes, plot_type: PlotType, **kwargs) -> Maidr:
         if ax is None:
             raise ValueError("No plot found.")
         if plot_type is None:
@@ -25,7 +25,7 @@ class FigureManager:
 
         # convert the plot to MAIDR representation
         maidr = cls.__get_maidr(ax.get_figure())
-        plot = MaidrPlotFactory.create(ax, plot_type)
+        plot = MaidrPlotFactory.create(ax, plot_type, **kwargs)
         maidr.add_plot(plot)
 
         return maidr
@@ -38,7 +38,7 @@ class FigureManager:
 
     @staticmethod
     def get_axes(
-        artist: Artist | Axes | BarContainer | None,
+        artist: Artist | Axes | BarContainer | dict | None,
     ) -> Any:
         """
         Recursively extracts Axes objects from the input artist or collection of artists.
@@ -56,3 +56,10 @@ class FigureManager:
             )
         elif isinstance(artist, Artist):
             return artist.axes
+        elif isinstance(artist, dict):
+            return next(
+                _artist.axes
+                for _artists in artist.values()
+                for _artist in _artists
+                if isinstance(_artist.axes, Axes)
+            )
