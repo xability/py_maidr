@@ -6,7 +6,7 @@ from matplotlib.container import BarContainer
 from maidr.core.enum.maidr_key import MaidrKey
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr_plot import MaidrPlot
-from maidr.core.mixin.extractor_mixin import ContainerExtractorMixin
+from maidr.utils.mixin import ContainerExtractorMixin
 from maidr.exception.extraction_error import ExtractionError
 
 

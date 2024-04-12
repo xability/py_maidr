@@ -40,8 +40,8 @@ def test_create_maidr_with_single_axes(plot_fixture, lib, plot_type):
     assert isinstance(maidr, Maidr)
     assert maidr.fig is fig
 
-    assert len(maidr.data) == len([plot_type]) == 1
-    for m_data, p_type in zip(maidr.data, [plot_type]):
+    assert len(maidr.plots) == len([plot_type]) == 1
+    for m_data, p_type in zip(maidr.plots, [plot_type]):
         assert m_data.type == p_type
 
 

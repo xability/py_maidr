@@ -7,25 +7,26 @@ from matplotlib.collections import QuadMesh
 from maidr.core.enum.maidr_key import MaidrKey
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr_plot import MaidrPlot
-from maidr.core.mixin.extractor_mixin import (
+from maidr.utils.mixin import (
+    DictMergerMixin,
     LevelExtractorMixin,
     ScalarMappableExtractorMixin,
 )
-from maidr.core.mixin.merger_mixin import DictMergerMixin
 from maidr.exception.extraction_error import ExtractionError
 
 
 class HeatPlot(
     MaidrPlot, LevelExtractorMixin, ScalarMappableExtractorMixin, DictMergerMixin
 ):
-    def __init__(self, ax: Axes) -> None:
+    def __init__(self, ax: Axes, **kwargs) -> None:
+        self._fill_label = kwargs.pop("fill_label")
         super().__init__(ax, PlotType.HEAT)
 
     def _init_maidr(self) -> dict:
         base_maidr = super()._init_maidr()
         heat_maidr = {
             MaidrKey.LABELS: {
-                MaidrKey.FILL: "Fill value",
+                MaidrKey.FILL: self._fill_label,
             },
         }
         return self.merge_dict(base_maidr, heat_maidr)

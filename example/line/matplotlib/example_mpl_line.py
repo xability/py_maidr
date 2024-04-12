@@ -39,7 +39,8 @@ def plot():
 def main():
     line = plot()
     line_maidr = maidr.line(line)
-    line_maidr.save(get_filepath("example_mpl_line.html"))
+    line_maidr.save_html(get_filepath("example_mpl_line.html"))
+    line_maidr.show()
 
 
 if __name__ == "__main__":

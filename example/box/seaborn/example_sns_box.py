@@ -34,7 +34,8 @@ def plot():
 def main():
     box_plot = plot()
     box_maidr = maidr.box(box_plot)
-    box_maidr.save(get_filepath("example_sns_box.html"))
+    box_maidr.save_html(get_filepath("example_sns_box.html"))
+    box_maidr.show()
 
 
 if __name__ == "__main__":

@@ -24,24 +24,24 @@ class FigureManager:
             raise ValueError(f"No figure found for axis: {ax}.")
 
         # convert the plot to MAIDR representation
-        maidr = cls.__get_maidr(ax.get_figure())
+        maidr = cls._maidr(ax.get_figure())
         plot = MaidrPlotFactory.create(ax, plot_type, **kwargs)
-        maidr.add_plot(plot)
+        maidr.plots.append(plot)
 
         return maidr
 
     @classmethod
-    def __get_maidr(cls, fig: Figure) -> Maidr:
+    def _maidr(cls, fig: Figure) -> Maidr:
         if fig not in cls.figs.keys():
             cls.figs[fig] = Maidr(fig)
         return cls.figs[fig]
 
     @staticmethod
     def get_axes(
-        artist: Artist | Axes | BarContainer | dict | None,
+        artist: Artist | Axes | BarContainer | dict | list | None,
     ) -> Any:
         """
-        Recursively extracts Axes objects from the input artist or collection of artists.
+        Recursively extracts Axes objects from the input artist.
         """
         if artist is None:
             return None
@@ -62,4 +62,8 @@ class FigureManager:
                 for _artists in artist.values()
                 for _artist in _artists
                 if isinstance(_artist.axes, Axes)
+            )
+        elif isinstance(artist, list):
+            return next(
+                _artist.axes for _artist in artist if isinstance(_artist.axes, Axes)
             )

@@ -1,10 +1,13 @@
 from __future__ import annotations
+from typing import Literal
 
 import io
 import json
 from uuid import uuid4
 
-from lxml import etree, html
+from htmltools import HTML, HTMLDocument, RenderedHTML, tags, Tag
+from lxml import etree
+
 from matplotlib.figure import Figure
 
 from maidr.core.maidr_plot import MaidrPlot
@@ -20,41 +23,40 @@ class Maidr:
         return self._fig
 
     @property
-    def data(self) -> list[MaidrPlot]:
+    def plots(self) -> list[MaidrPlot]:
         return self._plots
 
-    def add_plot(self, plot: MaidrPlot) -> None:
-        self._plots.append(plot)
+    def render(
+        self, *, lib_prefix: str | None = "lib", include_version: bool = True
+    ) -> RenderedHTML:
+        html = self._create_html_doc()
+        return html.render(lib_prefix=lib_prefix, include_version=include_version)
 
-    def save(self, filename: str) -> None:
-        with open(filename, "w") as f:
-            f.write(self.__create_html())
-        print(f"Successfully saved the MAIDR file to {filename}.")
+    def save_html(
+        self, file: str, *, lib_dir: str | None = "lib", include_version: bool = True
+    ) -> str:
+        html = self._create_html_doc()
+        return html.save_html(file, libdir=lib_dir, include_version=include_version)
 
-    def __create_html(self) -> str:
-        # create svg from `Figure` with maidr.id
-        self._svg = self.__get_svg()
+    def show(self, renderer: Literal["auto", "ipython", "browser"] = "auto") -> object:
+        html = self._create_html_tag()
+        return html.show(renderer)
 
-        # flatten maidr if there is only one plot
-        maidr = self.__flatten_maidr()
+    def _create_html_tag(self) -> Tag:
+        svg = self._get_svg()
+        maidr = f"\nlet maidr = {json.dumps(self._flatten_maidr(), indent=2)}\n"
 
-        # inject svg and maidr into html
-        str_html = Maidr.__get_html_template()
-        str_html = str_html.replace("<!-- <SVG PLOT> -->", f"\n{self._svg}\n")
-        str_html = str_html.replace(
-            "<!-- <MAIDR METADATA> -->",
-            f"\nlet maidr = {json.dumps(maidr, indent=2)}\n",
-        )
+        # inject svg and maidr into html tag
+        return Maidr._inject_plot(svg, maidr)
 
-        # format html with indentation
-        tree_html = html.fromstring(str_html)
-        return etree.tostring(tree_html, pretty_print=True, encoding="unicode")  # type: ignore # noqa
+    def _create_html_doc(self) -> HTMLDocument:
+        return HTMLDocument(self._create_html_tag(), lang="en")
 
-    def __flatten_maidr(self) -> dict | list[dict]:
+    def _flatten_maidr(self) -> dict | list[dict]:
         maidr = [plot.schema for plot in self._plots]
         return maidr if len(maidr) != 1 else maidr[0]
 
-    def __get_svg(self) -> str:
+    def _get_svg(self) -> HTML:
         svg_buffer = io.StringIO()
         self._fig.savefig(svg_buffer, format="svg")
         str_svg = svg_buffer.getvalue()
@@ -65,9 +67,9 @@ class Maidr:
         # find the `svg` tag and set unique id if not present else use it
         for element in tree_svg.iter(tag="{http://www.w3.org/2000/svg}svg"):
             if "id" not in element.attrib:
-                element.attrib["id"] = Maidr.__get_unique_id()
+                element.attrib["id"] = Maidr._unique_id()
             root_svg = element
-            self.__set_maidr_id(element.attrib["id"])
+            self._set_maidr_id(element.attrib["id"])
             break
 
         svg_buffer = io.StringIO()  # Reset the buffer
@@ -75,23 +77,33 @@ class Maidr:
             etree.tostring(root_svg, pretty_print=True, encoding="unicode")  # type: ignore # noqa
         )
 
-        return svg_buffer.getvalue()
+        return HTML(svg_buffer.getvalue())
 
-    def __set_maidr_id(self, maidr_id: str) -> None:
+    def _set_maidr_id(self, maidr_id: str) -> None:
         for maidr in self._plots:
             maidr.set_id(maidr_id)
 
     @staticmethod
-    def __get_unique_id() -> str:
+    def _unique_id() -> str:
         return str(uuid4())
 
     @staticmethod
-    def __get_html_template() -> str:
-        return (
-            '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><title>MAIDR'
-            '</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maidr/'
-            'dist/maidr_style.min.css"/><script src="https://cdn.jsdelivr.net/npm/mai'
-            'dr/dist/maidr.min.js"><!-- Core Library --></script></head><body><div><!'
-            "-- <SVG PLOT> --></div><script><!-- <MAIDR METADATA> --></script></body>"
-            "</html>"
+    def _inject_plot(plot: HTML, maidr: str) -> Tag:
+        return tags.html(
+            tags.head(
+                tags.meta(charset="UTF-8"),
+                tags.title("MAIDR"),
+                tags.link(
+                    rel="stylesheet",
+                    href="https://cdn.jsdelivr.net/npm/maidr/dist/maidr_style.min.css",
+                ),
+                tags.script(
+                    type="text/javascript",
+                    src="https://cdn.jsdelivr.net/npm/maidr/dist/maidr.min.js",
+                ),
+            ),
+            tags.body(
+                tags.div(plot),
+            ),
+            tags.script(maidr),
         )

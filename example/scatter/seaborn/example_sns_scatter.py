@@ -31,7 +31,8 @@ def plot():
 def main():
     scatter = plot()
     scatter_maidr = maidr.scatter(scatter)
-    scatter_maidr.save(get_filepath("example_sns_scatter.html"))
+    scatter_maidr.save_html(get_filepath("example_sns_scatter.html"))
+    scatter_maidr.show()
 
 
 if __name__ == "__main__":

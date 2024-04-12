@@ -32,7 +32,8 @@ def plot():
 def main():
     hist = plot()
     hist_maidr = maidr.hist(hist)
-    hist_maidr.save(get_filepath("example_sns_histogram.html"))
+    hist_maidr.save_html(get_filepath("example_sns_histogram.html"))
+    hist_maidr.show()
 
 
 if __name__ == "__main__":

@@ -5,11 +5,11 @@ from matplotlib.axes import Axes
 from maidr.core.enum.maidr_key import MaidrKey
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.maidr_plot import MaidrPlot
-from maidr.core.mixin.extractor_mixin import (
+from maidr.utils.mixin import (
     ContainerExtractorMixin,
+    DictMergerMixin,
     LevelExtractorMixin,
 )
-from maidr.core.mixin.merger_mixin import DictMergerMixin
 from maidr.exception.extraction_error import ExtractionError
 
 
@@ -115,7 +115,7 @@ class BoxPlot(
     DictMergerMixin,
 ):
     def __init__(self, ax: Axes, **kwargs) -> None:
-        self.__container_type = kwargs.pop("container_type", BoxPlotContainer)
+        self.__container_type = kwargs.pop("container_type")
         super().__init__(ax, PlotType.BOX)
 
     def _extract_axes_data(self) -> dict:
