@@ -31,6 +31,7 @@ def main():
     hist = plot()
     hist_maidr = maidr.hist(hist)
     hist_maidr.save_html(get_filepath("example_mpl_histogram.html"))
+    hist_maidr.show()
 
 
 if __name__ == "__main__":

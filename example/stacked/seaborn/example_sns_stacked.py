@@ -34,6 +34,7 @@ def main():
     stacked = plot()
     stacked_maidr = maidr.stacked(stacked)
     stacked_maidr.save_html(get_filepath("example_sns_stacked.html"))
+    stacked_maidr.show()
 
 
 if __name__ == "__main__":

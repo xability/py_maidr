@@ -28,6 +28,7 @@ def main():
     heatmap = plot()
     heat_maidr = maidr.heat(heatmap)
     heat_maidr.save_html(get_filepath("example_sns_heatmap.html"))
+    heat_maidr.show()
 
 
 if __name__ == "__main__":

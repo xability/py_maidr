@@ -28,6 +28,7 @@ def main():
     count_plot = plot()
     count_maidr = maidr.count(count_plot)
     count_maidr.save_html(get_filepath("example_sns_count_plot.html"))
+    count_maidr.show()
 
 
 if __name__ == "__main__":

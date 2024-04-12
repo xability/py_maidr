@@ -38,7 +38,7 @@ class MaidrPlotFactory:
         elif PlotType.BOX == plot_type:
             return BoxPlot(ax, **kwargs)
         elif PlotType.HEAT == plot_type:
-            return HeatPlot(ax)
+            return HeatPlot(ax, **kwargs)
         elif PlotType.HIST == plot_type:
             return HistPlot(ax)
         elif PlotType.LINE == plot_type:

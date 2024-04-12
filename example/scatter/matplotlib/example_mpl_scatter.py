@@ -32,6 +32,7 @@ def main():
     scatter = plot()
     scatter_maidr = maidr.scatter(scatter)
     scatter_maidr.save_html(get_filepath("example_mpl_scatter.html"))
+    scatter_maidr.show()
 
 
 if __name__ == "__main__":

@@ -123,9 +123,9 @@ def count(plot: Axes | BarContainer) -> Maidr:
     return bar(plot)
 
 
-def heat(plot: Axes | AxesImage | QuadMesh) -> Maidr:
+def heat(plot: Axes | AxesImage | QuadMesh, *, fill_label: str = "Fill value") -> Maidr:
     ax = FigureManager.get_axes(plot)
-    return FigureManager.create_maidr(ax, PlotType.HEAT)
+    return FigureManager.create_maidr(ax, PlotType.HEAT, fill_label=fill_label)
 
 
 def hist(plot: BarContainer | Polygon) -> Maidr:
@@ -133,7 +133,7 @@ def hist(plot: BarContainer | Polygon) -> Maidr:
     return FigureManager.create_maidr(ax, PlotType.HIST)
 
 
-def line(plot: Line2D) -> Maidr:
+def line(plot: Line2D | list[Line2D]) -> Maidr:
     ax = FigureManager.get_axes(plot)
     return FigureManager.create_maidr(ax, PlotType.LINE)
 

@@ -115,7 +115,7 @@ class BoxPlot(
     DictMergerMixin,
 ):
     def __init__(self, ax: Axes, **kwargs) -> None:
-        self.__container_type = kwargs.pop("container_type", BoxPlotContainer)
+        self.__container_type = kwargs.pop("container_type")
         super().__init__(ax, PlotType.BOX)
 
     def _extract_axes_data(self) -> dict:

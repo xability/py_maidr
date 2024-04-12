@@ -1,10 +1,11 @@
 from __future__ import annotations
+from typing import Literal
 
 import io
 import json
 from uuid import uuid4
 
-from htmltools import HTML, HTMLDocument, RenderedHTML, tags
+from htmltools import HTML, HTMLDocument, RenderedHTML, tags, Tag
 from lxml import etree
 
 from matplotlib.figure import Figure
@@ -22,30 +23,34 @@ class Maidr:
         return self._fig
 
     @property
-    def data(self) -> list[MaidrPlot]:
+    def plots(self) -> list[MaidrPlot]:
         return self._plots
-
-    def add_plot(self, plot: MaidrPlot) -> None:
-        self._plots.append(plot)
 
     def render(
         self, *, lib_prefix: str | None = "lib", include_version: bool = True
     ) -> RenderedHTML:
-        html = self._create_html()
+        html = self._create_html_doc()
         return html.render(lib_prefix=lib_prefix, include_version=include_version)
 
     def save_html(
         self, file: str, *, lib_dir: str | None = "lib", include_version: bool = True
     ) -> str:
-        html = self._create_html()
+        html = self._create_html_doc()
         return html.save_html(file, libdir=lib_dir, include_version=include_version)
 
-    def _create_html(self) -> HTMLDocument:
+    def show(self, renderer: Literal["auto", "ipython", "browser"] = "auto") -> object:
+        html = self._create_html_tag()
+        return html.show(renderer)
+
+    def _create_html_tag(self) -> Tag:
         svg = self._get_svg()
         maidr = f"\nlet maidr = {json.dumps(self._flatten_maidr(), indent=2)}\n"
 
-        # inject svg and maidr into html
+        # inject svg and maidr into html tag
         return Maidr._inject_plot(svg, maidr)
+
+    def _create_html_doc(self) -> HTMLDocument:
+        return HTMLDocument(self._create_html_tag(), lang="en")
 
     def _flatten_maidr(self) -> dict | list[dict]:
         maidr = [plot.schema for plot in self._plots]
@@ -83,23 +88,22 @@ class Maidr:
         return str(uuid4())
 
     @staticmethod
-    def _inject_plot(plot: HTML, maidr: str) -> HTMLDocument:
-        return HTMLDocument(
-            tags.html(
-                tags.head(
-                    tags.meta(charset="UTF-8"),
-                    tags.title("MAIDR"),
-                    tags.link(
-                        rel="stylesheet",
-                        href="https://cdn.jsdelivr.net/npm/maidr/dist/maidr_style.min.css",
-                    ),
-                    tags.script(
-                        type="text/javascript",
-                        src="https://cdn.jsdelivr.net/npm/maidr/dist/maidr.min.js",
-                    ),
+    def _inject_plot(plot: HTML, maidr: str) -> Tag:
+        return tags.html(
+            tags.head(
+                tags.meta(charset="UTF-8"),
+                tags.title("MAIDR"),
+                tags.link(
+                    rel="stylesheet",
+                    href="https://cdn.jsdelivr.net/npm/maidr/dist/maidr_style.min.css",
                 ),
-                tags.body(tags.div(plot)),
-                tags.script(maidr),
+                tags.script(
+                    type="text/javascript",
+                    src="https://cdn.jsdelivr.net/npm/maidr/dist/maidr.min.js",
+                ),
             ),
-            lang="en",
+            tags.body(
+                tags.div(plot),
+            ),
+            tags.script(maidr),
         )
