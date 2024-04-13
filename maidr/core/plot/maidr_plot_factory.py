@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from matplotlib.axes import Axes
 
-from maidr.core.enum.plot_type import PlotType
-from maidr.core.maidr_plot import MaidrPlot
+from maidr.core.enum import PlotType
+from maidr.core.plot.maidr_plot import MaidrPlot
 from maidr.core.plot.bar_plot import BarPlot
 from maidr.core.plot.box_plot import BoxPlot
 from maidr.core.plot.heat_plot import HeatPlot
@@ -15,10 +15,8 @@ from maidr.core.plot.grouped_bar_plot import GroupedBarPlot
 
 class MaidrPlotFactory:
     """
-    A factory for creating instances of `MaidrPlotData` based on the plot type.
-
-    This factory is responsible for instantiating the correct `MaidrPlotData` subclass
-    based on the provided plot type.
+    A factory for creating instances of ``maidr.core.maidr.MaidrPlot`` based on the
+    plot type.
 
     Warnings
     --------
@@ -26,9 +24,8 @@ class MaidrPlotFactory:
 
     See Also
     --------
-    MaidrPlotData : The base class for MAIDR plot data objects. It defines the common
-        interface for all MAIDR data classes.
-    PlotType : An enumeration that defines the supported types of plots within MAIDR.
+    MaidrPlot : The base class for MAIDR plot data objects.
+    PlotType : An enumeration of types of plots supported within MAIDR.
     """
 
     @staticmethod
@@ -48,4 +45,4 @@ class MaidrPlotFactory:
         elif PlotType.DODGED == plot_type or PlotType.STACKED == plot_type:
             return GroupedBarPlot(ax, plot_type)
         else:
-            raise TypeError(f"Unsupported plot type: {plot_type}")
+            raise TypeError(f"Unsupported plot type: {plot_type}.")

@@ -3,8 +3,7 @@ from abc import ABC, abstractmethod
 
 from matplotlib.axes import Axes
 
-from maidr.core.enum.maidr_key import MaidrKey
-from maidr.core.enum.plot_type import PlotType
+from maidr.core.enum import MaidrKey, PlotType
 
 
 class MaidrPlot(ABC):

@@ -3,11 +3,10 @@ from __future__ import annotations
 from matplotlib.axes import Axes
 from matplotlib.lines import Line2D
 
-from maidr.core.enum.maidr_key import MaidrKey
-from maidr.core.enum.plot_type import PlotType
-from maidr.core.maidr_plot import MaidrPlot
+from maidr.core.enum import MaidrKey, PlotType
+from maidr.core.plot import MaidrPlot
+from maidr.exception import ExtractionError
 from maidr.utils.mixin import LineExtractorMixin
-from maidr.exception.extraction_error import ExtractionError
 
 
 class LinePlot(MaidrPlot, LineExtractorMixin):
@@ -16,7 +15,7 @@ class LinePlot(MaidrPlot, LineExtractorMixin):
 
     def _extract_plot_data(self) -> list[dict]:
         plot = self.extract_line(self.ax)
-        data = LinePlot.__extract_line_data(plot)
+        data = LinePlot._extract_line_data(plot)
 
         if data is None:
             raise ExtractionError(self.type, plot)
@@ -24,7 +23,7 @@ class LinePlot(MaidrPlot, LineExtractorMixin):
         return data
 
     @staticmethod
-    def __extract_line_data(plot: Line2D) -> list[dict] | None:
+    def _extract_line_data(plot: Line2D | None) -> list[dict] | None:
         if plot is None or plot.get_xydata() is None:
             return None
 

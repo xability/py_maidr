@@ -3,11 +3,10 @@ from __future__ import annotations
 from matplotlib.axes import Axes
 from matplotlib.container import BarContainer
 
-from maidr.core.enum.maidr_key import MaidrKey
-from maidr.core.enum.plot_type import PlotType
-from maidr.core.maidr_plot import MaidrPlot
+from maidr.core.enum import MaidrKey, PlotType
+from maidr.core.plot import MaidrPlot
+from maidr.exception import ExtractionError
 from maidr.utils.mixin import ContainerExtractorMixin
-from maidr.exception.extraction_error import ExtractionError
 
 
 class HistPlot(MaidrPlot, ContainerExtractorMixin):
@@ -16,7 +15,7 @@ class HistPlot(MaidrPlot, ContainerExtractorMixin):
 
     def _extract_plot_data(self) -> list[dict]:
         plot = self.extract_container(self.ax, BarContainer)
-        data = HistPlot.__extract_bar_container_data(plot)
+        data = HistPlot._extract_bar_container_data(plot)
 
         if data is None:
             raise ExtractionError(self.type, plot)
@@ -24,7 +23,7 @@ class HistPlot(MaidrPlot, ContainerExtractorMixin):
         return data
 
     @staticmethod
-    def __extract_bar_container_data(plot: BarContainer | None) -> list[dict] | None:
+    def _extract_bar_container_data(plot: BarContainer | None) -> list[dict] | None:
         if plot is None or plot.patches is None:
             return None
 

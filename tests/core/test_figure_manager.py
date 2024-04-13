@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import pytest
 import seaborn as sns
 
+from maidr.core import Maidr
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.figure_manager import FigureManager
-from maidr.core.maidr import Maidr
 from tests.core.enum.library import Library
 
 

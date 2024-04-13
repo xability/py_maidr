@@ -3,14 +3,14 @@ from typing import Literal
 
 import io
 import json
-from uuid import uuid4
+import uuid
 
 from htmltools import HTML, HTMLDocument, RenderedHTML, tags, Tag
 from lxml import etree
 
 from matplotlib.figure import Figure
 
-from maidr.core.maidr_plot import MaidrPlot
+from maidr.core.plot import MaidrPlot
 
 
 class Maidr:
@@ -46,7 +46,7 @@ class Maidr:
         svg = self._get_svg()
         maidr = f"\nlet maidr = {json.dumps(self._flatten_maidr(), indent=2)}\n"
 
-        # inject svg and maidr into html tag
+        # Inject plot's svg and MAIDR structure into html tag.
         return Maidr._inject_plot(svg, maidr)
 
     def _create_html_doc(self) -> HTMLDocument:
@@ -64,7 +64,7 @@ class Maidr:
         etree.register_namespace("svg", "http://www.w3.org/2000/svg")
         tree_svg = etree.fromstring(str_svg.encode(), parser=None)
         root_svg = None
-        # find the `svg` tag and set unique id if not present else use it
+        # Find the `svg` tag and set unique id if not present else use it.
         for element in tree_svg.iter(tag="{http://www.w3.org/2000/svg}svg"):
             if "id" not in element.attrib:
                 element.attrib["id"] = Maidr._unique_id()
@@ -85,7 +85,7 @@ class Maidr:
 
     @staticmethod
     def _unique_id() -> str:
-        return str(uuid4())
+        return str(uuid.uuid4())
 
     @staticmethod
     def _inject_plot(plot: HTML, maidr: str) -> Tag:

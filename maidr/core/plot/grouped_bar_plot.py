@@ -3,15 +3,14 @@ from __future__ import annotations
 from matplotlib.axes import Axes
 from matplotlib.container import BarContainer
 
-from maidr.core.enum.maidr_key import MaidrKey
-from maidr.core.enum.plot_type import PlotType
-from maidr.core.maidr_plot import MaidrPlot
+from maidr.core.enum import MaidrKey, PlotType
+from maidr.core.plot import MaidrPlot
+from maidr.exception import ExtractionError
 from maidr.utils.mixin import (
     ContainerExtractorMixin,
     DictMergerMixin,
     LevelExtractorMixin,
 )
-from maidr.exception.extraction_error import ExtractionError
 
 
 class GroupedBarPlot(
@@ -35,14 +34,14 @@ class GroupedBarPlot(
 
     def _extract_plot_data(self):
         plot = self.extract_container(self.ax, BarContainer, include_all=True)
-        data = self.__extract_grouped_bar_data(plot)
+        data = self._extract_grouped_bar_data(plot)
 
         if data is None:
             raise ExtractionError(self.type, plot)
 
         return data
 
-    def __extract_grouped_bar_data(
+    def _extract_grouped_bar_data(
         self, plot: list[BarContainer] | None
     ) -> list[dict] | None:
         if plot is None:

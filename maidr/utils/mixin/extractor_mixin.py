@@ -1,10 +1,11 @@
 from __future__ import annotations
+from typing import Any
 
 from matplotlib.axes import Axes
 from matplotlib.cm import ScalarMappable
 from matplotlib.lines import Line2D
 
-from maidr.core.enum.maidr_key import MaidrKey
+from maidr.core.enum import MaidrKey
 
 
 class ContainerExtractorMixin:
@@ -13,7 +14,7 @@ class ContainerExtractorMixin:
         ax: Axes,
         container_type: type,
         include_all: bool = False,
-    ) -> type | list[type] | None:
+    ) -> Any:
         if ax is None or ax.containers is None:
             return None
 
@@ -33,7 +34,7 @@ class ContainerExtractorMixin:
 
 class LevelExtractorMixin:
     @staticmethod
-    def extract_level(ax: Axes, key: MaidrKey = MaidrKey.X) -> list | None:
+    def extract_level(ax: Axes, key: MaidrKey = MaidrKey.X) -> list[str] | None:
         if ax is None:
             return None
 
@@ -59,7 +60,7 @@ class LineExtractorMixin:
 
 class CollectionExtractorMixin:
     @staticmethod
-    def extract_collection(ax: Axes, collection_type: type) -> type | None:
+    def extract_collection(ax: Axes, collection_type: type) -> Any:
         if ax is None or ax.collections is None:
             return None
 

@@ -1,6 +1,6 @@
 from typing import Any
 
-from maidr.core.enum.plot_type import PlotType
+from maidr.core.enum import PlotType
 
 
 class ExtractionError(Exception):

@@ -6,9 +6,9 @@ from matplotlib.axes import Axes
 from matplotlib.container import BarContainer
 from matplotlib.figure import Figure
 
-from maidr.core.enum.plot_type import PlotType
-from maidr.core.maidr import Maidr
-from maidr.core.maidr_plot_factory import MaidrPlotFactory
+from maidr.core import Maidr
+from maidr.core.enum import PlotType
+from maidr.core.plot import MaidrPlotFactory
 
 
 class FigureManager:
@@ -23,7 +23,7 @@ class FigureManager:
         if ax.get_figure() is None:
             raise ValueError(f"No figure found for axis: {ax}.")
 
-        # convert the plot to MAIDR representation
+        # Add plot to the Maidr object associated with the plot's figure.
         maidr = cls._maidr(ax.get_figure())
         plot = MaidrPlotFactory.create(ax, plot_type, **kwargs)
         maidr.plots.append(plot)
