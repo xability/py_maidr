@@ -7,6 +7,33 @@ from maidr.core.enum import MaidrKey, PlotType
 
 
 class MaidrPlot(ABC):
+    """
+    Abstract base class for plots managed by the MAIDR system.
+
+    Parameters
+    ----------
+    ax : Axes
+        The ``matplotlib.axes.Axes`` object where the plot will be drawn.
+    plot_type : PlotType
+        The type of the plot to be created, as defined in the PlotType enum.
+
+    Attributes
+    ----------
+    ax : Axes
+        The ``matplotlib.axes.Axes`` object associated with this plot.
+    type : PlotType
+        The specific type of the plot.
+    _schema : dict
+        A dictionary containing structured data about the plot, including type, title, axes labels, and data.
+
+    Methods
+    -------
+    schema()
+        Returns a dictionary containing MAIDR data about the plot.
+    set_id(maidr_id: str)
+        Sets a unique identifier for the plot in the schema.
+    """
+
     def __init__(self, ax: Axes, plot_type: PlotType) -> None:
         # graphic object
         self.ax = ax
@@ -16,6 +43,7 @@ class MaidrPlot(ABC):
         self._schema = self._init_maidr()
 
     def _init_maidr(self) -> dict:
+        """Initialize the MAIDR schema dictionary with basic plot information."""
         return {
             MaidrKey.TYPE: self.type,
             MaidrKey.TITLE: self.ax.get_title(),
@@ -24,6 +52,7 @@ class MaidrPlot(ABC):
         }
 
     def _extract_axes_data(self) -> dict:
+        """Extract the plot's axes data"""
         return {
             MaidrKey.X: {
                 MaidrKey.LABEL: self.ax.get_xlabel(),
@@ -35,11 +64,14 @@ class MaidrPlot(ABC):
 
     @abstractmethod
     def _extract_plot_data(self) -> list | dict:
+        """Extract specific data from the plot."""
         raise NotImplementedError()
 
     @property
     def schema(self) -> dict:
+        """Return the MAIDR schema of the plot as a dictionary."""
         return self._schema
 
     def set_id(self, maidr_id: str) -> None:
+        """Set the unique identifier for the plot within the MAIDR schema."""
         self._schema[MaidrKey.ID.value] = maidr_id

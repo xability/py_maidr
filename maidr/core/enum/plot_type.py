@@ -2,6 +2,8 @@ from enum import Enum
 
 
 class PlotType(str, Enum):
+    """An enumeration of plot types supported by MAIDR."""
+
     BAR = "bar"
     BOX = "box"
     DODGED = "dodged_bar"
