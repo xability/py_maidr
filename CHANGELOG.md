@@ -2,6 +2,13 @@
 
 
 
+## v0.1.2 (2024-05-13)
+
+### Fix
+
+* fix: test publish to gh release ([`eec33ba`](https://github.com/SaaiVenkat/py-maidr/commit/eec33ba6c582e209073e527a12d64116cfcd54eb))
+
+
 ## v0.1.1 (2024-05-13)
 
 ### Fix
