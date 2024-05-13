@@ -1,6 +1,6 @@
 import pytest
 
-from maidr.core.maidr_plot import MaidrPlot
+from maidr.core.plot.maidr_plot import MaidrPlot
 
 
 def test_instantiate_abstract_maidr_plot_data(mocker):

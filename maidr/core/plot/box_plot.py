@@ -2,15 +2,14 @@ from __future__ import annotations
 
 from matplotlib.axes import Axes
 
-from maidr.core.enum.maidr_key import MaidrKey
-from maidr.core.enum.plot_type import PlotType
-from maidr.core.maidr_plot import MaidrPlot
+from maidr.core.enum import MaidrKey, PlotType
+from maidr.core.plot import MaidrPlot
+from maidr.exception import ExtractionError
 from maidr.utils.mixin import (
     ContainerExtractorMixin,
     DictMergerMixin,
     LevelExtractorMixin,
 )
-from maidr.exception.extraction_error import ExtractionError
 
 
 class BoxPlotContainer:
@@ -129,14 +128,14 @@ class BoxPlot(
 
     def _extract_plot_data(self) -> list:
         plot = self.extract_container(self.ax, self.__container_type)
-        data = self.__extract_box_container_data(plot)
+        data = self._extract_box_container_data(plot)
 
         if data is None:
             raise ExtractionError(self.type, plot)
 
         return data
 
-    def __extract_bxp_maidr(self, bxpstats: dict) -> list[dict]:
+    def _extract_bxp_maidr(self, bxpstats: dict) -> list[dict]:
         bxp_maidr = list()
         whiskers = self.extract_whiskers(bxpstats["whiskers"])
         caps = self.extract_caps(bxpstats["caps"])
@@ -158,7 +157,7 @@ class BoxPlot(
 
         return bxp_maidr
 
-    def __extract_box_container_data(self, plot: BoxPlotContainer | None) -> list[dict]:
+    def _extract_box_container_data(self, plot: BoxPlotContainer | None) -> list[dict]:
         bxpstats = {
             "whiskers": plot.whiskers,
             "medians": plot.medians,
@@ -166,4 +165,4 @@ class BoxPlot(
             "fliers": plot.fliers,
         }
 
-        return self.__extract_bxp_maidr(bxpstats)
+        return self._extract_bxp_maidr(bxpstats)

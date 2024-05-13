@@ -4,15 +4,14 @@ from matplotlib.axes import Axes
 from matplotlib.cm import ScalarMappable
 from matplotlib.collections import QuadMesh
 
-from maidr.core.enum.maidr_key import MaidrKey
-from maidr.core.enum.plot_type import PlotType
-from maidr.core.maidr_plot import MaidrPlot
+from maidr.core.enum import MaidrKey, PlotType
+from maidr.core.plot import MaidrPlot
+from maidr.exception import ExtractionError
 from maidr.utils.mixin import (
     DictMergerMixin,
     LevelExtractorMixin,
     ScalarMappableExtractorMixin,
 )
-from maidr.exception.extraction_error import ExtractionError
 
 
 class HeatPlot(
@@ -45,7 +44,7 @@ class HeatPlot(
 
     def _extract_plot_data(self) -> list[list]:
         plot = self.extract_scalar_mappable(self.ax)
-        data = HeatPlot.__extract_scalar_mappable_data(plot)
+        data = HeatPlot._extract_scalar_mappable_data(plot)
 
         if data is None:
             raise ExtractionError(self.type, plot)
@@ -53,7 +52,7 @@ class HeatPlot(
         return data
 
     @staticmethod
-    def __extract_scalar_mappable_data(sm: ScalarMappable) -> list[list] | None:
+    def _extract_scalar_mappable_data(sm: ScalarMappable | None) -> list[list] | None:
         if sm is None or sm.get_array() is None:
             return None
 
