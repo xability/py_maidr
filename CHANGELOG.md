@@ -2,6 +2,13 @@
 
 
 
+## v0.1.1 (2024-05-13)
+
+### Fix
+
+* fix: test patch semantic ([`1385125`](https://github.com/SaaiVenkat/py-maidr/commit/1385125670bddee3ffd43d9958178fe2b6135eb0))
+
+
 ## v0.1.0 (2024-05-13)
 
 ### Chore
