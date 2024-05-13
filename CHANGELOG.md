@@ -2,72 +2,7 @@
 
 
 
-## v0.2.2 (2024-05-13)
-
-### Fix
-
-* fix: test init version ([`b89eacc`](https://github.com/SaaiVenkat/py-maidr/commit/b89eacc60c4cdbdb6dc719ae1eb3c68dec588270))
-
-
-## v0.2.1 (2024-05-13)
-
-### Fix
-
-* fix: bump release version manually ([`f6139a7`](https://github.com/SaaiVenkat/py-maidr/commit/f6139a7930e6bed361575b32fcdd3709d0f77dc8))
-
-
-## v0.2.0 (2024-05-13)
-
-### Ci
-
-* ci: test semantic release ([`b74b835`](https://github.com/SaaiVenkat/py-maidr/commit/b74b8355bcb5c93eece7d5ab3a21ab3d7f49b380))
-
-* ci: add github workflow pypi publishing ([`6e6d679`](https://github.com/SaaiVenkat/py-maidr/commit/6e6d6792a46adcea1a1996a3b89390b7fff7db2b))
-
-### Documentation
-
-* docs: add quartodoc for api referencec ([`1298bf3`](https://github.com/SaaiVenkat/py-maidr/commit/1298bf32bfa2fe669c04630413016f255e91aeaa))
-
-* docs: add docstring to core ([`96577ab`](https://github.com/SaaiVenkat/py-maidr/commit/96577aba8ed70b8d553f01287593d3ea8faca11e))
-
-* docs: remove unnecessary docstring in exceptions ([`c79b53d`](https://github.com/SaaiVenkat/py-maidr/commit/c79b53dee2e8ad47d244333390f3e0c46626be22))
-
-* docs: add docstring to utils ([`5b9468d`](https://github.com/SaaiVenkat/py-maidr/commit/5b9468dc5f99f1fc64b747c8fe0ccc445a14310e))
-
-* docs: add docstring to core functions ([`cc211af`](https://github.com/SaaiVenkat/py-maidr/commit/cc211afecd7eb05d298113dfda888577b42ddddc))
-
-### Feature
-
-* feat: use htmltools instead of str (#33)
-
-* feat: use htmltools instead of str
-
-* feat: show html using htmltools
-
-* chore: move mixin to utils package ([`8b0a838`](https://github.com/SaaiVenkat/py-maidr/commit/8b0a838bf7cd73ecd5e036d9be28e8ed0523a9ed))
-
-* feat(boxplot): support matplotlib library (#32) ([`060ccfd`](https://github.com/SaaiVenkat/py-maidr/commit/060ccfda80bb168df00c78354b543dbd72c24f1b))
-
-### Fix
-
-* fix: test 1 release ([`806f04f`](https://github.com/SaaiVenkat/py-maidr/commit/806f04f0a3aed622ece55f8f9bd03e69d38d631c))
-
-* fix: test next next release ([`728bf9d`](https://github.com/SaaiVenkat/py-maidr/commit/728bf9d2369c3aae533b611f0e332cd09ca8e3b2))
-
-* fix: test next release ([`92f677f`](https://github.com/SaaiVenkat/py-maidr/commit/92f677fb46ddde9cb1ea1029e1ba4baeece39aaf))
-
-* fix: test minor 0.1.2 release ([`de12b45`](https://github.com/SaaiVenkat/py-maidr/commit/de12b45bf9a56726ba1c05d9356aa525afe8e8fb))
-
-* fix: test minor 0.1.3 release ([`183fafd`](https://github.com/SaaiVenkat/py-maidr/commit/183fafd32dd9829dd77661f5f42499df535a63e7))
-
-* fix: test minor semantic release ([`4a379c9`](https://github.com/SaaiVenkat/py-maidr/commit/4a379c9e64973ee29cec747b470fc9f493c6b86b))
-
-* fix: test minor semantic release ([`eac47d5`](https://github.com/SaaiVenkat/py-maidr/commit/eac47d51debf8c8d470775dbaf65dbed55032910))
-
-* fix: test minor semantic release ([`2574cf0`](https://github.com/SaaiVenkat/py-maidr/commit/2574cf0b4c4be03dd45153ee892ed99ff05e3614))
-
-
-## v0.1.2 (2024-05-13)
+## v0.1.0 (2024-05-13)
 
 ### Chore
 
@@ -101,6 +36,8 @@
 
 ### Ci
 
+* ci: add github workflow pypi publishing ([`6e6d679`](https://github.com/SaaiVenkat/py-maidr/commit/6e6d6792a46adcea1a1996a3b89390b7fff7db2b))
+
 * ci: update version to 0.1.1 (#27) ([`4ceff90`](https://github.com/SaaiVenkat/py-maidr/commit/4ceff90c6841e4d08fa1b3316a2ee6be75e50f92))
 
 * ci: :wrench: fix commmit linter gh action to be triggered against the latest commit only ([`dbb86d3`](https://github.com/SaaiVenkat/py-maidr/commit/dbb86d38e48e7f44908b61fab1d3122b09ce8bfc))
@@ -117,6 +54,16 @@ Fixes #5 ([`f1babab`](https://github.com/SaaiVenkat/py-maidr/commit/f1babab54ba4
 * ci: :sparkles: add conventional commits linter to gh action ([`fc4b758`](https://github.com/SaaiVenkat/py-maidr/commit/fc4b758fb9b9ebd84dc83c9d4423bb3bdc6f4940))
 
 ### Documentation
+
+* docs: add quartodoc for api referencec ([`1298bf3`](https://github.com/SaaiVenkat/py-maidr/commit/1298bf32bfa2fe669c04630413016f255e91aeaa))
+
+* docs: add docstring to core ([`96577ab`](https://github.com/SaaiVenkat/py-maidr/commit/96577aba8ed70b8d553f01287593d3ea8faca11e))
+
+* docs: remove unnecessary docstring in exceptions ([`c79b53d`](https://github.com/SaaiVenkat/py-maidr/commit/c79b53dee2e8ad47d244333390f3e0c46626be22))
+
+* docs: add docstring to utils ([`5b9468d`](https://github.com/SaaiVenkat/py-maidr/commit/5b9468dc5f99f1fc64b747c8fe0ccc445a14310e))
+
+* docs: add docstring to core functions ([`cc211af`](https://github.com/SaaiVenkat/py-maidr/commit/cc211afecd7eb05d298113dfda888577b42ddddc))
 
 * docs(readme): add logo ([`8702ce5`](https://github.com/SaaiVenkat/py-maidr/commit/8702ce5b9097fcec2a856129841d17c73e5c4415))
 
@@ -154,6 +101,16 @@ Co-authored-by: SaaiVenkat &lt;greenghost1100@gmail.com&gt; ([`4b5387e`](https:/
 
 ### Feature
 
+* feat: use htmltools instead of str (#33)
+
+* feat: use htmltools instead of str
+
+* feat: show html using htmltools
+
+* chore: move mixin to utils package ([`8b0a838`](https://github.com/SaaiVenkat/py-maidr/commit/8b0a838bf7cd73ecd5e036d9be28e8ed0523a9ed))
+
+* feat(boxplot): support matplotlib library (#32) ([`060ccfd`](https://github.com/SaaiVenkat/py-maidr/commit/060ccfda80bb168df00c78354b543dbd72c24f1b))
+
 * feat(scatter): support matplotlib and seaborn library (#30) ([`d2d1202`](https://github.com/SaaiVenkat/py-maidr/commit/d2d12028350deec664614dac462f83d4e362a139))
 
 * feat(boxplot): support seaborn library (#29) ([`5506242`](https://github.com/SaaiVenkat/py-maidr/commit/55062427a2f363be9eeba5abe58725a7f55aa99e))
@@ -169,6 +126,8 @@ Co-authored-by: SaaiVenkat &lt;greenghost1100@gmail.com&gt; ([`4b5387e`](https:/
 * docs: add example bar plot ([`2fe4901`](https://github.com/SaaiVenkat/py-maidr/commit/2fe490158c7cba8fb40d939a079e4c0817ed349a))
 
 ### Fix
+
+* fix: test semantic release ([`8eba38f`](https://github.com/SaaiVenkat/py-maidr/commit/8eba38f78998c7afc8bac5d06eb7ea95aea8c63b))
 
 * fix: support seaborn breaking changes (#31) ([`afe5382`](https://github.com/SaaiVenkat/py-maidr/commit/afe538209e313f7a42c355c7234ba5f1d1ebf97b))
 
