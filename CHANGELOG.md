@@ -2,6 +2,13 @@
 
 
 
+## v0.1.5 (2024-05-14)
+
+### Fix
+
+* fix: correct token name for semantic release ([`73c22c6`](https://github.com/SaaiVenkat/py-maidr/commit/73c22c60a4a991a6b0f85e6a91e09bb1a5532efc))
+
+
 ## v0.1.4 (2024-05-14)
 
 ### Fix
