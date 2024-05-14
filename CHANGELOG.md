@@ -2,6 +2,13 @@
 
 
 
+## v0.1.3 (2024-05-14)
+
+### Fix
+
+* fix: test publish to gh release with secrets ([`fcb8775`](https://github.com/SaaiVenkat/py-maidr/commit/fcb8775c98bbb84f9f492077715f60c3bb6f56da))
+
+
 ## v0.1.2 (2024-05-13)
 
 ### Fix
