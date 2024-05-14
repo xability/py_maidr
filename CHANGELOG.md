@@ -2,6 +2,13 @@
 
 
 
+## v0.1.4 (2024-05-14)
+
+### Fix
+
+* fix: test publish to gh release with env ([`4e5f494`](https://github.com/SaaiVenkat/py-maidr/commit/4e5f49455a7869e2fd5f3f7d1c04130db734d89c))
+
+
 ## v0.1.3 (2024-05-14)
 
 ### Fix
