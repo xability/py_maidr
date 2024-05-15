@@ -1,10 +1,14 @@
-name: Build and Deploy API docs and GitHub Pages
+name: Publish Quarto docs
 
 on:
   push:
     branches:
       - main
       - ci/setup-semantic-release
+
+permissions:
+  contents: write
+  pages: write
 
 jobs:
   build-and-deploy:
@@ -50,14 +54,9 @@ jobs:
           cd docs
           poetry run quartodoc build --verbose
 
-      - name: Build site
-#        if: ${{ github.ref == 'refs/heads/main' || startsWith(github.head_ref, 'ci') }}
-        run: |
-          cd docs
-          poetry run quarto render
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Render and Publish to GitHub Pages
+        uses: quarto-dev/quarto-actions/publish@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/_site
+          target: gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

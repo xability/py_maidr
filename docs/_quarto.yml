@@ -21,8 +21,8 @@ website:
     title: PyMAIDR
     collapse-below: lg
     left:
-      # - text: "Overview"
-      #   href: index.qmd
+      - text: "Overview"
+        href: index.qmd
       # - text: "Get Started"
       #   href: get-started.qmd
       - text: "API Reference"
