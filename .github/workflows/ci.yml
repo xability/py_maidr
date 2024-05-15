@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+
+  pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+
+jobs:
+  test:
+    # We want to run on external PRs, but not on our own internal PRs as they'll be run
+    # by the push to the branch. Without this if check, checks are duplicated since
+    # internal PRs match both the push and pull_request events.
+    if:
+      github.event_name == 'push' || github.event.pull_request.head.repo.full_name !=
+      github.repository
+
+    name: Python ${{ matrix.python-version }} tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        id: setup-python
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+
+      - name: Load cached venv
+        uses: actions/cache@v2
+        id: cached-poetry-dependencies
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.full-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: |
+          poetry lock --no-update
+          poetry install
+          python -m pip install pytest-github-actions-annotate-failures
+
+      - name: Run tests
+        id: tests
+        run: |
+          poetry run pytest -vvv
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check format with black
+        uses: psf/black@stable
+        with:
+          options: "--diff --check --color --verbose"
+
+  commit-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Lint commit messages
+        uses: wagoid/commitlint-github-action@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          failOnWarnings: 'false'
+          commitDepth: 1
