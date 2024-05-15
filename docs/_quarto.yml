@@ -1,0 +1,70 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "PyMAIDR"
+
+  site-url: https://xability.github.io/py_maidr/
+  repo-url: https://github.com/xability/py_maidr
+  issue-url: https://github.com/xability/py_maidr/issues/new/choose
+  repo-actions: [issue]
+
+  page-navigation: true
+  bread-crumbs: true
+
+  navbar:
+    background: light
+    # logo: quarto.png
+    logo-alt: "Maidr logo."
+    logo-href: https://xability.github.io/py_maidr/
+    title: PyMAIDR
+    collapse-below: lg
+    left:
+      - text: "Overview"
+        href: _index.qmd
+      - text: "Get Started"
+        href: _get_started.qmd
+      - text: "API Reference"
+        href: api/core/index.qmd
+    right:
+      - icon: github
+        href: https://github.com/xability/maidr
+        aria-label: GitHub
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+quartodoc:
+  package: maidr
+  dir: api/core
+  sidebar: _sidebar.yml
+  style: pkgdown
+  title: "PyMAIDR"
+  renderer:
+    style: markdown
+  sections:
+    - title: Plot API
+      desc: ""
+      contents:
+        - bar
+        - box
+        - count
+        - heat
+        - hist
+        - line
+        - scatter
+
+    - title: Maidr API
+      desc: ""
+      package: maidr.core
+      contents:
+        - Maidr.render
+        - Maidr.show
+        - Maidr.save_html
+
+
+

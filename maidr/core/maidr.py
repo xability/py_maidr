@@ -108,7 +108,7 @@ class Maidr:
         return HTMLDocument(self._create_html_tag(), lang="en")
 
     def _flatten_maidr(self) -> dict | list[dict]:
-        """Returns a single plot schema or a list of schemas from the Maidr instance."""
+        """Return a single plot schema or a list of schemas from the Maidr instance."""
         maidr = [plot.schema for plot in self._plots]
         return maidr if len(maidr) != 1 else maidr[0]
 

@@ -63,7 +63,7 @@ class FigureManager:
     def get_axes(
         artist: Artist | Axes | BarContainer | dict | list | None,
     ) -> Any:
-        """Recursively extracts Axes objects from the input artist or container."""
+        """Recursively extract Axes objects from the input artist or container."""
         if artist is None:
             return None
         elif isinstance(artist, Axes):
