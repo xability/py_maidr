@@ -5,7 +5,7 @@ project:
 website:
   title: "PyMAIDR"
 
-  site-url: https://xability.github.io/maidr/
+  site-url: https://saaivenkat.github.io/py-maidr/
   repo-url: https://github.com/xability/py_maidr
   issue-url: https://github.com/xability/py_maidr/issues/new/choose
   repo-actions: [issue]
