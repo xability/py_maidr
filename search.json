@@ -1,0 +1,401 @@
+[
+  {
+    "objectID": "api/core/bar.html",
+    "href": "api/core/bar.html",
+    "title": "bar",
+    "section": "",
+    "text": "bar(plot)\nCreate and return a Maidr object representing a bar plot.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | matplotlib.container.BarContainer\nA matplotlib or seaborn plot containing the bar plot data, either as an matplotlib.axes.Axes object with bar plot elements or directly as a matplotlib.container.BarContainer object.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the bar plot.\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nExtractionError\nIf bar plot data is not extractable from plot.\n\n\n\n\n\n\nmaidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure. maidr.count : Function to create a Maidr object for seaborn count plot.\n\n\n\nThe input plot must be part of a matplotlib.figure.Figure.\n\n\n\nMatplotlib\n&gt;&gt;&gt; import matplotlib.pyplot as plt\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; bar_plot = plt.bar(['A', 'B', 'C'], [1, 2, 3])\n&gt;&gt;&gt; bar_maidr = maidr.bar(bar_plot)\n&gt;&gt;&gt; bar_maidr.show()\nSeaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; tips = sns.load_dataset(\"tips\")\n&gt;&gt;&gt; bar_plot = sns.barplot(x=\"day\", y=\"total_bill\", data=tips)\n&gt;&gt;&gt; bar_maidr = maidr.bar(bar_plot)\n&gt;&gt;&gt; bar_maidr.show()"
+  },
+  {
+    "objectID": "api/core/bar.html#parameters",
+    "href": "api/core/bar.html#parameters",
+    "title": "bar",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | matplotlib.container.BarContainer\nA matplotlib or seaborn plot containing the bar plot data, either as an matplotlib.axes.Axes object with bar plot elements or directly as a matplotlib.container.BarContainer object.\nrequired"
+  },
+  {
+    "objectID": "api/core/bar.html#returns",
+    "href": "api/core/bar.html#returns",
+    "title": "bar",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the bar plot."
+  },
+  {
+    "objectID": "api/core/bar.html#raises",
+    "href": "api/core/bar.html#raises",
+    "title": "bar",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nExtractionError\nIf bar plot data is not extractable from plot."
+  },
+  {
+    "objectID": "api/core/bar.html#see-also",
+    "href": "api/core/bar.html#see-also",
+    "title": "bar",
+    "section": "",
+    "text": "maidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure. maidr.count : Function to create a Maidr object for seaborn count plot."
+  },
+  {
+    "objectID": "api/core/bar.html#notes",
+    "href": "api/core/bar.html#notes",
+    "title": "bar",
+    "section": "",
+    "text": "The input plot must be part of a matplotlib.figure.Figure."
+  },
+  {
+    "objectID": "api/core/bar.html#examples",
+    "href": "api/core/bar.html#examples",
+    "title": "bar",
+    "section": "",
+    "text": "Matplotlib\n&gt;&gt;&gt; import matplotlib.pyplot as plt\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; bar_plot = plt.bar(['A', 'B', 'C'], [1, 2, 3])\n&gt;&gt;&gt; bar_maidr = maidr.bar(bar_plot)\n&gt;&gt;&gt; bar_maidr.show()\nSeaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; tips = sns.load_dataset(\"tips\")\n&gt;&gt;&gt; bar_plot = sns.barplot(x=\"day\", y=\"total_bill\", data=tips)\n&gt;&gt;&gt; bar_maidr = maidr.bar(bar_plot)\n&gt;&gt;&gt; bar_maidr.show()"
+  },
+  {
+    "objectID": "api/core/count.html",
+    "href": "api/core/count.html",
+    "title": "count",
+    "section": "",
+    "text": "count(plot)\nCreate and return a Maidr object representing a count plot.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes\nA matplotlib.axes.Axes object containing the count plot elements.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the count plot.\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nExtractionError\nIf count plot data is not extractable from plot.\n\n\n\n\n\n\nmaidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure. maidr.bar : Function to create a Maidr object for matplotlib bar plot.\n\n\n\n\nThe Axes object must be part of a matplotlib.figure.Figure.\nSince a count plot is a specific case of a bar plot, this function internally uses the bar() function to process the plot. The count() function is provided as a convenience to align with the seaborn.countplot() method.\n\n\n\n\nSeaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; data = sns.load_dataset(\"titanic\")\n&gt;&gt;&gt; count_plot = sns.countplot(x=\"class\", data=data)\n&gt;&gt;&gt; count_maidr = maidr.count(count_plot)\n&gt;&gt;&gt; count_maidr.show()"
+  },
+  {
+    "objectID": "api/core/count.html#parameters",
+    "href": "api/core/count.html#parameters",
+    "title": "count",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes\nA matplotlib.axes.Axes object containing the count plot elements.\nrequired"
+  },
+  {
+    "objectID": "api/core/count.html#returns",
+    "href": "api/core/count.html#returns",
+    "title": "count",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the count plot."
+  },
+  {
+    "objectID": "api/core/count.html#raises",
+    "href": "api/core/count.html#raises",
+    "title": "count",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nExtractionError\nIf count plot data is not extractable from plot."
+  },
+  {
+    "objectID": "api/core/count.html#see-also",
+    "href": "api/core/count.html#see-also",
+    "title": "count",
+    "section": "",
+    "text": "maidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure. maidr.bar : Function to create a Maidr object for matplotlib bar plot."
+  },
+  {
+    "objectID": "api/core/count.html#notes",
+    "href": "api/core/count.html#notes",
+    "title": "count",
+    "section": "",
+    "text": "The Axes object must be part of a matplotlib.figure.Figure.\nSince a count plot is a specific case of a bar plot, this function internally uses the bar() function to process the plot. The count() function is provided as a convenience to align with the seaborn.countplot() method."
+  },
+  {
+    "objectID": "api/core/count.html#examples",
+    "href": "api/core/count.html#examples",
+    "title": "count",
+    "section": "",
+    "text": "Seaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; data = sns.load_dataset(\"titanic\")\n&gt;&gt;&gt; count_plot = sns.countplot(x=\"class\", data=data)\n&gt;&gt;&gt; count_maidr = maidr.count(count_plot)\n&gt;&gt;&gt; count_maidr.show()"
+  },
+  {
+    "objectID": "api/core/hist.html",
+    "href": "api/core/hist.html",
+    "title": "hist",
+    "section": "",
+    "text": "hist(plot)\nCreate and return a Maidr object representing a histogram plot.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | matplotlib.container.BarContainer\nA matplotlib or seaborn plot containing the histogram plot data, which can be an matplotlib.axes.Axes object with histogram plot elements, a matplotlib.container.BarContainer which represents the bins of a histogram.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the histogram plot.\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nExtractionError\nIf histogram plot data is not extractable from plot.\n\n\n\n\n\n\nmaidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure.\n\n\n\nThe input plot must be part of a matplotlib.figure.Figure.\n\n\n\nMatplotlib\n&gt;&gt;&gt; import matplotlib.pyplot as plt\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; import numpy as np\n&gt;&gt;&gt; data = [np.random.normal(0, 100) for _ in range(1, 4)]\n&gt;&gt;&gt; _, _, hist_plot = plt.hist(data, bins=30)\n&gt;&gt;&gt; hist_maidr = maidr.hist(hist_plot)\n&gt;&gt;&gt; hist_maidr.show()\nSeaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; tips = sns.load_dataset(\"tips\")\n&gt;&gt;&gt; hist_plot = sns.histplot(tips['total_bill'], bins=20)\n&gt;&gt;&gt; hist_maidr = maidr.hist(hist_plot)\n&gt;&gt;&gt; hist_maidr.show()"
+  },
+  {
+    "objectID": "api/core/hist.html#parameters",
+    "href": "api/core/hist.html#parameters",
+    "title": "hist",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | matplotlib.container.BarContainer\nA matplotlib or seaborn plot containing the histogram plot data, which can be an matplotlib.axes.Axes object with histogram plot elements, a matplotlib.container.BarContainer which represents the bins of a histogram.\nrequired"
+  },
+  {
+    "objectID": "api/core/hist.html#returns",
+    "href": "api/core/hist.html#returns",
+    "title": "hist",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the histogram plot."
+  },
+  {
+    "objectID": "api/core/hist.html#raises",
+    "href": "api/core/hist.html#raises",
+    "title": "hist",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nExtractionError\nIf histogram plot data is not extractable from plot."
+  },
+  {
+    "objectID": "api/core/hist.html#see-also",
+    "href": "api/core/hist.html#see-also",
+    "title": "hist",
+    "section": "",
+    "text": "maidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure."
+  },
+  {
+    "objectID": "api/core/hist.html#notes",
+    "href": "api/core/hist.html#notes",
+    "title": "hist",
+    "section": "",
+    "text": "The input plot must be part of a matplotlib.figure.Figure."
+  },
+  {
+    "objectID": "api/core/hist.html#examples",
+    "href": "api/core/hist.html#examples",
+    "title": "hist",
+    "section": "",
+    "text": "Matplotlib\n&gt;&gt;&gt; import matplotlib.pyplot as plt\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; import numpy as np\n&gt;&gt;&gt; data = [np.random.normal(0, 100) for _ in range(1, 4)]\n&gt;&gt;&gt; _, _, hist_plot = plt.hist(data, bins=30)\n&gt;&gt;&gt; hist_maidr = maidr.hist(hist_plot)\n&gt;&gt;&gt; hist_maidr.show()\nSeaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; tips = sns.load_dataset(\"tips\")\n&gt;&gt;&gt; hist_plot = sns.histplot(tips['total_bill'], bins=20)\n&gt;&gt;&gt; hist_maidr = maidr.hist(hist_plot)\n&gt;&gt;&gt; hist_maidr.show()"
+  },
+  {
+    "objectID": "api/core/index.html",
+    "href": "api/core/index.html",
+    "title": "PyMAIDR",
+    "section": "",
+    "text": "bar\nCreate and return a Maidr object representing a bar plot.\n\n\nbox\nCreate and return a Maidr object representing a box plot.\n\n\ncount\nCreate and return a Maidr object representing a count plot.\n\n\nheat\nCreate and return a Maidr object representing a heatmap.\n\n\nhist\nCreate and return a Maidr object representing a histogram plot.\n\n\nline\nCreate and return a Maidr object representing a line plot.\n\n\nscatter\nCreate and return a Maidr object representing a scatter plot.\n\n\n\n\n\n\n\n\n\nMaidr.render\nRender the document.\n\n\nMaidr.show\nPreview the HTML content using the specified renderer.\n\n\nMaidr.save_html\nSave the HTML representation of the figure with MAIDR to a file."
+  },
+  {
+    "objectID": "api/core/index.html#plot-api",
+    "href": "api/core/index.html#plot-api",
+    "title": "PyMAIDR",
+    "section": "",
+    "text": "bar\nCreate and return a Maidr object representing a bar plot.\n\n\nbox\nCreate and return a Maidr object representing a box plot.\n\n\ncount\nCreate and return a Maidr object representing a count plot.\n\n\nheat\nCreate and return a Maidr object representing a heatmap.\n\n\nhist\nCreate and return a Maidr object representing a histogram plot.\n\n\nline\nCreate and return a Maidr object representing a line plot.\n\n\nscatter\nCreate and return a Maidr object representing a scatter plot."
+  },
+  {
+    "objectID": "api/core/index.html#maidr-api",
+    "href": "api/core/index.html#maidr-api",
+    "title": "PyMAIDR",
+    "section": "",
+    "text": "Maidr.render\nRender the document.\n\n\nMaidr.show\nPreview the HTML content using the specified renderer.\n\n\nMaidr.save_html\nSave the HTML representation of the figure with MAIDR to a file."
+  },
+  {
+    "objectID": "api/core/line.html",
+    "href": "api/core/line.html",
+    "title": "line",
+    "section": "",
+    "text": "line(plot)\nCreate and return a Maidr object representing a line plot.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | list[matplotlib.lines.Line2D]\nA matplotlib or seaborn plot containing the line plot data. This can be a matplotlib.axes.Axes object with line plot elements or a list of matplotlib.lines.Line2D objects.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the line plot.\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nExtractionError\nIf line plot data is not extractable from plot.\n\n\n\n\n\n\nmaidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure.\n\n\n\n\nThe input plot must be part of a matplotlib.figure.Figure.\nIf multiple lines are present, only the last one will be represented with MAIDR structure.\n\n\n\n\nMatplotlib\n&gt;&gt;&gt; import matplotlib.pyplot as plt\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; line_plot = plt.plot([1, 2, 3], [4, 5, 6])\n&gt;&gt;&gt; line_maidr = maidr.line(ax)\n&gt;&gt;&gt; line_maidr.save_html(\"maidr_line_plot.html\")\n&gt;&gt;&gt; line_maidr.show()\nSeaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; tips = sns.load_dataset(\"tips\")\n&gt;&gt;&gt; subset_data = tips[tips[\"day\"] == \"Thur\"]\n&gt;&gt;&gt; line_plot = sns.lineplot(data=subset_data, x=\"total_bill\", y=\"tip\")\n&gt;&gt;&gt; line_maidr = maidr.line(line_plot)\n&gt;&gt;&gt; line_maidr.show()"
+  },
+  {
+    "objectID": "api/core/line.html#parameters",
+    "href": "api/core/line.html#parameters",
+    "title": "line",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | list[matplotlib.lines.Line2D]\nA matplotlib or seaborn plot containing the line plot data. This can be a matplotlib.axes.Axes object with line plot elements or a list of matplotlib.lines.Line2D objects.\nrequired"
+  },
+  {
+    "objectID": "api/core/line.html#returns",
+    "href": "api/core/line.html#returns",
+    "title": "line",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the line plot."
+  },
+  {
+    "objectID": "api/core/line.html#raises",
+    "href": "api/core/line.html#raises",
+    "title": "line",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nExtractionError\nIf line plot data is not extractable from plot."
+  },
+  {
+    "objectID": "api/core/line.html#see-also",
+    "href": "api/core/line.html#see-also",
+    "title": "line",
+    "section": "",
+    "text": "maidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure."
+  },
+  {
+    "objectID": "api/core/line.html#notes",
+    "href": "api/core/line.html#notes",
+    "title": "line",
+    "section": "",
+    "text": "The input plot must be part of a matplotlib.figure.Figure.\nIf multiple lines are present, only the last one will be represented with MAIDR structure."
+  },
+  {
+    "objectID": "api/core/line.html#examples",
+    "href": "api/core/line.html#examples",
+    "title": "line",
+    "section": "",
+    "text": "Matplotlib\n&gt;&gt;&gt; import matplotlib.pyplot as plt\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; line_plot = plt.plot([1, 2, 3], [4, 5, 6])\n&gt;&gt;&gt; line_maidr = maidr.line(ax)\n&gt;&gt;&gt; line_maidr.save_html(\"maidr_line_plot.html\")\n&gt;&gt;&gt; line_maidr.show()\nSeaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; tips = sns.load_dataset(\"tips\")\n&gt;&gt;&gt; subset_data = tips[tips[\"day\"] == \"Thur\"]\n&gt;&gt;&gt; line_plot = sns.lineplot(data=subset_data, x=\"total_bill\", y=\"tip\")\n&gt;&gt;&gt; line_maidr = maidr.line(line_plot)\n&gt;&gt;&gt; line_maidr.show()"
+  },
+  {
+    "objectID": "api/core/Maidr.show.html",
+    "href": "api/core/Maidr.show.html",
+    "title": "Maidr.show",
+    "section": "",
+    "text": "core.Maidr.show(renderer='auto')\nPreview the HTML content using the specified renderer.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nrenderer\ntyping.Literal[‘auto’, ‘ipython’, ‘browser’]\nThe renderer to use for the HTML preview.\n\"auto\""
+  },
+  {
+    "objectID": "api/core/Maidr.show.html#parameters",
+    "href": "api/core/Maidr.show.html#parameters",
+    "title": "Maidr.show",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nrenderer\ntyping.Literal[‘auto’, ‘ipython’, ‘browser’]\nThe renderer to use for the HTML preview.\n\"auto\""
+  },
+  {
+    "objectID": "api/core/heat.html",
+    "href": "api/core/heat.html",
+    "title": "heat",
+    "section": "",
+    "text": "heat(plot, *, fill_label='Fill value')\nCreate and return a Maidr object representing a heatmap.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | matplotlib.image.AxesImage | matplotlib.collections.QuadMesh\nA matplotlib or seaborn plot containing heatmap data. This can be an matplotlib.axes.Axes instance with heatmap elements, or more directly, an matplotlib.image.AxesImage or matplotlib.collections.QuadMesh.\nrequired\n\n\nfill_label\nstr\nLabel describing the fill value in the heatmap, by default “Fill value”.\n\"Fill value\"\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the heatmap.\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.axes.Axes.\n\n\nExtractionError\nIf heatmap data is not extractable from plot.\n\n\n\n\n\n\nmaidr.core.Maidr : The core class for encapsulating plots with MAIDR structure.\n\n\n\nThe input plot must be part of a matplotlib.figure.Figure.\n\n\n\nMatplotlib\n&gt;&gt;&gt; import matplotlib.pyplot as plt\n&gt;&gt;&gt; import numpy as np\n&gt;&gt;&gt; data = np.random.rand(10, 10)\n&gt;&gt;&gt; fig, _ax = plt.subplots()\n&gt;&gt;&gt; heatmap = _ax.imshow(data, cmap='hot')\n&gt;&gt;&gt; heat_maidr = maidr.heat(heatmap)\n&gt;&gt;&gt; heat_maidr.show()\nSeaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; flights = sns.load_dataset(\"flights\")\n&gt;&gt;&gt; flights = flights.pivot(\"month\", \"year\", \"passengers\")\n&gt;&gt;&gt; heatmap = sns.heatmap(flights)\n&gt;&gt;&gt; heat_maidr = maidr.heat(heatmap, fill_label=\"Passenger count\")\n&gt;&gt;&gt; heat_maidr.show()"
+  },
+  {
+    "objectID": "api/core/heat.html#parameters",
+    "href": "api/core/heat.html#parameters",
+    "title": "heat",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | matplotlib.image.AxesImage | matplotlib.collections.QuadMesh\nA matplotlib or seaborn plot containing heatmap data. This can be an matplotlib.axes.Axes instance with heatmap elements, or more directly, an matplotlib.image.AxesImage or matplotlib.collections.QuadMesh.\nrequired\n\n\nfill_label\nstr\nLabel describing the fill value in the heatmap, by default “Fill value”.\n\"Fill value\""
+  },
+  {
+    "objectID": "api/core/heat.html#returns",
+    "href": "api/core/heat.html#returns",
+    "title": "heat",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the heatmap."
+  },
+  {
+    "objectID": "api/core/heat.html#raises",
+    "href": "api/core/heat.html#raises",
+    "title": "heat",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.axes.Axes.\n\n\nExtractionError\nIf heatmap data is not extractable from plot."
+  },
+  {
+    "objectID": "api/core/heat.html#see-also",
+    "href": "api/core/heat.html#see-also",
+    "title": "heat",
+    "section": "",
+    "text": "maidr.core.Maidr : The core class for encapsulating plots with MAIDR structure."
+  },
+  {
+    "objectID": "api/core/heat.html#notes",
+    "href": "api/core/heat.html#notes",
+    "title": "heat",
+    "section": "",
+    "text": "The input plot must be part of a matplotlib.figure.Figure."
+  },
+  {
+    "objectID": "api/core/heat.html#examples",
+    "href": "api/core/heat.html#examples",
+    "title": "heat",
+    "section": "",
+    "text": "Matplotlib\n&gt;&gt;&gt; import matplotlib.pyplot as plt\n&gt;&gt;&gt; import numpy as np\n&gt;&gt;&gt; data = np.random.rand(10, 10)\n&gt;&gt;&gt; fig, _ax = plt.subplots()\n&gt;&gt;&gt; heatmap = _ax.imshow(data, cmap='hot')\n&gt;&gt;&gt; heat_maidr = maidr.heat(heatmap)\n&gt;&gt;&gt; heat_maidr.show()\nSeaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; flights = sns.load_dataset(\"flights\")\n&gt;&gt;&gt; flights = flights.pivot(\"month\", \"year\", \"passengers\")\n&gt;&gt;&gt; heatmap = sns.heatmap(flights)\n&gt;&gt;&gt; heat_maidr = maidr.heat(heatmap, fill_label=\"Passenger count\")\n&gt;&gt;&gt; heat_maidr.show()"
+  },
+  {
+    "objectID": "api/core/Maidr.save_html.html",
+    "href": "api/core/Maidr.save_html.html",
+    "title": "Maidr.save_html",
+    "section": "",
+    "text": "core.Maidr.save_html(file, *, lib_dir='lib', include_version=True)\nSave the HTML representation of the figure with MAIDR to a file.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nfile\nstr\nThe file to save to.\nrequired\n\n\nlib_dir\nstr\nThe directory to save the dependencies to (relative to the file’s directory).\n\"lib\"\n\n\ninclude_version\nbool\nWhether to include the version number in the dependency folder name.\nTrue"
+  },
+  {
+    "objectID": "api/core/Maidr.save_html.html#parameters",
+    "href": "api/core/Maidr.save_html.html#parameters",
+    "title": "Maidr.save_html",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nfile\nstr\nThe file to save to.\nrequired\n\n\nlib_dir\nstr\nThe directory to save the dependencies to (relative to the file’s directory).\n\"lib\"\n\n\ninclude_version\nbool\nWhether to include the version number in the dependency folder name.\nTrue"
+  },
+  {
+    "objectID": "api/core/box.html",
+    "href": "api/core/box.html",
+    "title": "box",
+    "section": "",
+    "text": "box(plot)\nCreate and return a Maidr object representing a box plot.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | dict\nA matplotlib or seaborn plot containing the box plot data, either as a matplotlib.axes.Axes object containing the box plot elements, or as a dictionary mapping each component of the boxplot to a list of the matplotlib.lines.Line2D instances created. If a dictionary is provided, the dictionary should have the following keys: - boxes: the main body of the boxplot showing the quartiles and the median’s confidence intervals if enabled. - medians: horizontal lines at the median of each box. - whiskers: the vertical lines extending to the most extreme, non-outlier data points. - caps: the horizontal lines at the ends of the whiskers. - fliers: points representing data that extend beyond the whiskers (fliers).\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the box plot.\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nImportError\nIf plot is created using seaborn and the seaborn version is less than 0.12.\n\n\nExtractionError\nIf box plot data is not extractable from plot.\n\n\n\n\n\n\nmaidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure.\nWarnings ________ This function is dependent on seaborn.categorical.BoxPlotContainer, when using seaborn, which requires seaborn version 0.12 or higher.\n\n\n\nThe Axes object or dictionary values must be part of a matplotlib.figure.Figure.\nExamples ________ Matplotlib\n\n\n\nimport matplotlib.pyplot as plt import maidr data = [25, 28, 29, 29, 30, 34, 35, 35, 37, 38] box_plot = plt.boxplot(data) box_maidr = maidr.box(box_plot) box_maidr.show()\n\n\n\nSeaborn\n\n\n\nimport seaborn as sns import maidr iris = sns.load_dataset(“iris”) box_plot = sns.boxplot(x=“species”, y=“petal_length”, data=iris) box_maidr = maidr.box(box_plot) box_maidr.show()"
+  },
+  {
+    "objectID": "api/core/box.html#parameters",
+    "href": "api/core/box.html#parameters",
+    "title": "box",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | dict\nA matplotlib or seaborn plot containing the box plot data, either as a matplotlib.axes.Axes object containing the box plot elements, or as a dictionary mapping each component of the boxplot to a list of the matplotlib.lines.Line2D instances created. If a dictionary is provided, the dictionary should have the following keys: - boxes: the main body of the boxplot showing the quartiles and the median’s confidence intervals if enabled. - medians: horizontal lines at the median of each box. - whiskers: the vertical lines extending to the most extreme, non-outlier data points. - caps: the horizontal lines at the ends of the whiskers. - fliers: points representing data that extend beyond the whiskers (fliers).\nrequired"
+  },
+  {
+    "objectID": "api/core/box.html#returns",
+    "href": "api/core/box.html#returns",
+    "title": "box",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the maidr.core.Maidr class representing the box plot."
+  },
+  {
+    "objectID": "api/core/box.html#raises",
+    "href": "api/core/box.html#raises",
+    "title": "box",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nImportError\nIf plot is created using seaborn and the seaborn version is less than 0.12.\n\n\nExtractionError\nIf box plot data is not extractable from plot."
+  },
+  {
+    "objectID": "api/core/box.html#see-also",
+    "href": "api/core/box.html#see-also",
+    "title": "box",
+    "section": "",
+    "text": "maidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure.\nWarnings ________ This function is dependent on seaborn.categorical.BoxPlotContainer, when using seaborn, which requires seaborn version 0.12 or higher."
+  },
+  {
+    "objectID": "api/core/box.html#notes",
+    "href": "api/core/box.html#notes",
+    "title": "box",
+    "section": "",
+    "text": "The Axes object or dictionary values must be part of a matplotlib.figure.Figure.\nExamples ________ Matplotlib\n\n\n\nimport matplotlib.pyplot as plt import maidr data = [25, 28, 29, 29, 30, 34, 35, 35, 37, 38] box_plot = plt.boxplot(data) box_maidr = maidr.box(box_plot) box_maidr.show()\n\n\n\nSeaborn\n\n\n\nimport seaborn as sns import maidr iris = sns.load_dataset(“iris”) box_plot = sns.boxplot(x=“species”, y=“petal_length”, data=iris) box_maidr = maidr.box(box_plot) box_maidr.show()"
+  },
+  {
+    "objectID": "api/core/Maidr.render.html",
+    "href": "api/core/Maidr.render.html",
+    "title": "Maidr.render",
+    "section": "",
+    "text": "core.Maidr.render(lib_prefix='lib', include_version=True)\nRender the document.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlib_prefix\nstr\nA prefix to add to relative paths to dependency files.\n\"lib\"\n\n\ninclude_version\nbool\nWhether to include the version number in the dependency’s folder name.\nTrue"
+  },
+  {
+    "objectID": "api/core/Maidr.render.html#parameters",
+    "href": "api/core/Maidr.render.html#parameters",
+    "title": "Maidr.render",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nlib_prefix\nstr\nA prefix to add to relative paths to dependency files.\n\"lib\"\n\n\ninclude_version\nbool\nWhether to include the version number in the dependency’s folder name.\nTrue"
+  },
+  {
+    "objectID": "api/core/scatter.html",
+    "href": "api/core/scatter.html",
+    "title": "scatter",
+    "section": "",
+    "text": "scatter(plot)\nCreate and return a Maidr object representing a scatter plot.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | matplotlib.collections.PathCollection\nA matplotlib or seaborn plot that contains scatter plot data. This can be an matplotlib.axes.Axes instance with a scatter plot or a matplotlib.collections.PathCollection directly.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the Maidr class representing the scatter plot.\n\n\n\n\n\n\n\n\n\n\n\n\n\nType\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nExtractionError\nIf scatter plot data is not extractable from plot.\n\n\n\n\n\n\nmaidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure.\n\n\n\nThe input plot must be part of a matplotlib.figure.Figure.\n\n\n\nMatplotlib\n&gt;&gt;&gt; import matplotlib.pyplot as plt\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; x = [1, 2, 3]\n&gt;&gt;&gt; y = [4, 5, 6]\n&gt;&gt;&gt; scatter_plot = plt.scatter(x, y)\n&gt;&gt;&gt; scatter_maidr = maidr.scatter(scatter_plot)\n&gt;&gt;&gt; scatter_maidr.show()\nSeaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; tips = sns.load_dataset(\"tips\")\n&gt;&gt;&gt; scatter_plot = sns.scatterplot(x=\"total_bill\", y=\"tip\", data=tips)\n&gt;&gt;&gt; scatter_maidr = maidr.scatter(scatter_plot)\n&gt;&gt;&gt; scatter_maidr.show()"
+  },
+  {
+    "objectID": "api/core/scatter.html#parameters",
+    "href": "api/core/scatter.html#parameters",
+    "title": "scatter",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nplot\nmatplotlib.axes.Axes | matplotlib.collections.PathCollection\nA matplotlib or seaborn plot that contains scatter plot data. This can be an matplotlib.axes.Axes instance with a scatter plot or a matplotlib.collections.PathCollection directly.\nrequired"
+  },
+  {
+    "objectID": "api/core/scatter.html#returns",
+    "href": "api/core/scatter.html#returns",
+    "title": "scatter",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nmaidr.core.Maidr\nAn instance of the Maidr class representing the scatter plot."
+  },
+  {
+    "objectID": "api/core/scatter.html#raises",
+    "href": "api/core/scatter.html#raises",
+    "title": "scatter",
+    "section": "",
+    "text": "Type\nDescription\n\n\n\n\nValueError\nIf plot is missing the matplotlib.figure.Figure or matplotlib.figure.Axes.\n\n\nExtractionError\nIf scatter plot data is not extractable from plot."
+  },
+  {
+    "objectID": "api/core/scatter.html#see-also",
+    "href": "api/core/scatter.html#see-also",
+    "title": "scatter",
+    "section": "",
+    "text": "maidr.core.Maidr : The core class encapsulating the plot with its MAIDR structure."
+  },
+  {
+    "objectID": "api/core/scatter.html#notes",
+    "href": "api/core/scatter.html#notes",
+    "title": "scatter",
+    "section": "",
+    "text": "The input plot must be part of a matplotlib.figure.Figure."
+  },
+  {
+    "objectID": "api/core/scatter.html#examples",
+    "href": "api/core/scatter.html#examples",
+    "title": "scatter",
+    "section": "",
+    "text": "Matplotlib\n&gt;&gt;&gt; import matplotlib.pyplot as plt\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; x = [1, 2, 3]\n&gt;&gt;&gt; y = [4, 5, 6]\n&gt;&gt;&gt; scatter_plot = plt.scatter(x, y)\n&gt;&gt;&gt; scatter_maidr = maidr.scatter(scatter_plot)\n&gt;&gt;&gt; scatter_maidr.show()\nSeaborn\n&gt;&gt;&gt; import seaborn as sns\n&gt;&gt;&gt; import maidr\n&gt;&gt;&gt; tips = sns.load_dataset(\"tips\")\n&gt;&gt;&gt; scatter_plot = sns.scatterplot(x=\"total_bill\", y=\"tip\", data=tips)\n&gt;&gt;&gt; scatter_maidr = maidr.scatter(scatter_plot)\n&gt;&gt;&gt; scatter_maidr.show()"
+  }
+]
