@@ -33,7 +33,7 @@ class FigureManager:
         Recursively extracts Axes objects from the input artist or container.
     """
 
-    figs = dict()
+    figs = {}
 
     @classmethod
     def create_maidr(cls, ax: Axes, plot_type: PlotType, **kwargs) -> Maidr:
@@ -57,6 +57,13 @@ class FigureManager:
         """Retrieve or create a Maidr instance for the given Figure."""
         if fig not in cls.figs.keys():
             cls.figs[fig] = Maidr(fig)
+        return cls.figs[fig]
+
+    @classmethod
+    def get_maidr(cls, fig: Figure) -> Maidr:
+        """Retrieve the Maidr instance for the given Figure."""
+        if fig not in cls.figs.keys():
+            raise ValueError(f"No MAIDR found for figure: {fig}.")
         return cls.figs[fig]
 
     @staticmethod

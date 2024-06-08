@@ -40,9 +40,9 @@ class MaidrPlot(ABC):
 
         # MAIDR data
         self.type = plot_type
-        self._schema = self._init_maidr()
+        self._schema = {}
 
-    def _init_maidr(self) -> dict:
+    def render(self) -> dict:
         """Initialize the MAIDR schema dictionary with basic plot information."""
         return {
             MaidrKey.TYPE: self.type,
@@ -70,8 +70,12 @@ class MaidrPlot(ABC):
     @property
     def schema(self) -> dict:
         """Return the MAIDR schema of the plot as a dictionary."""
+        if not self._schema:
+            self._schema = self.render()
         return self._schema
 
     def set_id(self, maidr_id: str) -> None:
         """Set the unique identifier for the plot within the MAIDR schema."""
+        if not self._schema:
+            self._schema = self.render()
         self._schema[MaidrKey.ID.value] = maidr_id
