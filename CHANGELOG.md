@@ -2,6 +2,48 @@
 
 
 
+## v0.3.0 (2024-06-11)
+
+### Breaking
+
+* feat!: support syntaxless-api (#47) ([`415d6f1`](https://github.com/xability/py_maidr/commit/415d6f1c2c9bf3f62b29da1dd752cb34a18168a3))
+
+### Chore
+
+* chore(deps-dev): bump black from 23.3.0 to 24.3.0 (#45)
+
+Bumps [black](https://github.com/psf/black) from 23.3.0 to 24.3.0.
+- [Release notes](https://github.com/psf/black/releases)
+- [Changelog](https://github.com/psf/black/blob/main/CHANGES.md)
+- [Commits](https://github.com/psf/black/compare/23.3.0...24.3.0)
+
+---
+updated-dependencies:
+- dependency-name: black
+  dependency-type: direct:development
+...
+
+Signed-off-by: dependabot[bot] &lt;support@github.com&gt;
+Co-authored-by: dependabot[bot] &lt;49699333+dependabot[bot]@users.noreply.github.com&gt; ([`53818c9`](https://github.com/xability/py_maidr/commit/53818c9478301376461e64d1cf5a5d32ef730df2))
+
+### Ci
+
+* ci: add workflow for publishing docs (#44)
+
+`docs.yml` automates the publishing of py-maidr documentation to GitHub Pages. This builds the
+static sources using `quarto` for the website and `quartodoc` for the API Reference.
+The rendering and publishing are accomplished using Quarto&#39;s github actions, which can be found
+at https://github.com/quarto-dev/quarto-actions.
+
+Resolves: #43 ([`a6c5886`](https://github.com/xability/py_maidr/commit/a6c5886cc66339eabdfac3c8dc8bb10ee2c037c6))
+
+### Fix
+
+* fix: black formatting ci (#49) ([`20c4fa2`](https://github.com/xability/py_maidr/commit/20c4fa231bd5a78679cce7698d2a42077c97f330))
+
+* fix: remove docs (#48) ([`9b8cae5`](https://github.com/xability/py_maidr/commit/9b8cae5c1e4071be6edbfdbab8f4b498516f9caf))
+
+
 ## v0.2.0 (2024-05-16)
 
 ### Ci
