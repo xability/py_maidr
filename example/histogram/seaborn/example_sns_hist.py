@@ -1,40 +1,21 @@
-import os
-
 import matplotlib.pyplot as plt
 import maidr
 import seaborn as sns
 
 
-def get_filepath(filename: str) -> str:
-    current_file_path = os.path.abspath(__file__)
-    directory = os.path.dirname(current_file_path)
-    return os.path.join(directory, filename)
+# Load the Iris dataset
+iris = sns.load_dataset("iris")
 
+# Select the petal lengths
+petal_lengths = iris["petal_length"]
 
-def plot():
-    # Load the Iris dataset
-    iris = sns.load_dataset("iris")
+# Plot a histogram of the petal lengths
+plt.figure(figsize=(10, 6))
+hist_plot = sns.histplot(petal_lengths, kde=True, color="blue", binwidth=0.5)
 
-    # Select the petal lengths
-    petal_lengths = iris["petal_length"]
+plt.title("Histogram of Petal Lengths in Iris Dataset")
+plt.xlabel("Petal Length (cm)")
+plt.ylabel("Frequency")
 
-    # Plot a histogram of the petal lengths
-    plt.figure(figsize=(10, 6))
-    hist_plot = sns.histplot(petal_lengths, kde=True, color="blue", binwidth=0.5)
-
-    plt.title("Histogram of Petal Lengths in Iris Dataset")
-    plt.xlabel("Petal Length (cm)")
-    plt.ylabel("Frequency")
-
-    return hist_plot
-
-
-def main():
-    hist = plot()
-    hist_maidr = maidr.hist(hist)
-    hist_maidr.save_html(get_filepath("example_sns_histogram.html"))
-    hist_maidr.show()
-
-
-if __name__ == "__main__":
-    main()
+plt.show()
+maidr.show(hist_plot)
