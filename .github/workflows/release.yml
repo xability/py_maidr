@@ -66,6 +66,7 @@ jobs:
         uses: psf/black@stable
         with:
           options: "--diff --check --color --verbose"
+          version: "23.3.0"
 
   commit-lint:
     runs-on: ubuntu-latest
