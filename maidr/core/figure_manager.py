@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Any
+import threading
 
 from matplotlib.artist import Artist
 from matplotlib.axes import Axes
@@ -34,6 +35,16 @@ class FigureManager:
     """
 
     figs = {}
+
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls):
+        if not cls._instance:
+            with cls._lock:
+                if not cls._instance:
+                    cls._instance = super(FigureManager, cls).__new__()
+        return cls._instance
 
     @classmethod
     def create_maidr(cls, ax: Axes, plot_type: PlotType, **kwargs) -> Maidr:

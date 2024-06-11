@@ -6,6 +6,7 @@ class PlotType(str, Enum):
 
     BAR = "bar"
     BOX = "box"
+    COUNT = "count"
     DODGED = "dodged_bar"
     HEAT = "heat"
     HIST = "hist"
