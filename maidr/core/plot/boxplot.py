@@ -12,40 +12,37 @@ from maidr.utils.mixin import (
 )
 
 
-class BoxPlotContainer:
-    """Custom wrapper mirroring seaborn.categorical.BoxPlotContainer"""
-
-    def __init__(self, artist_dict):
-        self.boxes = artist_dict["boxes"]
-        self.medians = artist_dict["medians"]
-        self.whiskers = artist_dict["whiskers"]
-        self.caps = artist_dict["caps"]
-        self.fliers = artist_dict["fliers"]
-
-        self._label = None
-        self._children = [
-            *self.boxes,
-            *self.medians,
-            *self.whiskers,
-            *self.caps,
-            *self.fliers,
-        ]
+class BoxPlotContainer(DictMergerMixin):
+    def __init__(self):
+        self.boxes = []
+        self.medians = []
+        self.whiskers = []
+        self.caps = []
+        self.fliers = []
 
     def __repr__(self):
         return f"<BoxPlotContainer object with {len(self.boxes)} boxes>"
 
-    def get_label(self):
-        return self._label
+    def add_artists(self, artist: dict):
+        for box in artist["boxes"]:
+            self.boxes.append(box)
+        for median in artist["medians"]:
+            self.medians.append(median)
+        for whisker in artist["whiskers"]:
+            self.whiskers.append(whisker)
+        for cap in artist["caps"]:
+            self.caps.append(cap)
+        for flier in artist["fliers"]:
+            self.fliers.append(flier)
 
-    def set_label(self, value):
-        self._label = value
-
-    def get_children(self):
-        return self._children
-
-    def remove(self):
-        for child in self._children:
-            child.remove()
+    def bxp_stats(self) -> dict:
+        return {
+            "boxes": self.boxes,
+            "medians": self.medians,
+            "whiskers": self.whiskers,
+            "caps": self.caps,
+            "fliers": self.fliers,
+        }
 
 
 class _BoxPlotExtractorMixin:
@@ -114,7 +111,7 @@ class BoxPlot(
     DictMergerMixin,
 ):
     def __init__(self, ax: Axes, **kwargs) -> None:
-        self.__container_type = kwargs.pop("container_type")
+        self._bxp_stats = kwargs.pop("bxp_stats", None)
         super().__init__(ax, PlotType.BOX)
 
     def _extract_axes_data(self) -> dict:
@@ -127,20 +124,22 @@ class BoxPlot(
         return self.merge_dict(base_ax_schema, box_ax_schema)
 
     def _extract_plot_data(self) -> list:
-        plot = self.extract_container(self.ax, self.__container_type)
-        data = self._extract_box_container_data(plot)
+        data = self._extract_bxp_maidr(self._bxp_stats)
 
         if data is None:
-            raise ExtractionError(self.type, plot)
+            raise ExtractionError(self.type, self.ax)
 
         return data
 
-    def _extract_bxp_maidr(self, bxpstats: dict) -> list[dict]:
+    def _extract_bxp_maidr(self, bxp_stats: dict) -> list[dict] | None:
+        if bxp_stats is None:
+            return None
+
         bxp_maidr = list()
-        whiskers = self.extract_whiskers(bxpstats["whiskers"])
-        caps = self.extract_caps(bxpstats["caps"])
-        medians = self.extract_medians(bxpstats["medians"])
-        outliers = self.extract_outliers(bxpstats["fliers"], caps)
+        whiskers = self.extract_whiskers(bxp_stats["whiskers"])
+        caps = self.extract_caps(bxp_stats["caps"])
+        medians = self.extract_medians(bxp_stats["medians"])
+        outliers = self.extract_outliers(bxp_stats["fliers"], caps)
 
         for whisker, cap, median, outlier in zip(whiskers, caps, medians, outliers):
             bxp_maidr.append(
@@ -156,13 +155,3 @@ class BoxPlot(
             )
 
         return bxp_maidr
-
-    def _extract_box_container_data(self, plot: BoxPlotContainer | None) -> list[dict]:
-        bxpstats = {
-            "whiskers": plot.whiskers,
-            "medians": plot.medians,
-            "caps": plot.caps,
-            "fliers": plot.fliers,
-        }
-
-        return self._extract_bxp_maidr(bxpstats)

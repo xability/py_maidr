@@ -15,14 +15,13 @@ from maidr.utils.mixin import (
 
 class BarPlot(MaidrPlot, ContainerExtractorMixin, LevelExtractorMixin, DictMergerMixin):
     def __init__(self, ax: Axes) -> None:
-        self.__level = self.extract_level(ax)
         super().__init__(ax, PlotType.BAR)
 
     def _extract_axes_data(self) -> dict:
         base_schema = super()._extract_axes_data()
         bar_ax_schema = {
             MaidrKey.X: {
-                MaidrKey.LEVEL: self.__level,
+                MaidrKey.LEVEL: self.extract_level(self.ax),
             },
         }
         return self.merge_dict(base_schema, bar_ax_schema)
@@ -47,7 +46,7 @@ class BarPlot(MaidrPlot, ContainerExtractorMixin, LevelExtractorMixin, DictMerge
         # So, extract data correspondingly based on the level.
         # Flatten all the `list[BarContainer]` to `list[Patch]`.
         plot = [patch for container in plot for patch in container.patches]
-        level = self.__level
+        level = self.extract_level(self.ax)
 
         if len(plot) != len(level):
             return None

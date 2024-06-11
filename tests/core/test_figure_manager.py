@@ -5,7 +5,7 @@ import seaborn as sns
 from maidr.core import Maidr
 from maidr.core.enum.plot_type import PlotType
 from maidr.core.figure_manager import FigureManager
-from tests.core.enum.library import Library
+from maidr.core.enum.library import Library
 
 
 # test cases for invalid inputs
@@ -25,24 +25,32 @@ def test_create_maidr_with_none_plot_type(mocker):
     assert "No plot type found." == str(e.value)
 
 
-# Parametrize the test to run with different libraries and plot types
+# Parametrize the test to run with different libraries and plot types.
 @pytest.mark.parametrize(
     "lib, plot_type",
     [
+        # Parametrize matplotlib plots.
         (Library.MATPLOTLIB, PlotType.BAR),
+        (Library.MATPLOTLIB, PlotType.BOX),
+        # Parametrize seaborn plots.
         (Library.SEABORN, PlotType.BAR),
+        (Library.SEABORN, PlotType.BOX),
+        (Library.SEABORN, PlotType.COUNT),
     ],
 )
-def test_create_maidr_with_single_axes(plot_fixture, lib, plot_type):
+def test_get_maidr_with_single_axes(plot_fixture, lib, plot_type):
     fig, ax = plot_fixture(lib, plot_type)
-    maidr = FigureManager.create_maidr(ax, plot_type)
+    maidr = FigureManager.get_maidr(fig)
 
     assert isinstance(maidr, Maidr)
     assert maidr.fig is fig
 
     assert len(maidr.plots) == len([plot_type]) == 1
     for m_data, p_type in zip(maidr.plots, [plot_type]):
-        assert m_data.type == p_type
+        if p_type == PlotType.COUNT:
+            assert m_data.type == PlotType.BAR
+        else:
+            assert m_data.type == p_type
 
 
 # group tests related to matplotlib

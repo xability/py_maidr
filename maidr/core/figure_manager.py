@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Any
+import threading
 
 from matplotlib.artist import Artist
 from matplotlib.axes import Axes
@@ -33,7 +34,17 @@ class FigureManager:
         Recursively extracts Axes objects from the input artist or container.
     """
 
-    figs = dict()
+    figs = {}
+
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls):
+        if not cls._instance:
+            with cls._lock:
+                if not cls._instance:
+                    cls._instance = super(FigureManager, cls).__new__()
+        return cls._instance
 
     @classmethod
     def create_maidr(cls, ax: Axes, plot_type: PlotType, **kwargs) -> Maidr:
@@ -57,6 +68,13 @@ class FigureManager:
         """Retrieve or create a Maidr instance for the given Figure."""
         if fig not in cls.figs.keys():
             cls.figs[fig] = Maidr(fig)
+        return cls.figs[fig]
+
+    @classmethod
+    def get_maidr(cls, fig: Figure) -> Maidr:
+        """Retrieve the Maidr instance for the given Figure."""
+        if fig not in cls.figs.keys():
+            raise ValueError(f"No MAIDR found for figure: {fig}.")
         return cls.figs[fig]
 
     @staticmethod

@@ -1,8 +1,14 @@
 import pytest
 
 from maidr.core.enum.plot_type import PlotType
-from maidr.core.plot.bar_plot import BarPlot
+from maidr.core.plot.barplot import BarPlot
+from maidr.core.plot.boxplot import BoxPlot
+from maidr.core.plot.grouped_barplot import GroupedBarPlot
+from maidr.core.plot.heatmap import HeatPlot
+from maidr.core.plot.histogram import HistPlot
+from maidr.core.plot.lineplot import LinePlot
 from maidr.core.plot.maidr_plot_factory import MaidrPlotFactory
+from maidr.core.plot.scatterplot import ScatterPlot
 
 
 # test invalid inputs
@@ -17,6 +23,14 @@ def test_create_with_invalid_plot_type(mocker):
     "plot_type, expected_plot_data",
     [
         (PlotType.BAR, BarPlot),
+        (PlotType.BOX, BoxPlot),
+        (PlotType.COUNT, BarPlot),
+        (PlotType.DODGED, GroupedBarPlot),
+        (PlotType.HEAT, HeatPlot),
+        (PlotType.HIST, HistPlot),
+        (PlotType.LINE, LinePlot),
+        (PlotType.SCATTER, ScatterPlot),
+        (PlotType.STACKED, GroupedBarPlot),
     ],
 )
 def test_create_plot_data(mocker, plot_type, expected_plot_data):

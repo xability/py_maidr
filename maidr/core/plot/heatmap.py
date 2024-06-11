@@ -21,8 +21,8 @@ class HeatPlot(
         self._fill_label = kwargs.pop("fill_label")
         super().__init__(ax, PlotType.HEAT)
 
-    def _init_maidr(self) -> dict:
-        base_maidr = super()._init_maidr()
+    def render(self) -> dict:
+        base_maidr = super().render()
         heat_maidr = {
             MaidrKey.LABELS: {
                 MaidrKey.FILL: self._fill_label,

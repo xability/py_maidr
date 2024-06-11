@@ -4,13 +4,13 @@ from matplotlib.axes import Axes
 
 from maidr.core.enum import PlotType
 from maidr.core.plot.maidr_plot import MaidrPlot
-from maidr.core.plot.bar_plot import BarPlot
-from maidr.core.plot.box_plot import BoxPlot
-from maidr.core.plot.heat_plot import HeatPlot
-from maidr.core.plot.hist_plot import HistPlot
-from maidr.core.plot.line_plot import LinePlot
-from maidr.core.plot.scatter_plot import ScatterPlot
-from maidr.core.plot.grouped_bar_plot import GroupedBarPlot
+from maidr.core.plot.barplot import BarPlot
+from maidr.core.plot.boxplot import BoxPlot
+from maidr.core.plot.heatmap import HeatPlot
+from maidr.core.plot.histogram import HistPlot
+from maidr.core.plot.lineplot import LinePlot
+from maidr.core.plot.scatterplot import ScatterPlot
+from maidr.core.plot.grouped_barplot import GroupedBarPlot
 
 
 class MaidrPlotFactory:
@@ -30,7 +30,7 @@ class MaidrPlotFactory:
 
     @staticmethod
     def create(ax: Axes, plot_type: PlotType, **kwargs) -> MaidrPlot:
-        if PlotType.BAR == plot_type:
+        if PlotType.BAR == plot_type or PlotType.COUNT == plot_type:
             return BarPlot(ax)
         elif PlotType.BOX == plot_type:
             return BoxPlot(ax, **kwargs)
