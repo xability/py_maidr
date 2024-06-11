@@ -25,14 +25,22 @@ class MatplotlibFactory(LibraryFactory):
         finally:
             plt.close(fig)
 
-    def plot_on_ax(self, ax: Axes, plot_type: PlotType):
-        if plot_type == PlotType.BAR:
-            self.create_bar_plot(ax)
+    def plot_on_ax(self, ax: Axes, plot_type: PlotType) -> None:
+        if PlotType.BAR is plot_type:
+            self.create_barplot(ax)
+        elif PlotType.BOX is plot_type:
+            self.create_boxplot(ax)
 
-    def create_bar_plot(self, ax: Axes) -> Any:
+    def create_barplot(self, ax: Axes) -> Any:
         # TODO: using numbers makes matplotlib to add additional ticks messing with the
         # level extraction
         ax.bar(["1", "2", "3"], [4, 5, 6])
-        ax.set_title("Test matplotlib title")
-        ax.set_xlabel("Test matplotlib x label")
-        ax.set_ylabel("Test matplotlib y label")
+        ax.set_title("Test matplotlib bar title")
+        ax.set_xlabel("Test matplotlib bar x label")
+        ax.set_ylabel("Test matplotlib bar y label")
+
+    def create_boxplot(self, ax: Axes) -> Any:
+        ax.boxplot([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+        ax.set_title("Test matplotlib box title")
+        ax.set_xlabel("Test matplotlib box x label")
+        ax.set_ylabel("Test matplotlib box y label")
