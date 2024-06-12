@@ -13,8 +13,7 @@ b_plot = sns.barplot(
     y="body_mass_g",
     data=penguins,
     errorbar="sd",
-    palette="Blues_d",
-    library="seaborn z",
+    palette="Blues_d"
 )
 plt.title("Average Body Mass of Penguins by Species")
 plt.xlabel("Species")
