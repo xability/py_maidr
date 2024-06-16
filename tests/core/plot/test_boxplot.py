@@ -11,6 +11,7 @@ def test_box_plot_data(plot_fixture, lib):
     x_level = ["1", "2", "3"] if lib == Library.MATPLOTLIB else ["0", "1", "2"]
     expected_maidr_data = {
         MaidrKey.TYPE: PlotType.BOX,
+        MaidrKey.ORIENTATION: "vert",
         MaidrKey.TITLE: f"Test {lib.value} box title",
         MaidrKey.AXES: {
             MaidrKey.X: {
