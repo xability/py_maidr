@@ -2,6 +2,17 @@
 
 
 
+## v0.4.0 (2024-06-16)
+
+### Feature
+
+* feat(boxplot): support horizontal orientation (#52) ([`aebfd89`](https://github.com/xability/py_maidr/commit/aebfd89d90c5d64432425745186b1fe9cceab49d))
+
+### Fix
+
+* fix(example): take out unused param from seaborn barplot example ([`a58001d`](https://github.com/xability/py_maidr/commit/a58001d06f19756ac9a625257301482a75c9dc6e))
+
+
 ## v0.3.0 (2024-06-11)
 
 ### Breaking
