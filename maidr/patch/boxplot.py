@@ -49,7 +49,10 @@ def mpl_box(wrapped, _, args, kwargs) -> dict:
 
     # Extract the boxplot data points for MAIDR from the plot.
     ax = FigureManager.get_axes(plot)
-    FigureManager.create_maidr(ax, PlotType.BOX, bxp_stats=plot)
+    orientation = "horz" if not kwargs.get("vert", True) else "vert"
+    FigureManager.create_maidr(
+        ax, PlotType.BOX, bxp_stats=plot, orientation=orientation
+    )
 
     # Return to the caller.
     return plot
@@ -65,7 +68,10 @@ def sns_box(wrapped, _, args, kwargs) -> Axes:
 
     # Extract the boxplot data points for MAIDR from the plot.
     ax = FigureManager.get_axes(bxp_container.bxp_stats())
-    FigureManager.create_maidr(ax, PlotType.BOX, bxp_stats=bxp_container.bxp_stats())
+    orientation = "horz" if kwargs.get("orient", "v") == "h" else "vert"
+    FigureManager.create_maidr(
+        ax, PlotType.BOX, bxp_stats=bxp_container.bxp_stats(), orientation=orientation
+    )
 
     # Return to the caller.
     return plot

@@ -45,28 +45,29 @@ class BoxPlotContainer(DictMergerMixin):
         }
 
 
-class _BoxPlotExtractorMixin:
-    @staticmethod
-    def extract_whiskers(whiskers: list) -> list[dict]:
-        return _BoxPlotExtractorMixin.__extract_extremes(
-            whiskers, MaidrKey.Q1, MaidrKey.Q3
-        )
+class BoxPlotExtractor:
+    def __init__(self, orientation: str = "vert"):
+        self.orientation = orientation
 
-    @staticmethod
-    def extract_caps(caps: list) -> list[dict]:
-        return _BoxPlotExtractorMixin.__extract_extremes(
-            caps, MaidrKey.MIN, MaidrKey.MAX
-        )
+    def extract_whiskers(self, whiskers: list) -> list[dict]:
+        return self._extract_extremes(whiskers, MaidrKey.Q1, MaidrKey.Q3)
 
-    @staticmethod
-    def __extract_extremes(
-        extremes: list, start_key: MaidrKey, end_key: MaidrKey
+    def extract_caps(self, caps: list) -> list[dict]:
+        return self._extract_extremes(caps, MaidrKey.MIN, MaidrKey.MAX)
+
+    def _extract_extremes(
+        self, extremes: list, start_key: MaidrKey, end_key: MaidrKey
     ) -> list[dict]:
-        data = list()
+        data = []
 
         for start, end in zip(extremes[::2], extremes[1::2]):
-            start_data = float(start.get_ydata()[0])
-            end_data = float(end.get_ydata()[0])
+            start_data_fn = (
+                start.get_ydata if self.orientation == "vert" else start.get_xdata
+            )
+            end_data_fn = end.get_ydata if self.orientation == "vert" else end.get_xdata
+
+            start_data = float(start_data_fn()[0])
+            end_data = float(end_data_fn()[0])
 
             data.append(
                 {
@@ -77,25 +78,33 @@ class _BoxPlotExtractorMixin:
 
         return data
 
-    @staticmethod
-    def extract_medians(medians: list) -> list:
-        return [float(median.get_ydata()[0]) for median in medians]
+    def extract_medians(self, medians: list) -> list:
+        return [
+            float(
+                (
+                    median.get_ydata if self.orientation == "vert" else median.get_xdata
+                )()[0]
+            )
+            for median in medians
+        ]
 
-    @staticmethod
-    def extract_outliers(fliers: list, caps: list) -> list[dict]:
-        data = list()
+    def extract_outliers(self, fliers: list, caps: list) -> list[dict]:
+        data = []
 
         for outlier, cap in zip(fliers, caps):
-            outliers = [float(outlier) for outlier in outlier.get_ydata()]
+            outlier_fn = (
+                outlier.get_ydata if self.orientation == "vert" else outlier.get_xdata
+            )
+            outliers = [float(value) for value in outlier_fn()]
             _min, _max = cap.values()
 
             data.append(
                 {
                     MaidrKey.LOWER_OUTLIER.value: sorted(
-                        [outlier for outlier in outliers if outlier < _min]
+                        [out for out in outliers if out < _min]
                     ),
                     MaidrKey.UPPER_OUTLIER.value: sorted(
-                        [outlier for outlier in outliers if outlier > _max]
+                        [out for out in outliers if out > _max]
                     ),
                 }
             )
@@ -105,22 +114,33 @@ class _BoxPlotExtractorMixin:
 
 class BoxPlot(
     MaidrPlot,
-    _BoxPlotExtractorMixin,
     ContainerExtractorMixin,
     LevelExtractorMixin,
     DictMergerMixin,
 ):
     def __init__(self, ax: Axes, **kwargs) -> None:
         self._bxp_stats = kwargs.pop("bxp_stats", None)
+        self._orientation = kwargs.pop("orientation", "vert")
+        self._bxp_extractor = BoxPlotExtractor(orientation=self._orientation)
         super().__init__(ax, PlotType.BOX)
+
+    def render(self) -> dict:
+        base_schema = super().render()
+        box_orientation = {MaidrKey.ORIENTATION: self._orientation}
+        return DictMergerMixin.merge_dict(base_schema, box_orientation)
 
     def _extract_axes_data(self) -> dict:
         base_ax_schema = super()._extract_axes_data()
-        box_ax_schema = {
-            MaidrKey.X.value: {
-                MaidrKey.LEVEL.value: self.extract_level(self.ax),
-            },
-        }
+        if self._orientation == "vert":
+            box_ax_schema = {
+                MaidrKey.X: {
+                    MaidrKey.LEVEL: self.extract_level(self.ax, MaidrKey.X),
+                },
+            }
+        else:
+            box_ax_schema = {
+                MaidrKey.Y: {MaidrKey.LEVEL: self.extract_level(self.ax, MaidrKey.Y)}
+            }
         return self.merge_dict(base_ax_schema, box_ax_schema)
 
     def _extract_plot_data(self) -> list:
@@ -136,10 +156,10 @@ class BoxPlot(
             return None
 
         bxp_maidr = list()
-        whiskers = self.extract_whiskers(bxp_stats["whiskers"])
-        caps = self.extract_caps(bxp_stats["caps"])
-        medians = self.extract_medians(bxp_stats["medians"])
-        outliers = self.extract_outliers(bxp_stats["fliers"], caps)
+        whiskers = self._bxp_extractor.extract_whiskers(bxp_stats["whiskers"])
+        caps = self._bxp_extractor.extract_caps(bxp_stats["caps"])
+        medians = self._bxp_extractor.extract_medians(bxp_stats["medians"])
+        outliers = self._bxp_extractor.extract_outliers(bxp_stats["fliers"], caps)
 
         for whisker, cap, median, outlier in zip(whiskers, caps, medians, outliers):
             bxp_maidr.append(
@@ -154,4 +174,4 @@ class BoxPlot(
                 }
             )
 
-        return bxp_maidr
+        return bxp_maidr if self._orientation == "vert" else list(reversed(bxp_maidr))
