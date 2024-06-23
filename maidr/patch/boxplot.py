@@ -33,6 +33,10 @@ class BoxplotContextManager(ContextManager):
     def add_bxp_context(cls, bxp_context: dict) -> None:
         cls.get_bxp_context().add_artists(bxp_context)
 
+    @classmethod
+    def set_bxp_orientation(cls, orientation: str) -> None:
+        cls.get_bxp_context().set_orientation(orientation)
+
 
 @wrapt.patch_function_wrapper(Axes, "bxp")
 def mpl_box(wrapped, _, args, kwargs) -> dict:
@@ -68,10 +72,45 @@ def sns_box(wrapped, _, args, kwargs) -> Axes:
 
     # Extract the boxplot data points for MAIDR from the plot.
     ax = FigureManager.get_axes(bxp_container.bxp_stats())
-    orientation = "horz" if kwargs.get("orient", "v") == "h" else "vert"
+    orientation = (
+        "horz"
+        if bxp_container.orientation() == "y" or bxp_container.orientation() == "h"
+        else "vert"
+    )
     FigureManager.create_maidr(
         ax, PlotType.BOX, bxp_stats=bxp_container.bxp_stats(), orientation=orientation
     )
 
     # Return to the caller.
     return plot
+
+
+def sns_infer_new_orient(wrapped, instance, args, kwargs) -> str:
+    if BoxplotContextManager.is_internal_context():
+        orientation = instance.orient
+        BoxplotContextManager.set_bxp_orientation(orientation)
+
+    return wrapped(*args, **kwargs)
+
+
+def patch_seaborn():
+    import packaging.version as version
+    import seaborn
+
+    sns_version = seaborn.__version__
+    min_version = "0.12"
+
+    if version.parse(sns_version) < version.parse(min_version):
+        wrapt.wrap_function_wrapper(
+            "seaborn.categorical", "_BoxPlotter.plot", sns_version
+        )
+    else:
+        wrapt.wrap_function_wrapper(
+            "seaborn.categorical",
+            "_CategoricalPlotter.plot_boxes",
+            sns_infer_new_orient,
+        )
+
+
+# Apply the appropriate patches based on the Seaborn version
+patch_seaborn()

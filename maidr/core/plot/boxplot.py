@@ -14,6 +14,7 @@ from maidr.utils.mixin import (
 
 class BoxPlotContainer(DictMergerMixin):
     def __init__(self):
+        self._orientation = None
         self.boxes = []
         self.medians = []
         self.whiskers = []
@@ -22,6 +23,12 @@ class BoxPlotContainer(DictMergerMixin):
 
     def __repr__(self):
         return f"<BoxPlotContainer object with {len(self.boxes)} boxes>"
+
+    def orientation(self):
+        return self._orientation
+
+    def set_orientation(self, orientation: str):
+        self._orientation = orientation
 
     def add_artists(self, artist: dict):
         for box in artist["boxes"]:
