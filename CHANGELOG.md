@@ -1,6 +1,10 @@
 # CHANGELOG
 
+## v0.4.1 (2024-06-25)
 
+### Fix
+
+* fix(boxplot): support seaborn axes flip (#56) ([`023907f`](https://github.com/xability/py_maidr/commit/023907fd2482631c42803c7504bf9b838fb035c6))
 
 ## v0.4.0 (2024-06-16)
 
@@ -11,7 +15,6 @@
 ### Fix
 
 * fix(example): take out unused param from seaborn barplot example ([`a58001d`](https://github.com/xability/py_maidr/commit/a58001d06f19756ac9a625257301482a75c9dc6e))
-
 
 ## v0.3.0 (2024-06-11)
 
@@ -54,7 +57,6 @@ Resolves: #43 ([`a6c5886`](https://github.com/xability/py_maidr/commit/a6c5886cc
 
 * fix: remove docs (#48) ([`9b8cae5`](https://github.com/xability/py_maidr/commit/9b8cae5c1e4071be6edbfdbab8f4b498516f9caf))
 
-
 ## v0.2.0 (2024-05-16)
 
 ### Ci
@@ -95,7 +97,6 @@ Resolves: #17 ([`011b1b2`](https://github.com/xability/py_maidr/commit/011b1b2b9
 * chore: move mixin to utils package ([`8b0a838`](https://github.com/xability/py_maidr/commit/8b0a838bf7cd73ecd5e036d9be28e8ed0523a9ed))
 
 * feat(boxplot): support matplotlib library (#32) ([`060ccfd`](https://github.com/xability/py_maidr/commit/060ccfda80bb168df00c78354b543dbd72c24f1b))
-
 
 ## v0.1.2 (2024-05-13)
 
