@@ -74,8 +74,17 @@ class FigureManager:
     def get_maidr(cls, fig: Figure) -> Maidr:
         """Retrieve the Maidr instance for the given Figure."""
         if fig not in cls.figs.keys():
-            raise ValueError(f"No MAIDR found for figure: {fig}.")
+            raise KeyError(f"No MAIDR found for figure: {fig}.")
         return cls.figs[fig]
+
+    @classmethod
+    def destroy(cls, fig: Figure) -> None:
+        try:
+            maidr = cls.figs.pop(fig)
+        except KeyError:
+            return
+        maidr.destroy()
+        del maidr
 
     @staticmethod
     def get_axes(

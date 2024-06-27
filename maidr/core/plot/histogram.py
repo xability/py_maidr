@@ -27,8 +27,7 @@ class HistPlot(MaidrPlot, ContainerExtractorMixin):
         if plot is None or plot.patches is None:
             return None
 
-        data = list()
-
+        data = []
         for patch in plot.patches:
             y = float(patch.get_height())
             x = float(patch.get_x())

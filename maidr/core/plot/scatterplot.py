@@ -27,7 +27,7 @@ class ScatterPlot(MaidrPlot, CollectionExtractorMixin):
         if plot is None or plot.get_offsets() is None:
             return None
 
-        data = list()
+        data = []
         for point in plot.get_offsets().data:
             x, y = point
             data.append(

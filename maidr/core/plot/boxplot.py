@@ -155,7 +155,7 @@ class BoxPlot(
         if bxp_stats is None:
             return None
 
-        bxp_maidr = list()
+        bxp_maidr = []
         whiskers = self._bxp_extractor.extract_whiskers(bxp_stats["whiskers"])
         caps = self._bxp_extractor.extract_caps(bxp_stats["caps"])
         medians = self._bxp_extractor.extract_medians(bxp_stats["medians"])

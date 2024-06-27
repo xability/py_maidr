@@ -48,7 +48,7 @@ class GroupedBarPlot(
             return None
 
         x_level = self.extract_level(self.ax)
-        data = list()
+        data = []
 
         for container in plot:
             if len(x_level) != len(container.patches):

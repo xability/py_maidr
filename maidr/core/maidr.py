@@ -37,7 +37,7 @@ class Maidr:
     def __init__(self, fig: Figure) -> None:
         """Create a new Maidr for the given ``matplotlib.figure.Figure``."""
         self._fig = fig
-        self._plots = list()
+        self._plots = []
 
     @property
     def fig(self) -> Figure:
@@ -94,6 +94,13 @@ class Maidr:
         """
         html = self._create_html_tag()
         return html.show(renderer)
+
+    def clear(self):
+        self._plots = []
+
+    def destroy(self) -> None:
+        del self._plots
+        del self._fig
 
     def _create_html_tag(self) -> Tag:
         """Create the MAIDR HTML using HTML tags."""
