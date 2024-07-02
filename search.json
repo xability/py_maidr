@@ -14,6 +14,13 @@
     "text": "stacked\nstacked(plot)"
   },
   {
+    "objectID": "api/core/close.html",
+    "href": "api/core/close.html",
+    "title": "close",
+    "section": "",
+    "text": "close\nclose(plot)"
+  },
+  {
     "objectID": "api/core/save_html.html",
     "href": "api/core/save_html.html",
     "title": "save_html",
@@ -25,13 +32,13 @@
     "href": "api/core/index.html",
     "title": "PyMAIDR",
     "section": "",
-    "text": "save_html\n\n\n\nshow\n\n\n\nstacked"
+    "text": "close\n\n\n\nsave_html\n\n\n\nshow\n\n\n\nstacked"
   },
   {
     "objectID": "api/core/index.html#maidr",
     "href": "api/core/index.html#maidr",
     "title": "PyMAIDR",
     "section": "",
-    "text": "save_html\n\n\n\nshow\n\n\n\nstacked"
+    "text": "close\n\n\n\nsave_html\n\n\n\nshow\n\n\n\nstacked"
   }
 ]
