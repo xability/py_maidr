@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.4.2 (2024-07-02)
+
+### Fix
+
+* fix: seaborn multi plots in same session (#58) ([`c32fdfd`](https://github.com/xability/py_maidr/commit/c32fdfd32473dd354d292d33a19610a4c0a2eb63))
+
 ## v0.4.1 (2024-06-25)
 
 ### Fix
