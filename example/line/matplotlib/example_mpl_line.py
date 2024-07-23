@@ -27,4 +27,3 @@ plt.ylabel("Total Passengers (Thousands)", fontsize=12)
 # Show the plot
 plt.show()
 maidr.show(line_plot)
-print()

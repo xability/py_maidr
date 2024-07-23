@@ -37,6 +37,8 @@ class MaidrPlot(ABC):
     def __init__(self, ax: Axes, plot_type: PlotType) -> None:
         # graphic object
         self.ax = ax
+        self._support_highlighting = True
+        self._elements = []
 
         # MAIDR data
         self.type = plot_type
@@ -44,12 +46,22 @@ class MaidrPlot(ABC):
 
     def render(self) -> dict:
         """Initialize the MAIDR schema dictionary with basic plot information."""
-        return {
+        maidr_schema = {
             MaidrKey.TYPE: self.type,
             MaidrKey.TITLE: self.ax.get_title(),
             MaidrKey.AXES: self._extract_axes_data(),
             MaidrKey.DATA: self._extract_plot_data(),
         }
+
+        # Include selector only if the plot supports highlighting.
+        if self._support_highlighting:
+            maidr_schema[MaidrKey.SELECTOR] = self._get_selector()
+
+        return maidr_schema
+
+    def _get_selector(self) -> str:
+        """Return the CSS selector for highlighting elements."""
+        return "path[maidr='true']"
 
     def _extract_axes_data(self) -> dict:
         """Extract the plot's axes data"""
@@ -74,8 +86,14 @@ class MaidrPlot(ABC):
             self._schema = self.render()
         return self._schema
 
+    @property
+    def elements(self) -> list:
+        if not self._schema:
+            self._schema = self.render()
+        return self._elements
+
     def set_id(self, maidr_id: str) -> None:
         """Set the unique identifier for the plot within the MAIDR schema."""
         if not self._schema:
             self._schema = self.render()
-        self._schema[MaidrKey.ID.value] = maidr_id
+        self._schema[MaidrKey.ID] = maidr_id

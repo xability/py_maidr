@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import numpy.ma as ma
+
 from matplotlib.axes import Axes
 from matplotlib.cm import ScalarMappable
 from matplotlib.collections import QuadMesh
@@ -44,15 +46,16 @@ class HeatPlot(
 
     def _extract_plot_data(self) -> list[list]:
         plot = self.extract_scalar_mappable(self.ax)
-        data = HeatPlot._extract_scalar_mappable_data(plot)
+        data = self._extract_scalar_mappable_data(plot)
 
         if data is None:
             raise ExtractionError(self.type, plot)
 
         return data
 
-    @staticmethod
-    def _extract_scalar_mappable_data(sm: ScalarMappable | None) -> list[list] | None:
+    def _extract_scalar_mappable_data(
+        self, sm: ScalarMappable | None
+    ) -> list[list] | None:
         if sm is None or sm.get_array() is None:
             return None
 
@@ -60,7 +63,12 @@ class HeatPlot(
         if isinstance(sm, QuadMesh):
             # Data gets flattened in ScalarMappable, when the plot is from QuadMesh.
             # So, reshaping the data to reflect the original quadrilaterals
-            m, n, _ = sm.get_coordinates().shape
+            m, n, _ = ma.shape(sm.get_coordinates())
             array = array.reshape(m - 1, n - 1)  # Coordinates shape is (M + 1, N + 1)
+
+            # Tag the elements for highlighting
+            self._elements.append(sm)
+        else:
+            self._support_highlighting = False
 
         return [list(map(float, row)) for row in array]

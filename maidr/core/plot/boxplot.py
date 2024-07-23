@@ -126,10 +126,12 @@ class BoxPlot(
     DictMergerMixin,
 ):
     def __init__(self, ax: Axes, **kwargs) -> None:
+        super().__init__(ax, PlotType.BOX)
+
         self._bxp_stats = kwargs.pop("bxp_stats", None)
         self._orientation = kwargs.pop("orientation", "vert")
         self._bxp_extractor = BoxPlotExtractor(orientation=self._orientation)
-        super().__init__(ax, PlotType.BOX)
+        self._support_highlighting = False
 
     def render(self) -> dict:
         base_schema = super().render()
