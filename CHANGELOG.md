@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.5.0 (2024-07-25)
+
+### Feature
+
+* feat: support hightlighing except for segmented plots and boxplots (#59) ([`c2cb99d`](https://github.com/xability/py_maidr/commit/c2cb99d8d7668b177dcf8b800b137eb994c85d6f))
+
 ## v0.4.2 (2024-07-02)
 
 ### Fix
@@ -274,9 +280,9 @@ settings ([`94da4f3`](https://github.com/xability/py_maidr/commit/94da4f3c1ba82f
 
 * Merge branch &#39;main&#39; of https://github.com/uiuc-ischool-accessible-computing-lab/py-maidr into main ([`19f6a49`](https://github.com/xability/py_maidr/commit/19f6a49195fd9166abf3785bbd1934f02ff5efd1))
 
-* [WIP] boxplot data extraction ([`bbbcce0`](https://github.com/xability/py_maidr/commit/bbbcce0347f025366a3a1f412a90369903637bec))
-
 * change module name: c2m -&gt; maidr ([`2911628`](https://github.com/xability/py_maidr/commit/2911628f8e0460cd887b27efd1fc94141ad36504))
+
+* [WIP] boxplot data extraction ([`bbbcce0`](https://github.com/xability/py_maidr/commit/bbbcce0347f025366a3a1f412a90369903637bec))
 
 * [InProgress] heatmap visual sync ([`2738d92`](https://github.com/xability/py_maidr/commit/2738d924df4425f0871b09e5fbe0a35d0e066332))
 
@@ -318,9 +324,9 @@ This reverts commit d8206b0c64a0c5b6e21e33d75382f271b19b8858. ([`590b81a`](https
 
 * Merge branch &#39;main&#39; of https://github.com/uiuc-ischool-accessible-computing-lab/py-maidr ([`d85366c`](https://github.com/xability/py_maidr/commit/d85366c98b417a57d22b83069b2078ab2988d16d))
 
-* refactor c2m module ([`68e1016`](https://github.com/xability/py_maidr/commit/68e101612df87d79fa53df46e48cb52d953d4324))
-
 * [InProgress] Partial sonification of heatmap ([`a3b771c`](https://github.com/xability/py_maidr/commit/a3b771c6c953731249fa5fa207d41ebad1701d6e))
+
+* refactor c2m module ([`68e1016`](https://github.com/xability/py_maidr/commit/68e101612df87d79fa53df46e48cb52d953d4324))
 
 * WIP: c2m module ([`6785205`](https://github.com/xability/py_maidr/commit/678520506faa9a78eb23a2bf22d33f17dec2ce22))
 
@@ -332,9 +338,9 @@ fix #1: start c2m module ([`205ea3f`](https://github.com/xability/py_maidr/commi
 
 * Merge branch &#39;main&#39; of https://github.com/uiuc-ischool-accessible-computing-lab/py-maidr into main ([`e759ab8`](https://github.com/xability/py_maidr/commit/e759ab8c76964ab57c56df85bd9cb571e5102822))
 
-* [InProgress] heatmap data extraction ([`4b19490`](https://github.com/xability/py_maidr/commit/4b19490620e494ec6e546494b47fa95a12d0ed8d))
-
 * VSCode: add more settings and extensions ([`70a6f7c`](https://github.com/xability/py_maidr/commit/70a6f7cba3ec728fd4e91fb861879fb1e87329d5))
+
+* [InProgress] heatmap data extraction ([`4b19490`](https://github.com/xability/py_maidr/commit/4b19490620e494ec6e546494b47fa95a12d0ed8d))
 
 * update readme ([`2ce3a5a`](https://github.com/xability/py_maidr/commit/2ce3a5a8f2bb8f5a8c49f658234f3ec333bad074))
 
@@ -360,15 +366,13 @@ fix #1: start c2m module ([`205ea3f`](https://github.com/xability/py_maidr/commi
 
 * resolve conflict ([`15de2c9`](https://github.com/xability/py_maidr/commit/15de2c9535d74f62ab03a23bf2b3b236240c4ceb))
 
-* add black to pre-commit ([`377312d`](https://github.com/xability/py_maidr/commit/377312df854d60f44c01bf86b8b2673eb0a8538a))
-
 * add  to pre-commit ([`7bba7bd`](https://github.com/xability/py_maidr/commit/7bba7bd3016db9ec46217e7a6821ac19dfe6acc1))
+
+* add black to pre-commit ([`377312d`](https://github.com/xability/py_maidr/commit/377312df854d60f44c01bf86b8b2673eb0a8538a))
 
 * add VSCode settings and extensions ([`7b36507`](https://github.com/xability/py_maidr/commit/7b365079d0c9aefbf805811dc1fe4e39656473f2))
 
 * Merge branch &#39;master&#39; ([`ddba335`](https://github.com/xability/py_maidr/commit/ddba3353d45cf83d6748fd0a2f4703888a635e36))
-
-* Initial commit ([`673f1e9`](https://github.com/xability/py_maidr/commit/673f1e91b0fb40bf407b841d939ffbb1af5feb61))
 
 * [in progress] sonification for line chart ([`d4466bc`](https://github.com/xability/py_maidr/commit/d4466bcdc86abd39f6c9af3ac4b20d8518196cce))
 
@@ -393,3 +397,5 @@ fix #1: start c2m module ([`205ea3f`](https://github.com/xability/py_maidr/commi
 * function for countplot ([`1e63690`](https://github.com/xability/py_maidr/commit/1e63690cf35c2587dcba307d2eb1884ea62f0c69))
 
 * initial commit ([`ec22a67`](https://github.com/xability/py_maidr/commit/ec22a6769151a47ddfebd1ded0ba69c76f89f0bf))
+
+* Initial commit ([`673f1e9`](https://github.com/xability/py_maidr/commit/673f1e91b0fb40bf407b841d939ffbb1af5feb61))
