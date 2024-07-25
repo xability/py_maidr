@@ -10,6 +10,7 @@ from lxml import etree
 
 from matplotlib.figure import Figure
 
+from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
 
 
@@ -104,7 +105,9 @@ class Maidr:
 
     def _create_html_tag(self) -> Tag:
         """Create the MAIDR HTML using HTML tags."""
-        svg = self._get_svg()
+        tagged_elements = [element for plot in self._plots for element in plot.elements]
+        with HighlightContextManager.set_maidr_elements(tagged_elements):
+            svg = self._get_svg()
         maidr = f"\nlet maidr = {json.dumps(self._flatten_maidr(), indent=2)}\n"
 
         # Inject plot's svg and MAIDR structure into html tag.

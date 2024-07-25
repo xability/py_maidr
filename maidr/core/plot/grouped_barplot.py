@@ -18,6 +18,7 @@ class GroupedBarPlot(
 ):
     def __init__(self, ax: Axes, plot_type: PlotType) -> None:
         super().__init__(ax, plot_type)
+        self._support_highlighting = False
 
     def _extract_axes_data(self) -> dict:
         base_ax_schema = super()._extract_axes_data()

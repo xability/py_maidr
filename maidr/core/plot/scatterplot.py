@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import numpy.ma as ma
+
 from matplotlib.axes import Axes
 from matplotlib.collections import PathCollection
 
@@ -13,28 +15,29 @@ class ScatterPlot(MaidrPlot, CollectionExtractorMixin):
     def __init__(self, ax: Axes) -> None:
         super().__init__(ax, PlotType.SCATTER)
 
+    def _get_selector(self) -> str:
+        return "g[maidr='true'] > use"
+
     def _extract_plot_data(self) -> list[dict]:
         plot = self.extract_collection(self.ax, PathCollection)
-        data = ScatterPlot._extract_point_data(plot)
+        data = self._extract_point_data(plot)
 
         if data is None:
             raise ExtractionError(self.type, plot)
 
         return data
 
-    @staticmethod
-    def _extract_point_data(plot: PathCollection | None) -> list[dict] | None:
+    def _extract_point_data(self, plot: PathCollection | None) -> list[dict] | None:
         if plot is None or plot.get_offsets() is None:
             return None
 
-        data = []
-        for point in plot.get_offsets().data:
-            x, y = point
-            data.append(
-                {
-                    MaidrKey.X.value: float(x),
-                    MaidrKey.Y.value: float(y),
-                }
-            )
+        # Tag the elements for highlighting.
+        self._elements.append(plot)
 
-        return data
+        return [
+            {
+                MaidrKey.X: float(x),
+                MaidrKey.Y: float(y),
+            }
+            for x, y in ma.getdata(plot.get_offsets())
+        ]

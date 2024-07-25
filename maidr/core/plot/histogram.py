@@ -15,15 +15,16 @@ class HistPlot(MaidrPlot, ContainerExtractorMixin):
 
     def _extract_plot_data(self) -> list[dict]:
         plot = self.extract_container(self.ax, BarContainer)
-        data = HistPlot._extract_bar_container_data(plot)
+        data = self._extract_bar_container_data(plot)
 
         if data is None:
             raise ExtractionError(self.type, plot)
 
         return data
 
-    @staticmethod
-    def _extract_bar_container_data(plot: BarContainer | None) -> list[dict] | None:
+    def _extract_bar_container_data(
+        self, plot: BarContainer | None
+    ) -> list[dict] | None:
         if plot is None or plot.patches is None:
             return None
 
@@ -43,5 +44,8 @@ class HistPlot(MaidrPlot, ContainerExtractorMixin):
                     MaidrKey.Y_MAX.value: y,
                 }
             )
+
+        # Tag the elements for highlighting
+        self._elements.extend(plot.patches)
 
         return data

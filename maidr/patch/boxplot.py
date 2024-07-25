@@ -1,41 +1,12 @@
 from __future__ import annotations
 
-import contextlib
-import contextvars
 import wrapt
 
 from matplotlib.axes import Axes
 
-from maidr.core.context_manager import ContextManager
+from maidr.core.context_manager import ContextManager, BoxplotContextManager
 from maidr.core.enum import PlotType
 from maidr.core.figure_manager import FigureManager
-from maidr.core.plot.boxplot import BoxPlotContainer
-
-
-class BoxplotContextManager(ContextManager):
-    _bxp_context = contextvars.ContextVar("bxp_context", default=BoxPlotContainer())
-
-    @classmethod
-    @contextlib.contextmanager
-    def set_internal_context(cls):
-        with super(BoxplotContextManager, cls).set_internal_context():
-            token = cls._bxp_context.set(BoxPlotContainer())
-            try:
-                yield cls.get_bxp_context()
-            finally:
-                cls._bxp_context.reset(token)
-
-    @classmethod
-    def get_bxp_context(cls) -> BoxPlotContainer:
-        return cls._bxp_context.get()
-
-    @classmethod
-    def add_bxp_context(cls, bxp_context: dict) -> None:
-        cls.get_bxp_context().add_artists(bxp_context)
-
-    @classmethod
-    def set_bxp_orientation(cls, orientation: str) -> None:
-        cls.get_bxp_context().set_orientation(orientation)
 
 
 @wrapt.patch_function_wrapper(Axes, "bxp")

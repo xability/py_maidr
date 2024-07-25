@@ -11,6 +11,7 @@ from maidr.core.enum.library import Library
 def test_bar_plot_data(plot_fixture, lib):
     expected_maidr_data = {
         MaidrKey.TYPE: PlotType.BAR,
+        MaidrKey.SELECTOR: "path[maidr='true']",
         MaidrKey.TITLE: f"Test {lib.value} bar title",
         MaidrKey.AXES: {
             MaidrKey.X: {
@@ -33,6 +34,7 @@ def test_bar_plot_data(plot_fixture, lib):
 def test_sns_count_plot_data(plot_fixture):
     expected_maidr_data = {
         MaidrKey.TYPE: PlotType.BAR,
+        MaidrKey.SELECTOR: "path[maidr='true']",
         MaidrKey.TITLE: f"Test seaborn count title",
         MaidrKey.AXES: {
             MaidrKey.X: {
