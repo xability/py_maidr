@@ -1,31 +1,10 @@
 [
   {
-    "objectID": "api/core/show.html",
-    "href": "api/core/show.html",
-    "title": "show",
-    "section": "",
-    "text": "show\nshow(plot, renderer='auto')"
-  },
-  {
-    "objectID": "api/core/stacked.html",
-    "href": "api/core/stacked.html",
-    "title": "stacked",
-    "section": "",
-    "text": "stacked\nstacked(plot)"
-  },
-  {
     "objectID": "api/core/close.html",
     "href": "api/core/close.html",
     "title": "close",
     "section": "",
     "text": "close\nclose(plot)"
-  },
-  {
-    "objectID": "api/core/save_html.html",
-    "href": "api/core/save_html.html",
-    "title": "save_html",
-    "section": "",
-    "text": "save_html\nsave_html(plot, file, *, lib_dir='lib', include_version=True)"
   },
   {
     "objectID": "api/core/index.html",
@@ -40,5 +19,26 @@
     "title": "PyMAIDR",
     "section": "",
     "text": "close\n\n\n\nsave_html\n\n\n\nshow\n\n\n\nstacked"
+  },
+  {
+    "objectID": "api/core/stacked.html",
+    "href": "api/core/stacked.html",
+    "title": "stacked",
+    "section": "",
+    "text": "stacked\nstacked(plot)"
+  },
+  {
+    "objectID": "api/core/save_html.html",
+    "href": "api/core/save_html.html",
+    "title": "save_html",
+    "section": "",
+    "text": "save_html\nsave_html(plot, file, *, lib_dir='lib', include_version=True)"
+  },
+  {
+    "objectID": "api/core/show.html",
+    "href": "api/core/show.html",
+    "title": "show",
+    "section": "",
+    "text": "show\nshow(plot, renderer='auto')"
   }
 ]
