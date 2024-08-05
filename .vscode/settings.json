@@ -28,7 +28,7 @@
   "search.exclude": {
     "build/**": true
   },
-  "autoDocstring.docstringFormat": "sphinx",
+  "autoDocstring.docstringFormat": "numpy",
   "editor.wordBreak": "keepAll",
   "explorer.copyRelativePathSeparator": "/",
   "files.trimTrailingWhitespace": true,
