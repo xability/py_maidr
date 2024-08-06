@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Literal
+import html as pyhtml
 
 import io
 import json
@@ -12,7 +13,7 @@ from matplotlib.figure import Figure
 
 from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
-
+from IPython.display import display_html
 
 class Maidr:
     """
@@ -94,7 +95,26 @@ class Maidr:
             The renderer to use for the HTML preview.
         """
         html = self._create_html_tag()
+        clean_html = pyhtml.escape(html.get_html_string())
+
+        if(self.check_if_notebook()):
+            display_html("<iframe srcdoc=\"" + clean_html + "\" frameBorder=0 scrolling=auto style=\"width: 100%; height:600px; backgroundColor: #fff\"></iframe>", raw=True)
+            return None
+
         return html.show(renderer)
+
+    def check_if_notebook(self) -> bool:
+        try:
+            import IPython  # pyright: ignore[reportUnknownVariableType]
+
+            ipy = (  # pyright: ignore[reportUnknownVariableType]
+                IPython.get_ipython()  # pyright: ignore[reportUnknownMemberType, reportPrivateImportUsage]
+            )
+            if(ipy):
+                return True
+            return False
+        except ImportError:
+            return False
 
     def clear(self):
         self._plots = []
