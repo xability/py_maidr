@@ -97,20 +97,23 @@ class Maidr:
         html = self._create_html_tag()
         clean_html = pyhtml.escape(html.get_html_string())
 
-        if(self.check_if_notebook()):
-            display_html("<iframe srcdoc=\"" + clean_html + "\" frameBorder=0 scrolling=auto style=\"width: 100%; height:600px; backgroundColor: #fff\"></iframe>", raw=True)
+        if self.check_if_notebook():
+            display_html(
+                "<iframe srcdoc=\"" + clean_html + "\" frameBorder=0 scrolling=auto "
+                "style=\"width: 100%; height:600px; backgroundColor: #fff\"></iframe>"
+            , raw=True)
             return None
 
         return html.show(renderer)
 
     def check_if_notebook(self) -> bool:
         try:
-            import IPython  # pyright: ignore[reportUnknownVariableType]
+            import IPython  # pyright: ignore[reportMissingModuleSource, reportUnknownVariableType]
 
             ipy = (  # pyright: ignore[reportUnknownVariableType]
                 IPython.get_ipython()  # pyright: ignore[reportUnknownMemberType, reportPrivateImportUsage]
             )
-            if(ipy):
+            if ipy:
                 return True
             return False
         except ImportError:
