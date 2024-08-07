@@ -11,9 +11,9 @@ from lxml import etree
 
 from matplotlib.figure import Figure
 
+from IPython.display import display_html
 from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
-from IPython.display import display_html
 
 
 class Maidr:
@@ -98,17 +98,52 @@ class Maidr:
         html = self._create_html_tag()
         clean_html = pyhtml.escape(html.get_html_string())
 
-        if self.check_if_notebook():
+        if self._check_if_notebook():
+            # If this is a Jupyter Notebook, display the HTML content using an iframe to fix interactivity issues.
+
+            # The random_id is used to identify the iframe and its content
+            random_id = str(uuid.uuid4())
+
+            # Resizing script to fit the chart content within the iframe
+            resizing_script = f"""
+                   <script>
+                        function resizeIframe() {{
+                            var iframe = document.getElementById('{random_id}');
+                            iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 50 + 'px';
+                        }}
+                        var iframe = document.getElementById('{random_id}');
+                        iframe.onload = function() {{
+                            resizeIframe();
+                            iframe.contentWindow.addEventListener('resize', resizeIframe);
+                        }};
+                    </script>
+                """
+
+            iframe = (
+                "<iframe id="
+                + random_id
+                + '" srcdoc="'
+                + clean_html
+                + '" frameBorder=0 scrolling=auto '
+                'style="width: 100%; height:100%" backgroundColor: #fff"></iframe>'
+            )
             display_html(
-                '<iframe srcdoc="' + clean_html + '" frameBorder=0 scrolling=auto '
-                'style="width: 100%; height:600px; backgroundColor: #fff"></iframe>',
+                iframe + resizing_script,
                 raw=True,
             )
             return None
 
         return html.show(renderer)
 
-    def check_if_notebook(self) -> bool:
+    def clear(self):
+        self._plots = []
+
+    def destroy(self) -> None:
+        del self._plots
+        del self._fig
+
+    def _check_if_notebook(self) -> bool:
+        """Returns True if the current environment is a IPython notebook."""
         try:
             import IPython  # pyright: ignore[reportMissingModuleSource, reportUnknownVariableType]
 
@@ -120,13 +155,6 @@ class Maidr:
             return False
         except ImportError:
             return False
-
-    def clear(self):
-        self._plots = []
-
-    def destroy(self) -> None:
-        del self._plots
-        del self._fig
 
     def _create_html_tag(self) -> Tag:
         """Create the MAIDR HTML using HTML tags."""
