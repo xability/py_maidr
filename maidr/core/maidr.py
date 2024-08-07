@@ -116,15 +116,13 @@ class Maidr:
                             resizeIframe();
                             iframe.contentWindow.addEventListener('resize', resizeIframe);
                         }};
+                        window.onresize = resizeIframe;
                     </script>
                 """
 
             iframe = (
-                "<iframe id="
-                + random_id
-                + '" srcdoc="'
-                + clean_html
-                + '" frameBorder=0 scrolling=auto '
+                '<iframe id="' + random_id + '" '
+                'srcdoc="' + clean_html + '" frameBorder=0 scrolling=auto '
                 'style="width: 100%; height:100%" backgroundColor: #fff"></iframe>'
             )
             display_html(
