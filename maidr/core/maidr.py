@@ -15,6 +15,7 @@ from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
 from IPython.display import display_html
 
+
 class Maidr:
     """
     A class to handle the rendering and interaction of matplotlib figures with additional metadata.
@@ -99,9 +100,10 @@ class Maidr:
 
         if self.check_if_notebook():
             display_html(
-                "<iframe srcdoc=\"" + clean_html + "\" frameBorder=0 scrolling=auto "
-                "style=\"width: 100%; height:600px; backgroundColor: #fff\"></iframe>"
-            , raw=True)
+                '<iframe srcdoc="' + clean_html + '" frameBorder=0 scrolling=auto '
+                'style="width: 100%; height:600px; backgroundColor: #fff"></iframe>',
+                raw=True,
+            )
             return None
 
         return html.show(renderer)
