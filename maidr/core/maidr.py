@@ -15,7 +15,6 @@ from matplotlib.figure import Figure
 from IPython.display import display_html
 from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
-import urllib.parse
 
 
 class Maidr:
