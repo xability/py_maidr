@@ -184,8 +184,9 @@ class Maidr:
         )
 
         if Environment.is_interactive_shell():
-            # If this is a Jupyter Notebook, display the HTML
-            # content using an iframe to fix interactivity issues.
+            # If running in an interactive environment (e.g., Jupyter Notebook),
+            # display the HTML content using an iframe to ensure proper rendering
+            # and interactivity. The iframe's height is dynamically adjusted
             base_html = tags.iframe(
                 srcdoc=str(base_html.get_html_string()),
                 width="100%",
