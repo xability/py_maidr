@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from typing import Literal
-import html as pyhtml
 
 import io
 import json
@@ -12,7 +11,6 @@ from lxml import etree
 
 from matplotlib.figure import Figure
 
-from IPython.display import display_html
 from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
 from maidr.utils.environment import Environment
