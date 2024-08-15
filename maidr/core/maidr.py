@@ -15,6 +15,7 @@ from matplotlib.figure import Figure
 from IPython.display import display_html
 from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
+from maidr.utils.environment import Environment
 
 
 class Maidr:
@@ -162,40 +163,8 @@ class Maidr:
         return str(uuid.uuid4())
 
     @staticmethod
-    def _check_if_notebook() -> bool:
-        """Returns True if the current environment is a IPython notebook."""
-        try:
-            from IPython.core.interactiveshell import InteractiveShell
-
-            return (
-                InteractiveShell.initialized()
-                and InteractiveShell.instance() is not None
-            )
-        except ImportError:
-            return False
-
-    @staticmethod
     def _inject_plot(plot: HTML, maidr: str) -> Tag:
         """Embed the plot and associated MAIDR scripts into the HTML structure."""
-
-        # The random_id is used to identify the iframe and its content
-        random_id = Maidr._unique_id()
-
-        # Resizing script to fit the chart content within the iframe
-        resizing_script = f"""
-            <script type="text/javascript">
-                    function resizeIframe() {{
-                        var iframe = document.getElementById('{random_id}');
-                        iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 50 + 'px';
-                    }}
-                    var iframe = document.getElementById('{random_id}');
-                    iframe.onload = function() {{
-                        resizeIframe();
-                        iframe.contentWindow.addEventListener('resize', resizeIframe);
-                    }};
-                    window.onresize = resizeIframe;
-            </script>
-            """
 
         base_html = tags.html(
             tags.head(
@@ -216,25 +185,19 @@ class Maidr:
             tags.script(maidr),
         )
 
-        if Maidr._check_if_notebook():
+        if Environment.is_interactive_shell():
             # If this is a Jupyter Notebook, display the HTML
             # content using an iframe to fix interactivity issues.
-            clean_html = pyhtml.escape(base_html.get_html_string())
-
-            iframe = f"""
-                <iframe
-                    id='{random_id}'
-                    srcdoc="{clean_html}"
-                    frameBorder=0
-                    scrolling=auto
-                    style="width: 100%; height:100%"
-                    backgroundColor: #fff"
-                >
-                </iframe>
-            """
-
-            display_html(iframe + resizing_script, raw=True)
-
-            return tags.br()
+            base_html = tags.iframe(
+                srcdoc=str(base_html.get_html_string()),
+                width="100%",
+                height="100%",
+                scrolling="auto",
+                style="background-color: #fff",
+                frameBorder=0,
+                onload="""
+                    this.style.height = this.contentWindow.document.body.scrollHeight + 100 + 'px';
+                """,
+            )
 
         return base_html
