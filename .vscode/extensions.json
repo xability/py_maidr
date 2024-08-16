@@ -25,7 +25,6 @@
     "github.copilot",
     "github.copilot-chat",
     "ms-vscode.vscode-speech",
-    "posit.shiny-python",
     "posit.shinyuieditor",
     "quarto.quarto",
     "github.codespaces",
@@ -36,7 +35,8 @@
     "vivaxy.vscode-conventional-commits",
     "joshbolduc.commitlint",
     "ms-python.debugpy",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "posit.shiny"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []
