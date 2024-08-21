@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from typing import Literal
 
 import io
@@ -12,6 +13,7 @@ from matplotlib.figure import Figure
 
 from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
+from maidr.utils.environment import Environment
 
 
 class Maidr:
@@ -161,7 +163,8 @@ class Maidr:
     @staticmethod
     def _inject_plot(plot: HTML, maidr: str) -> Tag:
         """Embed the plot and associated MAIDR scripts into the HTML structure."""
-        return tags.html(
+
+        base_html = tags.html(
             tags.head(
                 tags.meta(charset="UTF-8"),
                 tags.title("MAIDR"),
@@ -179,3 +182,21 @@ class Maidr:
             ),
             tags.script(maidr),
         )
+
+        if Environment.is_interactive_shell():
+            # If running in an interactive environment (e.g., Jupyter Notebook),
+            # display the HTML content using an iframe to ensure proper rendering
+            # and interactivity. The iframe's height is dynamically adjusted
+            base_html = tags.iframe(
+                srcdoc=str(base_html.get_html_string()),
+                width="100%",
+                height="100%",
+                scrolling="auto",
+                style="background-color: #fff",
+                frameBorder=0,
+                onload="""
+                    this.style.height = this.contentWindow.document.body.scrollHeight + 100 + 'px';
+                """,
+            )
+
+        return base_html

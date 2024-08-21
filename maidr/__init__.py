@@ -12,7 +12,7 @@ from .patch import (
     lineplot,
     scatterplot,
 )
-from .maidr import close, save_html, show, stacked
+from .api import close, save_html, show, stacked
 
 __all__ = [
     "close",
