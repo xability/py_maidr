@@ -52,21 +52,9 @@ class Maidr:
         """Return the list of plots extracted from the ``fig``."""
         return self._plots
 
-    def render(
-        self, *, lib_prefix: str | None = "lib", include_version: bool = True
-    ) -> RenderedHTML:
-        """
-        Render the document.
-
-        Parameters
-        ----------
-        lib_prefix : str, default="lib"
-            A prefix to add to relative paths to dependency files.
-        include_version : bool, default=True
-            Whether to include the version number in the dependency's folder name.
-        """
-        html = self._create_html_doc()
-        return html.render(lib_prefix=lib_prefix, include_version=include_version)
+    def render(self) -> Tag:
+        """Return the maidr plot inside an iframe."""
+        return self._create_html_tag()
 
     def save_html(
         self, file: str, *, lib_dir: str | None = "lib", include_version: bool = True
@@ -79,7 +67,8 @@ class Maidr:
         file : str
             The file to save to.
         lib_dir : str, default="lib"
-            The directory to save the dependencies to (relative to the file's directory).
+            The directory to save the dependencies to
+            (relative to the file's directory).
         include_version : bool, default=True
             Whether to include the version number in the dependency folder name.
         """
@@ -183,20 +172,20 @@ class Maidr:
             tags.script(maidr),
         )
 
-        if Environment.is_interactive_shell():
-            # If running in an interactive environment (e.g., Jupyter Notebook),
-            # display the HTML content using an iframe to ensure proper rendering
-            # and interactivity. The iframe's height is dynamically adjusted
-            base_html = tags.iframe(
-                srcdoc=str(base_html.get_html_string()),
-                width="100%",
-                height="100%",
-                scrolling="auto",
-                style="background-color: #fff",
-                frameBorder=0,
-                onload="""
-                    this.style.height = this.contentWindow.document.body.scrollHeight + 100 + 'px';
-                """,
-            )
+        # If running in an interactive environment (e.g., Jupyter Notebook),
+        # display the HTML content using an iframe to ensure proper rendering
+        # and interactivity. The iframe's height is dynamically adjusted
+        base_html = tags.iframe(
+            srcdoc=str(base_html.get_html_string()),
+            width="100%",
+            height="100%",
+            scrolling="auto",
+            style="background-color: #fff",
+            frameBorder=0,
+            onload="""
+                this.style.height = this.contentWindow.document.body.scrollHeight +
+                100 + 'px';
+            """,
+        )
 
         return base_html
