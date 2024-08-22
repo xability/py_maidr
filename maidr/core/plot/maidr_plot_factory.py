@@ -31,18 +31,18 @@ class MaidrPlotFactory:
     @staticmethod
     def create(ax: Axes, plot_type: PlotType, **kwargs) -> MaidrPlot:
         if PlotType.BAR == plot_type or PlotType.COUNT == plot_type:
-            return BarPlot(ax)
+            return BarPlot(ax, **kwargs)
         elif PlotType.BOX == plot_type:
             return BoxPlot(ax, **kwargs)
         elif PlotType.HEAT == plot_type:
             return HeatPlot(ax, **kwargs)
         elif PlotType.HIST == plot_type:
-            return HistPlot(ax)
+            return HistPlot(ax, **kwargs)
         elif PlotType.LINE == plot_type:
-            return LinePlot(ax)
+            return LinePlot(ax, **kwargs)
         elif PlotType.SCATTER == plot_type:
-            return ScatterPlot(ax)
+            return ScatterPlot(ax, **kwargs)
         elif PlotType.DODGED == plot_type or PlotType.STACKED == plot_type:
-            return GroupedBarPlot(ax, plot_type)
+            return GroupedBarPlot(ax, plot_type, **kwargs)
         else:
             raise TypeError(f"Unsupported plot type: {plot_type}.")
