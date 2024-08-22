@@ -1,5 +1,51 @@
 # CHANGELOG
 
+## v0.6.0 (2024-08-21)
+
+### Chore
+
+* chore: add bug report and feature request templates (#81)
+
+Added bug report and feature request templates to improve the issue creation process. These templates provide a standardized structure for reporting bugs and requesting new features, making it easier for contributors to provide clear and concise information. This will help streamline the issue triage and resolution process.
+
+The bug report template includes sections for describing the bug, steps to reproduce, actual and expected behavior, screenshots, and additional information. The feature request template includes sections for describing the requested feature, motivation, proposed solution, and additional context.
+
+This commit follows the established commit message convention of starting with a verb in the imperative form, followed by a brief description of the change. It also includes a type prefix (&#34;feat&#34;) to indicate that it is a new feature.
+
+closes #80 ([`5af72c2`](https://github.com/xability/py_maidr/commit/5af72c2cc1f01f4b1b1d1ac1944ed06c789891d8))
+
+* chore(vscode): update shiny extension ([`483a075`](https://github.com/xability/py_maidr/commit/483a0758a68960de0670e36c312cfbc1ee90c110))
+
+### Ci
+
+* ci: add repo name condidtion to docs workflow (#75) ([`0fb17e9`](https://github.com/xability/py_maidr/commit/0fb17e9c86d92d29b315dd3af254ae187a853abb))
+
+### Feature
+
+* feat: support interactivity within ipython and quarto (#64) ([`620ddc9`](https://github.com/xability/py_maidr/commit/620ddc9d57175d5ca663d9dfaef4d2704809462f))
+
+## v0.5.1 (2024-08-14)
+
+### Chore
+
+* chore(vscode): update settings to use numpy docstring ([`e9b0c4d`](https://github.com/xability/py_maidr/commit/e9b0c4d08eacdb4d9e40e46ffd74e13799da42d7))
+
+### Ci
+
+* ci: remove poetry.lock (#73) ([`da1cd26`](https://github.com/xability/py_maidr/commit/da1cd26d8db10aabfe989a760e8df9a62a4bfe3a))
+
+* ci: fixate python version in docs action (#71) (#72) ([`513780d`](https://github.com/xability/py_maidr/commit/513780d732ea2feb3890ace6c7028ebf5f193b17))
+
+* ci: fixate python version in docs action (#71) ([`c0f981a`](https://github.com/xability/py_maidr/commit/c0f981a1d3741709c929af1d8616b39313501c62))
+
+* ci: update poetry.lock (#70) ([`87ffb06`](https://github.com/xability/py_maidr/commit/87ffb06d49f4062a35f5ebee0fa0e28265ceeec5))
+
+* ci: upgrade quartodoc version (#62) ([`36fe34f`](https://github.com/xability/py_maidr/commit/36fe34fe52abca4be8e2101a10b76d887cd17bf2))
+
+### Fix
+
+* fix: update poetry.lock (#74) ([`6216959`](https://github.com/xability/py_maidr/commit/621695940075fe195b0310c544c117bdc5a9d35e))
+
 ## v0.5.0 (2024-07-25)
 
 ### Feature
