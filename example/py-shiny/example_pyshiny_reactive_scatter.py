@@ -41,6 +41,7 @@ def server(input, output, session):
         ax.set_xlabel(input.x_var().replace("_", " ").title())
         ax.set_ylabel(input.y_var().replace("_", " ").title())  # Hello
         return s_plot
+
     output.reactivebarplot = render_maidr(create_reactivebarplot)
 
 
