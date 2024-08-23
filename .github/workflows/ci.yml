@@ -88,6 +88,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install commitlint dependencies
+        run: npm install @commitlint/config-conventional
+
       - name: Lint commit messages
         uses: wagoid/commitlint-github-action@v6
         with:
