@@ -32,6 +32,7 @@ app_ui = ui.page_fluid(
 
 # Define the server
 def server(input, output, session):
+    @render_maidr
     def create_reactivebarplot():
         fig, ax = plt.subplots(figsize=(10, 6))
         s_plot = sns.scatterplot(
@@ -39,10 +40,8 @@ def server(input, output, session):
         )
         ax.set_title(f"Iris {input.y_var()} vs {input.x_var()}")
         ax.set_xlabel(input.x_var().replace("_", " ").title())
-        ax.set_ylabel(input.y_var().replace("_", " ").title())  # Hello
+        ax.set_ylabel(input.y_var().replace("_", " ").title())
         return s_plot
-
-    output.reactivebarplot = render_maidr(create_reactivebarplot)
 
 
 # Create the app

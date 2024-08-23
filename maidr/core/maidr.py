@@ -6,14 +6,13 @@ import io
 import json
 import uuid
 
-from htmltools import HTML, HTMLDocument, RenderedHTML, tags, Tag
+from htmltools import HTML, HTMLDocument, Tag, tags
 from lxml import etree
 
 from matplotlib.figure import Figure
 
 from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
-from maidr.utils.environment import Environment
 
 
 class Maidr:
@@ -152,7 +151,6 @@ class Maidr:
     @staticmethod
     def _inject_plot(plot: HTML, maidr: str) -> Tag:
         """Embed the plot and associated MAIDR scripts into the HTML structure."""
-
         base_html = tags.html(
             tags.head(
                 tags.meta(charset="UTF-8"),
