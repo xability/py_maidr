@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from shiny import App, ui
 
-from maidr.widget.shiny import render_maidr
+from maidr.widget.shiny import RenderMaidr
 
 # Load the dataset
 iris = sns.load_dataset("iris")
@@ -32,7 +32,7 @@ app_ui = ui.page_fluid(
 
 # Define the server
 def server(input, output, session):
-    @render_maidr
+    @RenderMaidr
     def create_reactivebarplot():
         fig, ax = plt.subplots(figsize=(10, 6))
         s_plot = sns.scatterplot(

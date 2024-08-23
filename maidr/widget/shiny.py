@@ -6,7 +6,7 @@ from shiny.types import Jsonifiable
 import maidr
 
 
-class render_maidr(ui):
+class RenderMaidr(ui):
     """
     A custom UI rendering class for Maidr objects in Shiny applications.
 
