@@ -12,10 +12,11 @@ from .patch import (
     lineplot,
     scatterplot,
 )
-from .api import close, save_html, show, stacked
+from .api import close, render, save_html, show, stacked
 
 __all__ = [
     "close",
+    "render",
     "save_html",
     "show",
     "stacked",
