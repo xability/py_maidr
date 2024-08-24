@@ -2,22 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://xability.github.io/py_maidr/api/core/index.html</loc>
-    <lastmod>2024-08-23T17:55:33.840Z</lastmod>
+    <lastmod>2024-08-24T02:34:28.511Z</lastmod>
   </url>
   <url>
     <loc>https://xability.github.io/py_maidr/api/core/close.html</loc>
-    <lastmod>2024-08-23T17:55:33.848Z</lastmod>
-  </url>
-  <url>
-    <loc>https://xability.github.io/py_maidr/api/core/save_html.html</loc>
-    <lastmod>2024-08-23T17:55:33.848Z</lastmod>
+    <lastmod>2024-08-24T02:34:28.519Z</lastmod>
   </url>
   <url>
     <loc>https://xability.github.io/py_maidr/api/core/show.html</loc>
-    <lastmod>2024-08-23T17:55:33.848Z</lastmod>
+    <lastmod>2024-08-24T02:34:28.527Z</lastmod>
+  </url>
+  <url>
+    <loc>https://xability.github.io/py_maidr/api/core/save_html.html</loc>
+    <lastmod>2024-08-24T02:34:28.523Z</lastmod>
+  </url>
+  <url>
+    <loc>https://xability.github.io/py_maidr/api/core/render.html</loc>
+    <lastmod>2024-08-24T02:34:28.523Z</lastmod>
   </url>
   <url>
     <loc>https://xability.github.io/py_maidr/api/core/stacked.html</loc>
-    <lastmod>2024-08-23T17:55:33.848Z</lastmod>
+    <lastmod>2024-08-24T02:34:28.527Z</lastmod>
   </url>
 </urlset>
