@@ -43,9 +43,9 @@ lxml = ">=5.1.0"
 htmltools = ">=0.5"
 jupyter = "^1.0.0"
 wrapt = "^1.16.0"
+black = "23.3.0"
 
 [tool.poetry.group.dev.dependencies]
-black = "24.3.0"
 sphinx = "^7.0.1"
 pre-commit = "^3.3.2"
 pytest = "^7.3.2"
