@@ -14,7 +14,9 @@ from maidr.patch.common import common
 
 
 @wrapt.patch_function_wrapper(Axes, "hist")
-def mpl_hist(wrapped, _, args, kwargs) -> tuple[
+def mpl_hist(
+    wrapped, _, args, kwargs
+) -> tuple[
     np.ndarray | list[np.ndarray],
     np.ndarray,
     BarContainer | Polygon | list[BarContainer | Polygon],
