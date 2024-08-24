@@ -1,5 +1,119 @@
 # CHANGELOG
 
+## v0.7.0 (2024-08-24)
+
+### Ci
+
+* ci: rectify commit-lint job crash (#92)
+
+&lt;!-- Suggested PR Title: [feat/fix/refactor/perf/test/ci/docs/chore]
+brief description of the change --&gt;
+&lt;!-- Please follow Conventional Commits:
+https://www.conventionalcommits.org/en/v1.0.0/ --&gt;
+
+## Description
+
+This PR resolves an issue related to the `commit-lint` job in
+`.github/workflows/ci.yml`.
+
+Closes [#91]
+
+## Type of Change
+
+- [X] Bug fix
+- [ ] New feature
+- [ ] Breaking change (fix or feature that would cause existing
+functionality to not work as expected)
+- [ ] Documentation update
+
+## Checklist
+
+- [X] My code follows the style guidelines of this project
+- [X] I have performed a self-review of my code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [X] My changes generate no new warnings
+- [ ] Any dependent changes have been merged and published in downstream
+modules
+
+# Pull Request
+
+## Description
+This PR addresses an issue where `commit-lint` job crashes when
+validating pull requests.
+
+## Changes Made
+Currently, the commitlint config file is getting loaded as an ES module
+whilst it contains vanilla javascript configurations. This causes the
+job to crash because it expects a common javascript config but finds an
+ES module config. To address this issue The commit-lint config file has
+been changed to a `common-js` file instead of a `js` file and the
+conventional commit dependancy will now be installed during the job via
+npm.
+
+## Screenshots (if applicable)
+After making the changes, I tested the commit-lint job locally and here
+is an excerpt of the execution:
+```
+(py-maidr) ➜  py_maidr git:(Krishna/fix-commitlint) act -j commit-lint -W .github/workflows/ci.yml --container-architecture linux/amd64
+
+INFO[0000] Using docker host &#39;unix:///var/run/docker.sock&#39;, and daemon socket &#39;unix:///var/run/docker.sock&#39; 
+[CI/commit-lint] 🚀  Start image=catthehacker/ubuntu:act-latest
+INFO[0000] Parallel tasks (0) below minimum, setting to 1 
+[CI/commit-lint]   🐳  docker pull image=catthehacker/ubuntu:act-latest platform=linux/amd64 username= forcePull=true
+[CI/commit-lint] using DockerAuthConfig authentication for docker pull
+INFO[0001] Parallel tasks (0) below minimum, setting to 1 
+[CI/commit-lint]   🐳  docker create image=catthehacker/ubuntu:act-latest platform=linux/amd64 entrypoint=[&#34;tail&#34; &#34;-f&#34; &#34;/dev/null&#34;] cmd=[] network=&#34;host&#34;
+[CI/commit-lint]   🐳  docker run image=catthehacker/ubuntu:act-latest platform=linux/amd64 entrypoint=[&#34;tail&#34; &#34;-f&#34; &#34;/dev/null&#34;] cmd=[] network=&#34;host&#34;
+[CI/commit-lint]   ☁  git clone &#39;https://github.com/wagoid/commitlint-github-action&#39; # ref=v6
+[CI/commit-lint] ⭐ Run Main actions/checkout@v3
+[CI/commit-lint]   🐳  docker cp src=/Users/krishnaanandan/Desktop/maidr_krishna/py_maidr/. dst=/Users/krishnaanandan/Desktop/maidr_krishna/py_maidr
+[CI/commit-lint]   ✅  Success - Main actions/checkout@v3
+[CI/commit-lint] ⭐ Run Main Install commitlint dependencies
+[CI/commit-lint]   🐳  docker exec cmd=[bash --noprofile --norc -e -o pipefail /var/run/act/workflow/1] user= workdir=
+| 
+| added 11 packages in 3s
+| 
+| 1 package is looking for funding
+|   run `npm fund` for details
+[CI/commit-lint]   ✅  Success - Main Install commitlint dependencies
+[CI/commit-lint] ⭐ Run Main Lint commit messages
+[CI/commit-lint]   🐳  docker pull image=wagoid/commitlint-github-action:6.1.1 platform=linux/amd64 username= forcePull=true
+[CI/commit-lint] using DockerAuthConfig authentication for docker pull
+[CI/commit-lint]   🐳  docker create image=wagoid/commitlint-github-action:6.1.1 platform=linux/amd64 entrypoint=[] cmd=[] network=&#34;container:act-CI-commit-lint-6b355268bbbb8e27234c3c935b66fc686b070544b9a3b02b47d79688837a12ff&#34;
+[CI/commit-lint]   🐳  docker run image=wagoid/commitlint-github-action:6.1.1 platform=linux/amd64 entrypoint=[] cmd=[] network=&#34;container:act-CI-commit-lint-6b355268bbbb8e27234c3c935b66fc686b070544b9a3b02b47d79688837a12ff&#34;
+| Lint free! 🎉
+[CI/commit-lint]   ✅  Success - Main Lint commit messages
+[CI/commit-lint]   ⚙  ::set-output:: results=[]
+[CI/commit-lint] Cleaning up container for job commit-lint
+[CI/commit-lint] 🏁  Job succeeded
+(py-maidr) ➜  py_maidr git:(Krishna/fix-commitlint)
+```
+
+## Checklist
+&lt;!-- Please select all applicable options. --&gt;
+&lt;!-- To select your options, please put an &#39;x&#39; in the all boxes that
+apply. --&gt;
+
+- [X] I have read the [Contributor Guidelines](../CONTRIBUTING.md).
+- [X] I have performed a self-review of my own code and ensured it
+follows the project&#39;s coding standards.
+- [X] I have tested the changes locally following
+`ManualTestingProcess.md`, and all tests related to this pull request
+pass.
+- [ ] I have commented my code, particularly in hard-to-understand
+areas.
+- [ ] I have updated the documentation, if applicable.
+- [ ] I have added appropriate unit tests, if applicable. ([`ae50904`](https://github.com/xability/py_maidr/commit/ae509047d6063e2cebc291c94b72281f00fa3617))
+
+* ci(commitlint): disable commitlint line length and total length checking (#87)
+
+closes #86 ([`3f718a7`](https://github.com/xability/py_maidr/commit/3f718a7dd12c9569ef63c9318d120d00650b5995))
+
+### Feature
+
+* feat(maidr.show): support py-shiny renderer (#67) ([`a944826`](https://github.com/xability/py_maidr/commit/a9448263f413246213bfc2bedf8d859b3cf74695))
+
 ## v0.6.0 (2024-08-21)
 
 ### Chore
