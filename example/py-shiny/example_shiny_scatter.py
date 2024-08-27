@@ -25,22 +25,22 @@ app_ui = ui.page_fluid(
                 selected="sepal_width",
             ),
         ),
-        ui.column(9, ui.output_ui("create_reactivebarplot")),
+        ui.column(9, ui.output_ui("create_barplot")),
     )
 )
 
 
 # Define the server
-def server(input, output, session):
+def server(inp, _, __):
     @render_maidr
-    def create_reactivebarplot():
+    def create_barplot():
         fig, ax = plt.subplots(figsize=(10, 6))
         s_plot = sns.scatterplot(
-            data=iris, x=input.x_var(), y=input.y_var(), hue="species", ax=ax
+            data=iris, x=inp.x_var(), y=inp.y_var(), hue="species", ax=ax
         )
-        ax.set_title(f"Iris {input.y_var()} vs {input.x_var()}")
-        ax.set_xlabel(input.x_var().replace("_", " ").title())
-        ax.set_ylabel(input.y_var().replace("_", " ").title())
+        ax.set_title(f"Iris {inp.y_var()} vs {inp.x_var()}")
+        ax.set_xlabel(inp.x_var().replace("_", " ").title())
+        ax.set_ylabel(inp.y_var().replace("_", " ").title())
         return s_plot
 
 

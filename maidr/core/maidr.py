@@ -170,9 +170,7 @@ class Maidr:
             tags.script(maidr),
         )
 
-        # If running in an interactive environment (e.g., Jupyter Notebook),
-        # display the HTML content using an iframe to ensure proper rendering
-        # and interactivity. The iframe's height is dynamically adjusted
+        # Embed the rendering into an iFrame for proper working of JS library.
         base_html = tags.iframe(
             srcdoc=str(base_html.get_html_string()),
             width="100%",

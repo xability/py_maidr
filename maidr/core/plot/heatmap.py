@@ -20,8 +20,8 @@ class HeatPlot(
     MaidrPlot, LevelExtractorMixin, ScalarMappableExtractorMixin, DictMergerMixin
 ):
     def __init__(self, ax: Axes, **kwargs) -> None:
-        self._fill_label = kwargs.pop("fill_label")
-        self._fmt = kwargs.pop("fmt")
+        self._fill_label = kwargs.pop("fill_label", "Fill")
+        self._fmt = kwargs.pop("fmt", "")
         super().__init__(ax, PlotType.HEAT)
 
     def render(self) -> dict:
