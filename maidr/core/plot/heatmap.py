@@ -21,6 +21,7 @@ class HeatPlot(
 ):
     def __init__(self, ax: Axes, **kwargs) -> None:
         self._fill_label = kwargs.pop("fill_label")
+        self._fmt = kwargs.pop("fmt")
         super().__init__(ax, PlotType.HEAT)
 
     def render(self) -> dict:
@@ -71,4 +72,4 @@ class HeatPlot(
         else:
             self._support_highlighting = False
 
-        return [list(map(float, row)) for row in array]
+        return [list(map(lambda x: float(format(x, self._fmt)), row)) for row in array]
