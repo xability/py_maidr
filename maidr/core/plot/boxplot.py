@@ -148,7 +148,9 @@ class BoxPlot(
             }
         else:
             box_ax_schema = {
-                MaidrKey.Y: {MaidrKey.LEVEL: self.extract_level(self.ax, MaidrKey.Y)}
+                MaidrKey.Y: {
+                    MaidrKey.LEVEL: self.extract_level(self.ax, MaidrKey.Y),
+                }
             }
         return self.merge_dict(base_ax_schema, box_ax_schema)
 

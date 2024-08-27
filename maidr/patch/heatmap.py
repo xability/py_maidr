@@ -10,16 +10,20 @@ from maidr.core.figure_manager import FigureManager
 
 
 def heat(wrapped, _, args, kwargs) -> Axes | AxesImage:
-    # Check for additional label used by MAIDR heatmap.
-    fill_label = kwargs.pop("fill_label", "Fill")
-    fmt = kwargs.get("fmt", "")
+    # Check for additional params used by MAIDR heatmap.
+    optional_params = {}
+    if "fill_label" in kwargs:
+        # Remove `fill_label` because it is introduced by us.
+        optional_params["fill_label"] = kwargs.pop("fill_label")
+    if "fmt" in kwargs:
+        optional_params["fmt"] = kwargs["fmt"]
 
     # Patch `ax.imshow()` and `seaborn.heatmap`.
     plot = wrapped(*args, **kwargs)
 
     # Extract the heatmap data points for MAIDR from the plots.
     ax = FigureManager.get_axes(plot)
-    FigureManager.create_maidr(ax, PlotType.HEAT, fill_label=fill_label, fmt=fmt)
+    FigureManager.create_maidr(ax, PlotType.HEAT, **optional_params)
 
     # Return to the caller.
     return plot

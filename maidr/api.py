@@ -11,9 +11,7 @@ from maidr.core.enum import PlotType
 from maidr.core.figure_manager import FigureManager
 
 
-def render(
-    plot: Any, *, lib_prefix: str | None = "lib", include_version: bool = True
-) -> Tag:
+def render(plot: Any) -> Tag:
     ax = FigureManager.get_axes(plot)
     maidr = FigureManager.get_maidr(ax.get_figure())
     return maidr.render()
