@@ -5,7 +5,7 @@ from matplotlib.axes import Axes
 from maidr.core.enum import MaidrKey, PlotType
 from maidr.core.plot import MaidrPlot
 from maidr.exception import ExtractionError
-from maidr.utils.mixin import (
+from maidr.util.mixin import (
     ContainerExtractorMixin,
     DictMergerMixin,
     LevelExtractorMixin,

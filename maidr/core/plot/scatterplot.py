@@ -8,7 +8,7 @@ from matplotlib.collections import PathCollection
 from maidr.core.enum import MaidrKey, PlotType
 from maidr.core.plot import MaidrPlot
 from maidr.exception import ExtractionError
-from maidr.utils.mixin import CollectionExtractorMixin
+from maidr.util.mixin import CollectionExtractorMixin
 
 
 class ScatterPlot(MaidrPlot, CollectionExtractorMixin):
