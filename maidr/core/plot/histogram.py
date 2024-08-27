@@ -6,7 +6,7 @@ from matplotlib.container import BarContainer
 from maidr.core.enum import MaidrKey, PlotType
 from maidr.core.plot import MaidrPlot
 from maidr.exception import ExtractionError
-from maidr.utils.mixin import ContainerExtractorMixin
+from maidr.util.mixin import ContainerExtractorMixin
 
 
 class HistPlot(MaidrPlot, ContainerExtractorMixin):

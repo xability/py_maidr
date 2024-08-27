@@ -6,7 +6,7 @@ from matplotlib.lines import Line2D
 from maidr.core.enum import MaidrKey, PlotType
 from maidr.core.plot import MaidrPlot
 from maidr.exception import ExtractionError
-from maidr.utils.mixin import LineExtractorMixin
+from maidr.util.mixin import LineExtractorMixin
 
 
 class LinePlot(MaidrPlot, LineExtractorMixin):

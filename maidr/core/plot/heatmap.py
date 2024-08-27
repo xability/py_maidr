@@ -9,7 +9,7 @@ from matplotlib.collections import QuadMesh
 from maidr.core.enum import MaidrKey, PlotType
 from maidr.core.plot import MaidrPlot
 from maidr.exception import ExtractionError
-from maidr.utils.mixin import (
+from maidr.util.mixin import (
     DictMergerMixin,
     LevelExtractorMixin,
     ScalarMappableExtractorMixin,
