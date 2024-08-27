@@ -20,7 +20,7 @@ sns.regplot(
     scatter=False,
     lowess=True,
     line_kws={"color": "black"},
-    ax=ax
+    ax=ax,
 )
 
 ax.set_title("Penguin Flipper Length vs Body Mass (Smoothed)", fontsize=16)
