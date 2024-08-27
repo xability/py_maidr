@@ -39,7 +39,7 @@
     "href": "api/core/render.html",
     "title": "render",
     "section": "",
-    "text": "render\nrender(plot, *, lib_prefix='lib', include_version=True)"
+    "text": "render\nrender(plot)"
   },
   {
     "objectID": "api/core/stacked.html",
