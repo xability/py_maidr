@@ -1,18 +1,18 @@
 from __future__ import annotations
 
-from typing import Literal
-
 import io
 import json
+import os
 import uuid
+from typing import Literal
 
 from htmltools import HTML, HTMLDocument, Tag, tags
 from lxml import etree
-
 from matplotlib.figure import Figure
 
 from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
+from maidr.utils.environment import Environment
 
 
 class Maidr:
@@ -174,6 +174,7 @@ class Maidr:
         # display the HTML content using an iframe to ensure proper rendering
         # and interactivity. The iframe's height is dynamically adjusted
         base_html = tags.iframe(
+            id="maidr-iframe",
             srcdoc=str(base_html.get_html_string()),
             width="100%",
             height="100%",
@@ -183,7 +184,8 @@ class Maidr:
             onload="""
                 this.style.height = this.contentWindow.document.body.scrollHeight +
                 100 + 'px';
-            """,
+                """
+            + Environment.initialize_llm_secrets(),
         )
 
         return base_html
