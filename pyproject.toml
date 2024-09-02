@@ -74,7 +74,7 @@ prerelease = false
 [tool.semantic_release.changelog]
 template_dir = "templates"
 changelog_file = "CHANGELOG.md"
-exclude_commit_patterns = []
+exclude_commit_patterns = ["^(?!feat: |fix: |docs: |perf: |refactor: |test: |build: ).*", "^chore: ", "^ci: ", "^style: "]
 
 [tool.semantic_release.changelog.environment]
 block_start_string = "{%"
