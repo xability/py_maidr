@@ -51,9 +51,9 @@ class Maidr:
         """Return the list of plots extracted from the ``fig``."""
         return self._plots
 
-    def render(self) -> Tag:
+    def render(self, html: bool = False) -> Tag:
         """Return the maidr plot inside an iframe."""
-        return self._create_html_tag()
+        return self._create_html_tag(html)
 
     def save_html(
         self, file: str, *, lib_dir: str | None = "lib", include_version: bool = True
@@ -93,7 +93,7 @@ class Maidr:
         del self._plots
         del self._fig
 
-    def _create_html_tag(self) -> Tag:
+    def _create_html_tag(self, html: bool = False) -> Tag:
         """Create the MAIDR HTML using HTML tags."""
         tagged_elements = [element for plot in self._plots for element in plot.elements]
         with HighlightContextManager.set_maidr_elements(tagged_elements):
@@ -101,7 +101,7 @@ class Maidr:
         maidr = f"\nlet maidr = {json.dumps(self._flatten_maidr(), indent=2)}\n"
 
         # Inject plot's svg and MAIDR structure into html tag.
-        return Maidr._inject_plot(svg, maidr)
+        return Maidr._inject_plot(svg, maidr, html)
 
     def _create_html_doc(self) -> HTMLDocument:
         """Create an HTML document from Tag objects."""
@@ -149,7 +149,7 @@ class Maidr:
         return str(uuid.uuid4())
 
     @staticmethod
-    def _inject_plot(plot: HTML, maidr: str) -> Tag:
+    def _inject_plot(plot: HTML, maidr: str, html: bool = False) -> Tag:
         """Embed the plot and associated MAIDR scripts into the HTML structure."""
         base_html = tags.html(
             tags.head(
@@ -169,7 +169,8 @@ class Maidr:
             ),
             tags.script(maidr),
         )
-
+        if html:
+            return base_html
         # Embed the rendering into an iFrame for proper working of JS library.
         base_html = tags.iframe(
             srcdoc=str(base_html.get_html_string()),
