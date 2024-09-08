@@ -58,5 +58,10 @@
   "git.enableSmartCommit": true,
   "git.smartCommitChanges": "all",
   "git.postCommitCommand": "sync",
-  "conventionalCommits.scopes": [".vscode"]
+  "conventionalCommits.scopes": [".vscode"],
+  "github.copilot.chat.experimental.codeGeneration.instructions": [
+    {
+      "file": ".vscode/copilot_instruction.md"
+    }
+  ]
 }
