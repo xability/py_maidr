@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+from typing import Literal
+
 import io
 import json
 import uuid
-from typing import Literal
 
 from htmltools import HTML, HTMLDocument, Tag, tags
 from lxml import etree
