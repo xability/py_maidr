@@ -1,18 +1,18 @@
 from __future__ import annotations
 
-from typing import Literal
-
 import io
 import json
 import uuid
+from typing import Literal
 
 from htmltools import HTML, HTMLDocument, Tag, tags
 from lxml import etree
-
 from matplotlib.figure import Figure
 
 from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
+from maidr.util.environment import Environment
+from maidr.util.server import MaidrServer
 
 
 class Maidr:
@@ -84,7 +84,10 @@ class Maidr:
             The renderer to use for the HTML preview.
         """
         html = self._create_html_tag()
-        return html.show(renderer)
+        if Environment.is_interactive_shell():
+            return html.show(renderer)
+        else:
+            return MaidrServer.run_server(html)
 
     def clear(self):
         self._plots = []
