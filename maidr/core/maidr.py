@@ -169,7 +169,7 @@ class Maidr:
             tags.script(maidr),
         )
 
-        unique_id = Maidr._unique_id()
+        unique_id = "iframe_" + Maidr._unique_id()
 
         # Embed the rendering into an iFrame for proper working of JS library.
         base_html = tags.iframe(
