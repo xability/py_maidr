@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from typing import Literal
-
 import io
 import json
 import uuid
+from typing import Literal
 
 from htmltools import HTML, HTMLDocument, Tag, tags
 from lxml import etree
@@ -170,9 +169,11 @@ class Maidr:
             tags.script(maidr),
         )
 
+        unique_id = Maidr._unique_id()
+
         # Embed the rendering into an iFrame for proper working of JS library.
         base_html = tags.iframe(
-            id="maidr-iframe",
+            id=unique_id,
             srcdoc=str(base_html.get_html_string()),
             width="100%",
             height="100%",
@@ -183,7 +184,7 @@ class Maidr:
                 this.style.height = this.contentWindow.document.body.scrollHeight +
                 100 + 'px';
             """
-            + Environment.initialize_llm_secrets(),
+            + Environment.initialize_llm_secrets(unique_id),
         )
 
         return base_html

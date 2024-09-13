@@ -17,7 +17,7 @@ class Environment:
             return False
 
     @staticmethod
-    def initialize_llm_secrets() -> str:
+    def initialize_llm_secrets(unique_id: str) -> str:
         """Inject the LLM API keys into the MAIDR instance."""
 
         gemini_api_key = os.getenv("GEMINI_API_KEY")
@@ -53,9 +53,11 @@ class Environment:
         elif openai_api_key is not None:
             settings["LLMOpenAiMulti"] = True
             settings["openAIAuthKey"] = openai_api_key
+            settings["LLMModel"] = "openai"
         elif gemini_api_key is not None:
             settings["LLMGeminiMulti"] = True
             settings["geminiAuthKey"] = gemini_api_key
+            settings["LLMModel"] = "gemini"
 
         settings_data = json.dumps(settings)
 
@@ -73,7 +75,7 @@ class Environment:
                 }}
             }}
             addKeyValueLocalStorage(
-                'maidr-iframe', 'settings_data', JSON.stringify({settings_data})
+                '{unique_id}', 'settings_data', JSON.stringify({settings_data})
             );
         """
 
