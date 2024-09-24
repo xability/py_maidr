@@ -15,8 +15,165 @@ We can think of display tables as output only, where we’d not want to use them
 The installation really couldn't be much easier. Use this:
 
 ```{.bash}
-pip install great_tables
+# install the latest release from PyPI
+pip install -U maidr
+
+# or install the development version from GitHub
+pip install -U git+https://github.com/xability/py_maidr.git
 ```
+
+
+## LLM Configuration for Interactive Shell
+
+To use OpenAI or Gemini Models along with the maidr library, follow the steps below:
+
+1. Signup and get the API Keys for OpenAI or Gemini Models.
+2. Add the keys to environment variables so that python binder can access the keys.
+   (Note: This only temporarily adds keys in environment variable, for persistent access you might want to add the export command to your shell configuration)
+
+##### Mac Configuration
+
+```bash
+export OPENAI_API_KEY="<< add you key here >>"
+export GEMINI_API_KEY="<< add you key here >>"
+```
+
+##### Windows Configuration
+
+```
+setx OPENAI_API_KEY "<< add you key here >>"
+setx GEMINI_API_KEY "<< add you key here >>"
+```
+
+3. Run your python program.
+
+## Examples
+
+
+### Bar Plot
+
+```{python}
+#| warning: false
+
+import matplotlib.pyplot as plt
+import maidr
+import seaborn as sns
+
+
+# Load the penguins dataset
+penguins = sns.load_dataset("penguins")
+
+# Create a bar plot showing the average body mass of penguins by species
+plt.figure(figsize=(10, 6))
+b_plot = sns.barplot(
+    x="species", y="body_mass_g", data=penguins, errorbar="sd", palette="Blues_d"
+)
+plt.title("Average Body Mass of Penguins by Species")
+plt.xlabel("Species")
+plt.ylabel("Body Mass (g)")
+
+# plt.show()
+maidr.show(b_plot)
+```
+
+
+### Histogram
+
+```{python}
+#| warning: false
+
+# Load the Iris dataset
+iris = sns.load_dataset("iris")
+
+# Select the petal lengths
+petal_lengths = iris["petal_length"]
+
+# Plot a histogram of the petal lengths
+plt.figure(figsize=(10, 6))
+hist_plot = sns.histplot(petal_lengths, kde=True, color="blue", binwidth=0.5)
+
+plt.title("Histogram of Petal Lengths in Iris Dataset")
+plt.xlabel("Petal Length (cm)")
+plt.ylabel("Frequency")
+
+# plt.show()
+maidr.show(hist_plot)
+```
+
+
+### Line Plot
+
+```{python}
+# Load the 'tips' dataset from seaborn
+tips = sns.load_dataset("tips")
+
+# Choose a specific subset of the dataset (e.g., data for 'Thursday')
+subset_data = tips[tips["day"] == "Thur"]
+
+# Create a line plot
+plt.figure(figsize=(10, 6))
+line_plot = sns.lineplot(
+    data=subset_data,
+    x="total_bill",
+    y="tip",
+    markers=True,
+    style="day",
+    legend=False,
+)
+plt.title("Line Plot of Tips vs Total Bill (Thursday)")
+plt.xlabel("Total Bill")
+plt.ylabel("Tip")
+
+# plt.show()
+maidr.show(line_plot)
+```
+
+
+### Heat Map
+
+```{python}
+# Load an example dataset from seaborn
+glue = sns.load_dataset("glue").pivot(index="Model", columns="Task", values="Score")
+
+# Plot a heatmap
+plt.figure(figsize=(10, 8))
+heatmap = sns.heatmap(glue, annot=True, fill_label="Score")
+plt.title("Heatmap of Model Scores by Task")
+
+# Show the plot
+# plt.show()
+maidr.show(heatmap)
+```
+
+
+### Scatter Plot
+
+```{python}
+# Create a scatter plot
+scatter_plot = sns.scatterplot(
+    data=iris, x="sepal_length", y="sepal_width", hue="species"
+)
+
+# Adding title and labels (optional)
+plt.title("Iris Sepal Length vs Sepal Width")
+plt.xlabel("Sepal Length")
+plt.ylabel("Sepal Width")
+
+# Show the plot
+# plt.show()
+maidr.show(scatter_plot)
+```
+
+## Reactive Dashboard
+
+### Shiny
+
+```{=html}
+<iframe width="780" height="500" src="https://xabilitylab.shinyapps.io/plot_tutorial/" title="Accessible Dashboard with maidr"></iframe>
+```
+
+
+
 
 ## A Basic Table using **Great Tables**
 
