@@ -17,7 +17,9 @@ The installation really couldn't be much easier. Use this:
 ```{.bash}
 # install the latest release from PyPI
 pip install -U maidr
+```
 
+```{.bash}
 # or install the development version from GitHub
 pip install -U git+https://github.com/xability/py_maidr.git
 ```
@@ -54,6 +56,7 @@ setx GEMINI_API_KEY "<< add you key here >>"
 
 ```{python}
 #| warning: false
+#| fig-alt: Bar plot showing the average body mass of penguins by species
 
 import matplotlib.pyplot as plt
 import maidr
@@ -81,6 +84,7 @@ maidr.show(b_plot)
 
 ```{python}
 #| warning: false
+#| fig-alt: Histogram of petal lengths in the Iris dataset
 
 # Load the Iris dataset
 iris = sns.load_dataset("iris")
@@ -104,6 +108,8 @@ maidr.show(hist_plot)
 ### Line Plot
 
 ```{python}
+#| fig-alt: Line plot of tips vs total bill for Thursday
+
 # Load the 'tips' dataset from seaborn
 tips = sns.load_dataset("tips")
 
@@ -172,7 +178,19 @@ maidr.show(scatter_plot)
 <iframe width="780" height="500" src="https://xabilitylab.shinyapps.io/plot_tutorial/" title="Accessible Dashboard with maidr"></iframe>
 ```
 
+## Interactive Computing (Jupyter Notebooks, Jupyter Labs, Google Colab)
 
+Check out [this interactive notebook in Google Colab](https://colab.research.google.com/drive/1In85HRpSLgOcLbLudSdfO3axYtkOlua1?usp=sharing):
+
+```{=html}
+<iframe width="780" height="500" src="https://colab.research.google.com/drive/1In85HRpSLgOcLbLudSdfO3axYtkOlua1?usp=sharing" title="Interactive Computing with maidr in Google Colab"></iframe>
+```
+
+
+
+## Demo Video
+
+{{< video https://youtu.be/NR2G4lNolf4 >}}
 
 
 ## A Basic Table using **Great Tables**
