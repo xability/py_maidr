@@ -45,7 +45,7 @@ That doesn't look too bad! Sure, it's basic but we really didn't really ask for 
 
 `GT` accepts both **Pandas** and **Polars** DataFrames. You can pass a **Polars** DataFrame to `GT`, or use its `DataFrame.style` property.
 
-```{python}
+```python
 import polars as pl
 
 df_polars = pl.from_pandas(islands_mini)
