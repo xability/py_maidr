@@ -63,6 +63,10 @@ import maidr
 import seaborn as sns
 
 
+# Turn off interactive mode globally
+plt.ioff()
+
+
 # Load the penguins dataset
 penguins = sns.load_dataset("penguins")
 
@@ -172,10 +176,18 @@ maidr.show(scatter_plot)
 
 ## Reactive Dashboard
 
+### Streamlit
+
+
+```{=html}
+<iframe width="780" height="500" src="https://maidr-dashboard.streamlit.app/" title="Accessible Streamlit Dashboard with maidr"></iframe>
+```
+
+
 ### Shiny
 
 ```{=html}
-<iframe width="780" height="500" src="https://xabilitylab.shinyapps.io/plot_tutorial/" title="Accessible Dashboard with maidr"></iframe>
+<iframe width="780" height="500" src="https://xabilitylab.shinyapps.io/plot_tutorial/" title="Accessible Shiny Dashboard with maidr"></iframe>
 ```
 
 ## Interactive Computing (Jupyter Notebooks, Jupyter Labs, Google Colab)
