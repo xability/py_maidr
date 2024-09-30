@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://xability.github.io/py_maidr/api/core/render.html</loc>
-    <lastmod>2024-09-13T02:33:58.099Z</lastmod>
+    <loc>https://xability.github.io/py_maidr/api/core/save_html.html</loc>
+    <lastmod>2024-09-30T15:39:51.981Z</lastmod>
   </url>
   <url>
     <loc>https://xability.github.io/py_maidr/api/core/close.html</loc>
-    <lastmod>2024-09-13T02:33:58.095Z</lastmod>
-  </url>
-  <url>
-    <loc>https://xability.github.io/py_maidr/api/core/stacked.html</loc>
-    <lastmod>2024-09-13T02:33:58.107Z</lastmod>
-  </url>
-  <url>
-    <loc>https://xability.github.io/py_maidr/api/core/save_html.html</loc>
-    <lastmod>2024-09-13T02:33:58.103Z</lastmod>
+    <lastmod>2024-09-30T15:39:51.977Z</lastmod>
   </url>
   <url>
     <loc>https://xability.github.io/py_maidr/api/core/show.html</loc>
-    <lastmod>2024-09-13T02:33:58.103Z</lastmod>
+    <lastmod>2024-09-30T15:39:51.983Z</lastmod>
   </url>
   <url>
     <loc>https://xability.github.io/py_maidr/api/core/index.html</loc>
-    <lastmod>2024-09-13T02:33:58.087Z</lastmod>
+    <lastmod>2024-09-30T15:39:51.966Z</lastmod>
+  </url>
+  <url>
+    <loc>https://xability.github.io/py_maidr/api/core/render.html</loc>
+    <lastmod>2024-09-30T15:39:51.978Z</lastmod>
+  </url>
+  <url>
+    <loc>https://xability.github.io/py_maidr/api/core/stacked.html</loc>
+    <lastmod>2024-09-30T15:39:51.984Z</lastmod>
   </url>
 </urlset>
