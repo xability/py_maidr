@@ -16,6 +16,15 @@ class Environment:
         except ImportError:
             return False
 
+    def is_notebook() -> bool:
+        """Return True if the environment is a Jupyter notebook."""
+        try:
+            from IPython import get_ipython  # type: ignore
+
+            return get_ipython() is not None and 'ipykernel' in str(get_ipython())
+        except ImportError:
+            return False
+
     @staticmethod
     def initialize_llm_secrets(unique_id: str) -> str:
         """Inject the LLM API keys into the MAIDR instance."""
