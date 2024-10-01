@@ -175,8 +175,8 @@ class Maidr:
         base_html = tags.iframe(
             id=unique_id,
             srcdoc=str(base_html.get_html_string()),
-            width="100%",
-            height="100%",
+            width="1000px",
+            height="1200px",
             scrolling="auto",
             style="background-color: #fff",
             frameBorder=0,
