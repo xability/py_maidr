@@ -16,6 +16,7 @@ class Environment:
         except ImportError:
             return False
 
+    @staticmethod
     def is_notebook() -> bool:
         """Return True if the environment is a Jupyter notebook."""
         try:
