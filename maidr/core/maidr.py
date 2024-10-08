@@ -83,6 +83,8 @@ class Maidr:
             The renderer to use for the HTML preview.
         """
         html = self._create_html_tag()
+        if Environment.is_interactive_shell() and not Environment.is_notebook():
+            return html.show("browser")
         return html.show(renderer)
 
     def clear(self):
