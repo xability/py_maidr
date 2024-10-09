@@ -2,6 +2,7 @@
 title: "Accessible Data Representation Demo"
 author: "JooYoung Seo"
 institute: "(x)Ability Design Lab"
+jupyter: python3
 format: html
 ---
 
@@ -12,6 +13,8 @@ import matplotlib.pyplot as plt
 import maidr
 import seaborn as sns
 
+# Avoid duplicate of the plot by turning off plt interactive mode
+plt.ioff()
 
 # Load the penguins dataset
 penguins = sns.load_dataset("penguins")
