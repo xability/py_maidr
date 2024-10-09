@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v0.9.2 (2024-10-09)
+
+### Documentation
+
+* docs(example): update scripts to comment out `plt.show()` (#118) ([`164d6fa`](https://github.com/xability/py_maidr/commit/164d6fa0e038b04f323c1eba98536f65a09c306e))
+
+### Fixes
+
+* fix: suppress wrapt warning messages (#116)
+
+Co-authored-by: JooYoung Seo <jseo1005@illinois.edu> ([`1283be5`](https://github.com/xability/py_maidr/commit/1283be5fe4c15012ae5385665f48da6300db69d0))
+
+
 ## v0.9.1 (2024-10-08)
 
 ### Chores
