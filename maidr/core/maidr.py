@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import io
 import json
+import os
+import tempfile
 import uuid
+import webbrowser
 from typing import Literal
 
 from htmltools import HTML, HTMLDocument, Tag, tags
@@ -12,6 +15,7 @@ from matplotlib.figure import Figure
 from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
 from maidr.util.environment import Environment
+from maidr.util.server import MaidrServer
 
 
 class Maidr:
@@ -83,8 +87,11 @@ class Maidr:
             The renderer to use for the HTML preview.
         """
         html = self._create_html_tag()
-        if Environment.is_interactive_shell() and not Environment.is_notebook():
-            return html.show("browser")
+        _renderer = Environment.get_renderer()
+        if _renderer == "browser" or (
+            Environment.is_interactive_shell() and not Environment.is_notebook()
+        ):
+            return self._open_plot_in_browser()
         return html.show(renderer)
 
     def clear(self):
@@ -93,6 +100,21 @@ class Maidr:
     def destroy(self) -> None:
         del self._plots
         del self._fig
+
+    def _open_plot_in_browser(self) -> None:
+        """
+        Open the rendered HTML content using a temporary file
+        """
+        system_temp_dir = tempfile.gettempdir()
+        static_temp_dir = os.path.join(system_temp_dir, "maidr")
+        os.makedirs(static_temp_dir, exist_ok=True)
+
+        temp_file_path = os.path.join(static_temp_dir, "maidr_plot.html")
+        self.save_html(temp_file_path)
+        if not MaidrServer.is_server_running():
+            MaidrServer.start_server()
+        print("IKDE ALO")
+        webbrowser.open("http://localhost:5245/maidr_plot.html")
 
     def _create_html_tag(self) -> Tag:
         """Create the MAIDR HTML using HTML tags."""
