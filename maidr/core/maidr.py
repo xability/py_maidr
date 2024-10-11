@@ -15,7 +15,6 @@ from matplotlib.figure import Figure
 from maidr.core.context_manager import HighlightContextManager
 from maidr.core.plot import MaidrPlot
 from maidr.util.environment import Environment
-from maidr.util.server import MaidrServer
 
 
 class Maidr:
@@ -110,11 +109,8 @@ class Maidr:
         os.makedirs(static_temp_dir, exist_ok=True)
 
         temp_file_path = os.path.join(static_temp_dir, "maidr_plot.html")
-        self.save_html(temp_file_path)
-        if not MaidrServer.is_server_running():
-            MaidrServer.start_server()
-        print("IKDE ALO")
-        webbrowser.open("http://localhost:5245/maidr_plot.html")
+        html_file_path = self.save_html(temp_file_path)
+        webbrowser.open(f"file://{html_file_path}")
 
     def _create_html_tag(self) -> Tag:
         """Create the MAIDR HTML using HTML tags."""
