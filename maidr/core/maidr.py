@@ -203,8 +203,7 @@ class Maidr:
             onload="""
                 this.style.height = this.contentWindow.document.body.scrollHeight +
                 100 + 'px';
-            """
-            + Environment.initialize_llm_secrets(unique_id),
+            """,
         )
 
         return base_html
