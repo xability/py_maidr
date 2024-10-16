@@ -189,7 +189,34 @@ class Maidr:
             tags.script(maidr),
         )
 
+        def generate_iframe_script(unique_id: str) -> str:
+            resizing_script = f"""
+                function resizeIframe() {{
+                    var iframe = document.getElementById('{unique_id}');
+                    if (iframe && iframe.contentWindow && iframe.contentWindow.document) {{
+                        var iframeDocument = iframe.contentWindow.document;
+                        var brailleContainer = iframeDocument.getElementById('braille-div');
+                        var height = iframeDocument.body.scrollHeight;
+                        if (brailleContainer && brailleContainer === iframeDocument.activeElement) {{
+                            height *= 1.35;  # Increase height by 35% if braille-container is in focus
+                        }}
+                        iframe.style.height = (height + 150) + 'px';
+                        iframe.style.width = iframeDocument.body.scrollWidth + 'px';
+                    }}
+                }}
+                var iframe = document.getElementById('{unique_id}');
+                iframe.onload = function() {{
+                    resizeIframe();
+                    iframe.contentWindow.addEventListener('resize', resizeIframe);
+                    iframe.contentWindow.document.addEventListener('focusin', resizeIframe);
+                    iframe.contentWindow.document.addEventListener('focusout', resizeIframe);
+                }};
+            """
+            return resizing_script
+
         unique_id = "iframe_" + Maidr._unique_id()
+
+        resizing_script = generate_iframe_script(unique_id)
 
         # Embed the rendering into an iFrame for proper working of JS library.
         base_html = tags.iframe(
@@ -197,14 +224,10 @@ class Maidr:
             srcdoc=str(base_html.get_html_string()),
             width="100%",
             height="100%",
-            scrolling="auto",
-            style="background-color: #fff",
+            scrolling="no",
+            style="background-color: #fff; position: relative; border: none",
             frameBorder=0,
-            onload="""
-                this.style.height = this.contentWindow.document.body.scrollHeight +
-                100 + 'px';
-            """
-            + Environment.initialize_llm_secrets(unique_id),
+            onload=resizing_script,
         )
 
         return base_html
