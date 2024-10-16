@@ -191,20 +191,35 @@ class Maidr:
 
         unique_id = "iframe_" + Maidr._unique_id()
 
+        resizing_script = f"""
+
+                function resizeIframe() {{
+                    var iframe = document.getElementById('{unique_id}');
+                    iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 50 + 'px';
+                }}
+                var iframe = document.getElementById('{unique_id}');
+                iframe.onload = function() {{
+                    resizeIframe();
+                    iframe.contentWindow.addEventListener('resize', resizeIframe);
+                }};
+
+        """
+
         # Embed the rendering into an iFrame for proper working of JS library.
         base_html = tags.iframe(
             id=unique_id,
             srcdoc=str(base_html.get_html_string()),
             width="100%",
-            height="100%",
             scrolling="auto",
-            style="background-color: #fff",
+            style="background-color: #fff; position: relative; border: none",
             frameBorder=0,
             onload="""
                 this.style.height = this.contentWindow.document.body.scrollHeight +
                 100 + 'px';
             """
-            + Environment.initialize_llm_secrets(unique_id),
+            + Environment.initialize_llm_secrets(unique_id)
+            + " "
+            + resizing_script,
         )
 
         return base_html
