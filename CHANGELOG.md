@@ -1,6 +1,13 @@
 # CHANGELOG
 
 
+## v0.10.2 (2024-10-17)
+
+### Fixes
+
+* fix: address iframe resizing issue in jupyter notebooks (#124) ([`b437831`](https://github.com/xability/py_maidr/commit/b43783130eaa34df7d47efc57b0eb2a5819d9986))
+
+
 ## v0.10.1 (2024-10-17)
 
 ### Fixes
