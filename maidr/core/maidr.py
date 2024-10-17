@@ -193,24 +193,36 @@ class Maidr:
             resizing_script = f"""
                 function resizeIframe() {{
                     let iframe = document.getElementById('{unique_id}');
+
                     if (iframe && iframe.contentWindow && iframe.contentWindow.document) {{
                         let iframeDocument = iframe.contentWindow.document;
-                        let brailleContainer = iframeDocument.getElementById('braille-div');
+                        let brailleContainer = iframeDocument.getElementById('braille-input');
+
+                        iframe.style.height = 'auto';
+
                         let height = iframeDocument.body.scrollHeight;
                         if (brailleContainer && brailleContainer === iframeDocument.activeElement) {{
-                            height *= 1.35;  # Increase height by 35% if braille-container is in focus
+                            height += 100;
+                        }}else{{
+                            height += 50
                         }}
-                        iframe.style.height = (height + 150) + 'px';
+
+                        iframe.style.height = (height) + 'px';
                         iframe.style.width = iframeDocument.body.scrollWidth + 'px';
                     }}
                 }}
                 let iframe = document.getElementById('{unique_id}');
+                resizeIframe();
                 iframe.onload = function() {{
                     resizeIframe();
                     iframe.contentWindow.addEventListener('resize', resizeIframe);
-                    iframe.contentWindow.document.addEventListener('focusin', resizeIframe);
-                    iframe.contentWindow.document.addEventListener('focusout', resizeIframe);
                 }};
+                iframe.contentWindow.document.addEventListener('focusin', () => {{
+                    resizeIframe();
+                }});
+                iframe.contentWindow.document.addEventListener('focusout', () => {{
+                    resizeIframe();
+                }});
             """
             return resizing_script
 
