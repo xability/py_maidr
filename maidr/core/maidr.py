@@ -1,4 +1,4 @@
-from __future__ import annotations
+varfrom __future__ import annotations
 
 import io
 import json
@@ -192,11 +192,11 @@ class Maidr:
         def generate_iframe_script(unique_id: str) -> str:
             resizing_script = f"""
                 function resizeIframe() {{
-                    var iframe = document.getElementById('{unique_id}');
+                    let iframe = document.getElementById('{unique_id}');
                     if (iframe && iframe.contentWindow && iframe.contentWindow.document) {{
-                        var iframeDocument = iframe.contentWindow.document;
-                        var brailleContainer = iframeDocument.getElementById('braille-div');
-                        var height = iframeDocument.body.scrollHeight;
+                        let iframeDocument = iframe.contentWindow.document;
+                        let brailleContainer = iframeDocument.getElementById('braille-div');
+                        let height = iframeDocument.body.scrollHeight;
                         if (brailleContainer && brailleContainer === iframeDocument.activeElement) {{
                             height *= 1.35;  # Increase height by 35% if braille-container is in focus
                         }}
@@ -204,7 +204,7 @@ class Maidr:
                         iframe.style.width = iframeDocument.body.scrollWidth + 'px';
                     }}
                 }}
-                var iframe = document.getElementById('{unique_id}');
+                let iframe = document.getElementById('{unique_id}');
                 iframe.onload = function() {{
                     resizeIframe();
                     iframe.contentWindow.addEventListener('resize', resizeIframe);
