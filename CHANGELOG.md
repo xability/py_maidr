@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+## v0.10.1 (2024-10-17)
+
+### Fixes
+
+* fix: correct import statement in maidr.py ([`e7d072a`](https://github.com/xability/py_maidr/commit/e7d072a3d94d573f06fd76c68cf57679f9c7584e))
+
+* fix: address dynamic resizing of iframes on ipython (#123) ([`3159fc1`](https://github.com/xability/py_maidr/commit/3159fc1f4ccfff081f001bf41eff7b949b95a3c4))
+
+
 ## v0.10.0 (2024-10-15)
 
 ### Code Style
