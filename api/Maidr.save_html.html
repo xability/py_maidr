@@ -241,7 +241,7 @@ cookieconsent.run({
 <meta name="DC.format" content="text/html">
 <meta name="DC.language" content="en">
 <meta name="DC.rights" content="GPL-3.0-or-later">
-<meta name="DC.date" content="2026-09-07">
+<meta name="DC.date" content="2026-09-14">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -398,31 +398,31 @@ cookieconsent.run({
 <tbody>
 <tr class="odd">
 <td>file</td>
-<td><a href="https://docs.python.org/3/library/stdtypes.html#str">str</a></td>
+<td><a href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></td>
 <td>The file to save to.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
 <td>lib_dir</td>
-<td><a href="https://docs.python.org/3/library/stdtypes.html#str">str</a></td>
+<td><a href="https://docs.python.org/3/builtins/stdtypes.html#str">str</a></td>
 <td>The directory to save the dependencies to (relative to the file’s directory).</td>
 <td><code>"lib"</code></td>
 </tr>
 <tr class="odd">
 <td>include_version</td>
-<td><a href="https://docs.python.org/3/library/functions.html#bool">bool</a></td>
+<td><a href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></td>
 <td>Whether to include the version number in the dependency folder name.</td>
 <td><code>True</code></td>
 </tr>
 <tr class="even">
 <td>data_in_svg</td>
-<td><a href="https://docs.python.org/3/library/functions.html#bool">bool</a></td>
+<td><a href="https://docs.python.org/3/builtins/functions.html#bool">bool</a></td>
 <td>Controls where the MAIDR JSON payload is placed in the output HTML or SVG.</td>
 <td><code>True</code></td>
 </tr>
 <tr class="odd">
 <td>use_cdn</td>
-<td><a href="https://docs.python.org/3/library/functions.html#bool">bool</a> or {'auto'}</td>
+<td><a href="https://docs.python.org/3/builtins/functions.html#bool">bool</a> or {'auto'}</td>
 <td>* <code>True</code>: load <code>maidr.js</code> from the CDN only. * <code>False</code>: copy the bundled <code>maidr.js</code> and its assets into <code>lib_dir</code> next to the saved HTML and reference the script with a relative path (no network access required). * <code>"auto"</code> (default): attempt the CDN first and fall back to the bundled copy client-side if the CDN request fails. The bundled files are still copied alongside the HTML so the fallback works offline.</td>
 <td><code>"auto"</code></td>
 </tr>

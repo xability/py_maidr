@@ -241,7 +241,7 @@ cookieconsent.run({
 <meta name="DC.format" content="text/html">
 <meta name="DC.language" content="en">
 <meta name="DC.rights" content="GPL-3.0-or-later">
-<meta name="DC.date" content="2026-09-07">
+<meta name="DC.date" content="2026-09-14">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -406,19 +406,19 @@ cookieconsent.run({
 </tr>
 <tr class="even">
 <td>height</td>
-<td>(<a href="https://docs.python.org/3/library/functions.html#int">int</a>, {'content', 'stretch'})</td>
+<td>(<a href="https://docs.python.org/3/builtins/functions.html#int">int</a>, {'content', 'stretch'})</td>
 <td>Height of the embed. <code>"content"</code> lets Streamlit measure the chart, which is what keeps maidr’s braille and text panels visible when they open.</td>
 <td><code>"content"</code></td>
 </tr>
 <tr class="odd">
 <td>width</td>
-<td>(<a href="https://docs.python.org/3/library/functions.html#int">int</a>, {'content', 'stretch'})</td>
+<td>(<a href="https://docs.python.org/3/builtins/functions.html#int">int</a>, {'content', 'stretch'})</td>
 <td>Width of the embed.</td>
 <td><code>"stretch"</code></td>
 </tr>
 <tr class="even">
 <td>tab_index</td>
-<td><a href="https://docs.python.org/3/library/functions.html#int">int</a> or None</td>
+<td><a href="https://docs.python.org/3/builtins/functions.html#int">int</a> or None</td>
 <td>Tab order of the <em>frame</em>, passed through to Streamlit. <code>None</code> is the browser default and is deliberate: an iframe’s contents already take part in sequential focus navigation, and maidr gives the chart inside its own tab stop, so a keyboard user tabs straight onto the chart. Passing <code>0</code> makes the frame itself a stop as well, which is one extra Tab before the chart – and Streamlit hardcodes the frame’s accessible name as <code>st.iframe</code>, so that stop announces the same on every chart on the page. It is exposed for layouts that want a deterministic landing point, not because the chart needs it to be reachable.</td>
 <td><code>None</code></td>
 </tr>
