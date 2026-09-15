@@ -9,7 +9,7 @@ open-graph:
   title: "py-maidr: Accessible Data Visualization for Python"
 twitter-card:
   title: "py-maidr: Accessible Data Visualization for Python"
-description: "Make matplotlib, seaborn, Plotly and Altair plots accessible to blind and low-vision users via sonification, braille, text and AI chat. Python binding of MAIDR."
+description: "Make matplotlib, seaborn, Plotly, and Altair plots accessible to blind and low-vision users via sonification, Braille, text and AI chat. Python binding of MAIDR."
 jupyter: python3
 # aliases:
   # - ../index.html
@@ -119,7 +119,7 @@ include-in-header:
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/xability/maidr/refs/heads/main/docs/logo.svg" width="350px" alt="A stylized MAIDR logo, with curved characters for M A, a hand pointing for an I, the D character, and R represented in braille."/>
+<img src="https://raw.githubusercontent.com/xability/maidr/refs/heads/main/docs/logo.svg" width="350px" alt="A stylized MAIDR logo, with curved characters for M A, a hand pointing for an I, the D character, and R represented in Braille."/>
 
 <hr style="color:transparent" />
 <br />
@@ -127,7 +127,7 @@ include-in-header:
 _maidr: Data Insight for All_
 </div>
 
-**py-maidr** (PyPI package `maidr`, pronounced "mader") is a Python library that makes **matplotlib**, **seaborn**, **Plotly** and **Altair** charts accessible to blind and low-vision users. After `import maidr`, `plt.show()` renders an interactive chart that can be explored by keyboard and read as _touchable_ (braille), _readable_ (text), _audible_ (sonification) and _conversational_ (AI chat) representations; `maidr.save_html()` exports the same chart as a standalone HTML file. py-maidr is the Python binding of [MAIDR](https://maidr.ai/), the Multimodal Access and Interactive Data Representation engine developed by the [(x)Ability Design Lab](https://xabilitylab.ischool.illinois.edu/) at the University of Illinois Urbana-Champaign; a sibling package, [maidr for R](https://r.maidr.ai/), brings the same accessibility layer to ggplot2 and base R graphics.
+**py-maidr** (PyPI package `maidr`, pronounced "mader") is a Python library that makes **matplotlib**, **seaborn**, **Plotly** and **Altair** charts accessible to blind and low-vision users. After `import maidr`, `plt.show()` renders an interactive chart that can be explored by keyboard and read as _touchable_ (Braille), _readable_ (text), _audible_ (sonification) and _conversational_ (AI chat) representations; `maidr.save_html()` exports the same chart as a standalone HTML file. py-maidr is the Python binding of [MAIDR](https://maidr.ai/), the Multimodal Access and Interactive Data Representation engine developed by the [(x)Ability Design Lab](https://xabilitylab.ischool.illinois.edu/) at the University of Illinois Urbana-Champaign; a sibling package, [maidr for R](https://r.maidr.ai/), brings the same accessibility layer to ggplot2 and base R graphics.
 
 The following summarizes the key features and design principles of py-maidr:
 
@@ -135,13 +135,13 @@ The following summarizes the key features and design principles of py-maidr:
 
 2. Inclusivity: maidr does not pursue a special version for blind users. Instead, it provides a unified interface that supports both visual and non-visual data exploration. This way, blind and sighted users can work together on the same data science projects.
 
-3. Integration: maidr seamlessly integrates with the popular and mainstream data science environments  (e.g., Python, pandas, and NumPy) as well as data visualization libraries in Python like **matplotlib** and **seaborn**.
+3. Integration: maidr seamlessly integrates with the popular and mainstream data science environments (e.g., Python, pandas, and NumPy) as well as data visualization libraries in Python (e.g., **matplotlib** and **seaborn**).
 
 4. Unintrusiveness: maidr does not require changes to existing core data visualization code. Without needing to reconstruct an accessible version separately, you can just `import maidr` and call `plt.show()` as usual — maidr's custom backend automatically renders your plots accessibly. Blind and sighted users can use and share the same visualization codebase in their shared data science projects.
 
-5. Synchronization: maidr treats visualization as one of the multimodal data representations and ensures that all representations (e.g., visual, tactile, textual, audible) cursor and braille routing key positions are synchronized across different modalities.
+5. Synchronization: maidr treats visualization as one of the multimodal data representations and ensures that all representations (e.g., visual, tactile, textual, audible) cursor and Braille routing key positions are synchronized across different modalities.
 
-6. Reactivity: maidr supports widely adopted reactive and interactive computing including Jupyter Notebooks, Jupyter Labs, Google Colab, Streamlit dashboard, and Shiny dashboard. maidr also supports interactive computing inside code editors, such as Visual Studio Code.
+6. Reactivity: maidr supports widely adopted reactive and interactive computing including Jupyter Notebook, Jupyter Lab, Google Colab, Streamlit dashboard, and Shiny dashboard. maidr also supports interactive computing inside code editors, such as Visual Studio Code.
 
 7. Reproducibility: maidr supports the generation of accessible data visualizations as part of the reproducible data science workflow with [Quarto scientific publishing system](https://quarto.org/). You can easily create accessible data representations within your reproducible reports, website blogs, slides, e-books, dashboards, and more.
 
@@ -151,7 +151,7 @@ Our core philosophy is to make data science accessible to everyone, regardless o
 
 ## Supported Data Visualization Libraries
 
-We currently support the following data visualization libraries in Python:, and we are working on adding support for more libraries in the future:
+We currently support the following data visualization libraries in Python, and we are working on adding support for more libraries in the future:
 
 ### Matplotlib
 
@@ -165,11 +165,11 @@ We currently support the following data visualization libraries in Python:, and 
 
 * KDE (Kernel Density Estimation) plot having one x (numerical) and one y (density) axis showing probability density curves.
 
-* Single line plot having one x (numerical) and one y (numerical) axis.
+* Single-line plot having one x (numerical) and one y (numerical) axis.
 
 * Multi-line plot having one x (numerical) and one y (numerical) axis with multiple data series on the same axes.
 
-* Step plot having one x (numerical) and one y (numerical or ordinal) axis, for piecewise-constant values that are held over an interval and then jump — e.g. a hypnogram of sleep stage against time. Named y tick labels are announced as level names in place of the numeric level. Recognised from matplotlib's `drawstyle="steps-*"` (including `ax.step()`), Plotly's `line_shape`, and Altair's `interpolate`.
+* Step plot having one x (numerical) and one y (numerical or ordinal) axis, for piecewise-constant values that are held over an interval and then jump — e.g. a hypnogram of sleep stage against time. Named y tick labels are announced as level names in place of the numeric level. Recognized from matplotlib's `drawstyle="steps-*"` (including `ax.step()`), Plotly's `line_shape`, and Altair's `interpolate`.
 
 * Vertical box plot having one x (categorical) and one y (numerical) axis.
 
@@ -181,7 +181,7 @@ We currently support the following data visualization libraries in Python:, and 
 
 * Heatmap having one x (categorical) and one y (categorical) and z (numerical) axis.
 
-* Hexbin plot (`ax.hexbin()`) having one x (numerical) and one y (numerical) axis and a z axis carrying what the fill encodes — each hexagon's count by default, the reduction of `C` when one is given, or the count's interval when `bins` is a number. Read as a lattice of counted cells, one row at a time; because hexagons tessellate by offsetting alternate rows, each bin is announced by its centre rather than by a column index.
+* Hexbin plot (`ax.hexbin()`) having one x (numerical) and one y (numerical) axis and a z axis carrying what the fill encodes — each hexagon's count by default, the reduction of `C` when one is given, or the count's interval when `bins` is a number. Read as a lattice of counted cells, one row at a time; because hexagons tessellate by offsetting alternate rows, each bin is announced by its center rather than by a column index.
 
 * Filled area plot (`ax.stackplot()`, `ax.fill_between()`, `ax.fill_betweenx()`) having one x (numerical) and one y (numerical) axis. A band drawn from the baseline to a curve reads as an area; several stacked bands read as a stacked area, with each band's own value announced alongside the running total. A band drawn *between two curves* is not read as an area, since its content is the gap rather than either edge.
 
@@ -191,7 +191,7 @@ We currently support the following data visualization libraries in Python:, and 
 
 * Candlestick chart having one x (time/date) and four y (numerical) axes (open, high, low, close) for financial data visualization (using mplfinance).
 
-* Multi-layered plots combining different plot types on the same figure with shared axes.
+* Multi-layer plots combining different plot types on the same figure with shared axes.
 
 * Multi-panel plots (subplots) with multiple charts in a grid layout having independent axes.
 
@@ -248,7 +248,7 @@ py-maidr ships an [Altair](https://altair-viz.github.io/) adapter that compiles 
 
 * Scatter plot (`mark_point` / `mark_circle`).
 
-* Multi-layered plots combining `mark_point` + `mark_line` (e.g. line-with-points overlays) on a `LayerChart`.
+* Multi-layer plots combining `mark_point` + `mark_line` (e.g. line-with-points overlays) on a `LayerChart`.
 
 * Regression-style scatter overlaid with a `transform_loess` smoothing line on a `LayerChart`.
 
@@ -279,7 +279,7 @@ pip install -U git+https://github.com/xability/py-maidr.git
 
 Making accessible data representation with **maidr** is easy and straightforward. If you already have data visualization code using **matplotlib** or **seaborn**, you can make your plots accessible with **maidr** in just a few lines of code.
 
-Simply `import maidr` and call `plt.show()` as usual. **maidr** automatically activates a custom matplotlib backend, so `plt.show()` renders accessible HTML output (with sonification, braille, and tactile support) instead of a static image. You can then interact with the accessible plots using keyboard shortcuts (refer to @tbl-shortcuts).
+Simply `import maidr` and call `plt.show()` as usual. **maidr** automatically activates a custom matplotlib backend, so `plt.show()` renders accessible HTML output (with sonification, Braille, and tactile support) instead of a static image. You can then interact with the accessible plots using keyboard shortcuts (refer to @tbl-shortcuts).
 
 Check more examples in the [galleries](examples.qmd#sec-examples).
 
@@ -325,7 +325,7 @@ When you `import maidr`, a custom matplotlib backend is automatically activated.
 
 If you want to temporarily use the default matplotlib renderer (e.g. for unsupported plot types or debugging), you can switch the backend:
 
-**In Jupyter notebooks:**
+**In Jupyter Notebook:**
 
 ```python
 maidr.set_backend(use_maidr=False)   # plt.show() now renders static inline images
@@ -416,7 +416,7 @@ You give up picking up a release newer than your wheel, automatically, in an asy
 - `maidr.set_cdn_version("3.74.0")` at startup, if you know which version you want.
 - Call `maidr.get_cdn_version()` once from synchronous code at startup. That resolves and caches, and every async render then uses the resolved version — the request is paid for once, by your startup, not by a render.
 
-**The same applies to every Jupyter/IPython kernel**, where each cell executes on the kernel's event loop: a notebook on the default setting serves the bundled version for the life of the kernel and never arms the staleness warning. A notebook has no synchronous start-up code, so the way off the bundled version there is:
+**The same applies to every Jupyter/IPython kernel**, where each cell executes on the kernel's event loop: a notebook on the default setting serves the bundled version for the life of the kernel and never arms the staleness warning. A notebook has no synchronous startup code, so the way off the bundled version there is:
 
 - `MAIDR_CDN_VERSION` in the kernel's environment, or `maidr.set_cdn_version("3.74.0")` in a cell, if you know which version you want.
 - One explicit `maidr.bundle_status()` call in a cell. It resolves regardless of the loop and caches the answer, so every later render in that kernel uses the resolved version.
@@ -435,13 +435,13 @@ Measured through the renderer on a 50-bar chart, longest gap between successive 
 
 Same throughput either way — the work did not get cheaper, it stopped being in everyone else's way.
 
-Two things this does not do. Renders of the **same figure** are serialised, because `savefig` writes `fig.dpi` for its duration and two concurrent writes leave one chart drawn at the other's scale; distinct figures, which is the usual per-session shape, run in parallel. That lock is held by the render path itself rather than by this integration, so a figure is rendered one at a time however it is reached — through Shiny, through Streamlit, or from a thread of your own. And the chart still travels over the websocket on every flush — roughly 25 KB, or a couple of megabytes with `use_cdn=False`; that part is tracked in [#534](https://github.com/xability/py-maidr/issues/534).
+Two things this does not do. Renders of the **same figure** are serialized, because `savefig` writes `fig.dpi` for its duration and two concurrent writes leave one chart drawn at the other's scale; distinct figures, which is the usual per-session shape, run in parallel. That lock is held by the render path itself rather than by this integration, so a figure is rendered one at a time however it is reached — through Shiny, through Streamlit, or from a thread of your own. And the chart still travels over the websocket on every flush — roughly 25 KB, or a couple of megabytes with `use_cdn=False`; that part is tracked in [#534](https://github.com/xability/py-maidr/issues/534).
 
-**What the lock cannot do is stop your app.** It serialises renders against each other; it does not stop a render function drawing into a figure another session is in the middle of rendering. That produces a chart whose SVG and announced data disagree — visible to a sighted reader, invisible to a screen-reader one — so maidr says so, naming the figure:
+**What the lock cannot do is stop your app.** It serializes renders against each other; it does not stop a render function drawing into a figure another session is in the middle of rendering. That produces a chart whose SVG and announced data disagree — visible to a sighted reader, invisible to a screen-reader one — so maidr says so, naming the figure:
 
 > maidr: figure 2 was drawn into while it was being rendered, so the chart's SVG and the data maidr announces for it may not match. Finish plotting before rendering, or render a figure no other thread is using.
 
-It notices artists appearing, disappearing or being relabelled, **not** a value changed in place on an existing artist — so hearing nothing is not a guarantee that a render was clean. Silence a `maidr.MaidrRenderRaceWarning` if you have decided a figure is deliberately shared.
+It notices artists appearing, disappearing or being relabeled, **not** a value changed in place on an existing artist — so hearing nothing is not a guarantee that a render was clean. Silence a `maidr.MaidrRenderRaceWarning` if you have decided a figure is deliberately shared.
 
 `uv run pytest tests/core/test_render_is_synchronous.py --run-benchmark` re-measures the underlying `maidr.render()`, which is still synchronous and still blocks its caller — that is what makes moving it off the loop necessary rather than optional.
 :::
@@ -625,45 +625,45 @@ left the chart on the *current* slide unreachable as well.
 
 With the extension enabled, each slide gives one **Tab** to its own chart and
 **Shift+Tab** back out. The extension also adds a skip link ahead of the
-slides, so Shift+Tab lands there rather than on the slide element itself;
+slides, so **Shift+Tab** lands there rather than on the slide element itself;
 either way **Space** still moves to the next slide.
 
 ## Braille Generation
 
-maidr incorporates a Braille mode that represents the plot using Braille symbols. This allows users with visual impairments to explore and interact with the plot using a refreshable Braille display. To achieve this, our system translates the plot's visual elements and data points into a corresponding tactile representation using Braille patterns. For different plot types, such as barplot, boxplot, heatmap, and scatterplot, maidr employs unique encoding strategies tailored to effectively convey the data distribution, patterns, and trends. These tactile encodings range from using distinct Braille characters to represent value ranges, to employing characters that visually resemble the corresponding sections of a plot. By providing a comprehensive Braille representation for various plot types, maidr enables users with visual impairments to gain a deeper understanding of the underlying data and its insights.
+maidr incorporates a Braille mode that represents the plot using Braille symbols. This allows users with visual impairments to explore and interact with the plot using a refreshable Braille display. To achieve this, our system translates the plot's visual elements and data points into a corresponding tactile representation using Braille patterns. For different plot types, such as bar plot, box plot, heatmap, and scatter plot, maidr employs unique encoding strategies tailored to effectively convey the data distribution, patterns, and trends. These tactile encodings range from using distinct Braille characters to represent value ranges, to employing characters that visually resemble the corresponding sections of a plot. By providing a comprehensive Braille representation for various plot types, maidr enables users with visual impairments to gain a deeper understanding of the underlying data and its insights.
 
 ### Bar Plot
 
-In the Braille representation of a barplot, data values are encoded as Braille characters based on their relative magnitude within the plot. Low values are denoted by Braille characters that have dots only along the bottom, while high values are indicated by characters that have dots along the top. Given the four height levels of Braille, the encoding is as follows:
+In the Braille representation of a bar plot, data values are encoded as Braille characters based on their relative magnitude within the plot. Low values are denoted by Braille characters that have dots only along the bottom, while high values are indicated by characters that have dots along the top. Given the four height levels of Braille, the encoding is as follows:
 
 - ⣀ represents values 0 to 25%
 - ⠤ represents the 25% to 50%
 - ⠒ represents the 50% to 75%
 - ⠉ represents the 75% to 100%
 
-This tactile encoding allows users to easily differentiate between the various value ranges in the barplot, facilitating their understanding of the data distribution and its underlying trends.
+This tactile encoding allows users to easily differentiate between the various value ranges in the bar plot, facilitating their understanding of the data distribution and its underlying trends.
 
 ### Histogram
 
-The braille representation of a histogram is the same as that of a barplot.
+The Braille representation of a histogram is the same as that of a bar plot.
 
 ### Line Plot
 
-In the Braille representation of a lineplot, braille is nearly identical to the above barplot: data values are encoded as Braille characters based on their relative magnitude within the plot. Low values are denoted by Braille characters that have dots only along the bottom, while high values are indicated by characters that have dots higher up.
+In the Braille representation of a lineplot, Braille is nearly identical to the above bar plot: data values are encoded as Braille characters based on their relative magnitude within the plot. Low values are denoted by Braille characters that have dots only along the bottom, while high values are indicated by characters that have dots higher up.
 
 ### Heatmap
 
-In the Braille representation of a heatmap, values are depicted based on their relative magnitude within the plot, much like the approach used for barplots and scatterplots. Low values are denoted by Braille characters with dots only along the bottom, high values are represented by characters filled with dots, and blank or null values are indicated by empty spaces. With three height levels of Braille, the encoding is as follows:
+In the Braille representation of a heatmap, values are depicted based on their relative magnitude within the plot, much like the approach used for bar plots and scatter plots. Low values are denoted by Braille characters with dots only along the bottom, high values are represented by characters filled with dots, and blank or null values are indicated by empty spaces. With three height levels of Braille, the encoding is as follows:
 
 - ⠤ represents values from 0% to 33%
 - ⠒ represents values from 33% to 66%
 - ⠉ represents values from 66% to 100%
-- "⠀" (braille space) represents null or empty values
+- "⠀" (Braille space) represents null or empty values
 - "⢳" represents a row separator
 
 ### Box Plot
 
-The Braille representation of a boxplot employs Braille characters that visually resemble the corresponding sections of the boxplot. An example of such braille may look like ⠂ ⠒⠒⠒⠒⠒⠒⠿⠸⠿⠒ . The size of each section is denoted by the number of Braille characters used. The sections are encoded as follows:
+The Braille representation of a box plot employs Braille characters that visually resemble the corresponding sections of the box plot. An example of such Braille may look like ⠂ ⠒⠒⠒⠒⠒⠒⠿⠸⠿⠒ . The size of each section is denoted by the number of Braille characters used. The sections are encoded as follows:
 
 - ⠂ represents lower outlier and upper outlier(s)
 - ⠒ represents the left or right whiskers
@@ -673,13 +673,13 @@ The Braille representation of a boxplot employs Braille characters that visually
 
 We also impose some overarching rules:
 
-1. Each section must be represented with at least 1 braille character, assuming they have some positive length.
-2. Differences or equalities in whiskers and quartiles must be upheld. That is, if the min and max whisker are of equal length, they must have the same number of braille characters, or if they're different, the number of characters must be different.
+1. Each section must be represented with at least 1 Braille character, assuming they have some positive length.
+2. Differences or equalities in whiskers and quartiles must be upheld. That is, if the min and max whisker are of equal length, they must have the same number of Braille characters, or if they're different, the number of characters must be different.
 3. Zero length sections, such as outliers and the median, are always represented by a set character. ⠂ in the case of outliers, ⠸⠇ in the case of the median.
 
-This tactile encoding enables users to discern the various components of the boxplot, allowing them to comprehend the data distribution, detect outliers, and identify central tendencies and dispersion within the dataset.
+This tactile encoding enables users to discern the various components of the box plot, allowing them to comprehend the data distribution, detect outliers, and identify central tendencies and dispersion within the dataset.
 
-To generate the braille, we use an algorithm that generates a distribution of characters based on a given proportional distribution and a specified total number of characters in the user's braille display. This can be described mathematically as follows:
+To generate the Braille, we use an algorithm that generates a distribution of characters based on a given proportional distribution and a specified total number of characters in the user's Braille display. This can be described mathematically as follows:
 
 $$
 c_i = \text{round}(n \cdot p_i), \text{ for } i = 1, 2, 3, \ldots, k
@@ -698,12 +698,12 @@ Where
 
 The process is as follows in the code:
 
-1. We first convert our data set for a particular boxplot to an array of lengths.
+1. We first convert our dataset for a particular box plot to an array of lengths.
 2. We then assign the single required character to each section.
 3. We also note connected sections, such as min and max.
 4. We then normalize and allocate all remaining characters according to their proportional distribution, making sure to add extra characters where needed to keep differences or equalities.
 
-As an example, consider a boxplot with the following distribution: [10, 0, 20, 40, 30, 0, 30, 60, 50, 30, 0, 10, 0], with types [blank space, outlier, larger blank space, large min whisker, moderate sized lower quartile, the median, moderate sized upper quartile, another larger max whisker, a large blank space, an outlier, a small blank space, then another outlier], and a braille display length of 33. We would produce braille that looks like so:
+As an example, consider a box plot with the following distribution: [10, 0, 20, 40, 30, 0, 30, 60, 50, 30, 0, 10, 0], with types [blank space, outlier, larger blank space, large min whisker, moderate-sized lower quartile, the median, moderate-sized upper quartile, another larger max whisker, a large blank space, an outlier, a small blank space, then another outlier], and a Braille display length of 33. We would produce Braille that looks like so:
 
 ⠂ ⠒⠒⠒⠒⠿⠿⠿⠸⠇⠿⠿⠿⠒⠒⠒⠒⠒⠒ ⠂ ⠂
 
@@ -711,7 +711,7 @@ As an example, consider a boxplot with the following distribution: [10, 0, 20, 4
 
 * Note: The line layer in py-maidr has not been implemented yet. The following is a placeholder for the future implementation.
 
-In the Braille representation of a scatterplot, the encoding is performed only for the line layer (layer 2). The method is similar to that used for barplots, wherein data values are represented as Braille characters based on their relative magnitude within the plot. Low values are denoted by dots along the bottom, while high values are indicated by dots along the top. With four height levels of Braille, the encoding is as follows:
+In the Braille representation of a scatter plot, the encoding is performed only for the line layer (layer 2). The method is similar to that used for bar plots, wherein data values are represented as Braille characters based on their relative magnitude within the plot. Low values are denoted by dots along the bottom, while high values are indicated by dots along the top. With four height levels of Braille, the encoding is as follows:
 
 - ⣀ represents values from 0% to 25%
 - ⠤ represents values from 25% to 50%
@@ -724,18 +724,18 @@ In the Braille representation of a scatterplot, the encoding is performed only f
 
 Stacked bar, dodged bar, and normalized stacked bar all share the same system:
 
-In the braille representation of segmented bar plots, braille depends on where you are. There are typically multiple levels to a segmented bar plot, and as you move (Up and Down arrow keys) between levels, the braille changes to represent your current level. At the top, there is also a Summary pseudo level of all levels added together, and a Combined pseudo level of each level separately.
+In the Braille representation of segmented bar plots, Braille depends on where you are. There are typically multiple levels to a segmented bar plot, and as you move (Up and Down arrow keys) between levels, the Braille changes to represent your current level. At the top, there is also a Summary pseudo level of all levels added together, and a Combined pseudo level of each level separately.
 
-- Regular level: Braille appears similar to a bar plot, with braille values corresponding to the magnitude of the level's value for this point.
+- Regular level: Braille appears similar to a bar plot, with Braille values corresponding to the magnitude of the level's value for this point.
 - Summary level: Same as regular level, but values now reflect the combined magnitude of all levels' values for this point.
-- Combined level: Similar to heatmap, where there are groups of magnitudes for each point separated by a ⢳ character. The first group has braille characters for each level for the first point, then a separator, then the second group has braille characters for each level in the second point, then a separator, and so on.
+- Combined level: Similar to heatmap, where there are groups of magnitudes for each point separated by a ⢳ character. The first group has Braille characters for each level for the first point, then a separator, then the second group has Braille characters for each level in the second point, then a separator, and so on.
 
-## Getting Refreshable Braille Display Loaner
+## Getting a Refreshable Braille Display Loaner
 
-If you are a blind user and do not have a refreshable Braille display, you can request a loaner from the National Library Service (NLS) for the Blind and Print Disabled. Please follow our instruction on [how to request an NLS eReader Braille Display](https://xabilitylab.ischool.illinois.edu/braille-display).
+If you are a blind user and do not have a refreshable Braille display, you can request a loaner from the National Library Service (NLS) for the Blind and Print Disabled. Please follow our instructions on [how to request an NLS eReader Braille Display](https://xabilitylab.ischool.illinois.edu/Braille-display).
 
 
-## Instruction on How to Verify and Use the AI Feature in py-maidr
+## Instructions on How to Verify and Use AI Features in py-maidr
 
 We provide AI API keys only to alpha testers who have shared their email addresses through our survey form. If you are not an alpha tester, you can still use the AI feature by manually providing your own AI API keys in the Help menu.
 
@@ -798,8 +798,8 @@ You can manually provide your own AI API keys in the Help menu. These keys are n
 
 py-maidr is one of three packages that share the MAIDR engine. Each is maintained by the (x)Ability Design Lab and documented on its own site:
 
-- [MAIDR JavaScript core](https://maidr.ai/): the TypeScript engine that provides the keyboard model, sonification, braille, text and AI chat, published on npm as `maidr`. py-maidr bundles it and loads it from the CDN.
-- [py-maidr for Python](https://py.maidr.ai/): this package, for matplotlib, seaborn, Plotly and Altair (PyPI package `maidr`, source on [GitHub](https://github.com/xability/py-maidr)).
+- [MAIDR JavaScript core](https://maidr.ai/): the TypeScript engine that provides the keyboard model, sonification, Braille, text and AI chat, published on npm as `maidr`. py-maidr bundles it and loads it from the CDN.
+- [py-maidr for Python](https://py.maidr.ai/): this package, for matplotlib, seaborn, Plotly, and Altair (PyPI package `maidr`, source on [GitHub](https://github.com/xability/py-maidr)).
 - [maidr for R](https://r.maidr.ai/): the R package for ggplot2 and base graphics, published on CRAN as `maidr`.
 
 ## Cite py-maidr
