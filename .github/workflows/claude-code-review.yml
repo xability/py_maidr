@@ -214,30 +214,34 @@ jobs:
   # Pull requests from forks. On pull_request they get no repository secrets,
   # so the job above cannot run for them (#780 was skipped that way);
   # pull_request_target does get the secrets, at the price of running with
-  # them on code this repository does not control. Two things keep that in
-  # bounds. The PR's code is never executed here: the checkout at the
-  # workspace root is the base branch, the PR's files sit under pr-head/ for
-  # reading, and Claude gets gh commands only, so it reviews the diff and reads
-  # what CI -- which does run the PR's tests, without secrets -- reported. And
-  # only pull requests by members and collaborators of this organisation are
-  # reviewed; a maintainer can still summon Claude on any other PR with an
-  # @claude comment (claude.yml).
+  # them on code this repository does not control. What keeps that in bounds:
+  # the PR's code is never executed here -- the checkout at the workspace root
+  # is the base branch, the PR's files sit under pr-head/ for reading, and
+  # Claude gets gh commands only, so it reviews the diff and reads what CI,
+  # which does run the PR's tests without secrets, reported; the token Claude
+  # holds can do no more than comment; and a turn cap bounds what a hostile
+  # PR description can make a run cost.
+  #
+  # Every fork PR is reviewed, whoever opened it. Gating on
+  # author_association does not work here: GitHub reports MEMBER only for a
+  # public organisation membership, and most members of this organisation
+  # keep theirs private, so their PRs arrive as NONE (#780 did, and was
+  # skipped a second time that way).
   #
   # Two things follow from the event. Anthropic's app-token exchange rejects
   # the OIDC token of a pull_request_target run
   # (anthropics/claude-code-action#713), so this job passes GITHUB_TOKEN and
   # its reviews post as github-actions[bot] rather than claude[bot]. And the
-  # action checks the PR author's repository permission, which for an
-  # organisation member is usually read, so allowed_non_write_users lifts that
-  # check. With that input the action also scrubs secrets from the environment
-  # of the commands Claude runs, installing bubblewrap for it -- the machinery
-  # the job above must not switch on by hand (#778).
+  # action refuses an actor without write access, which is most fork authors,
+  # unless allowed_non_write_users says otherwise. With that input the action
+  # also scrubs secrets from the environment of the commands Claude runs,
+  # installing bubblewrap for it -- the machinery the job above must not
+  # switch on by hand (#778).
   claude-review-fork:
     if: |
       github.event_name == 'pull_request_target' &&
       github.event.pull_request.head.repo.full_name != github.repository &&
-      github.actor != 'dependabot[bot]' &&
-      contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.pull_request.author_association)
+      github.actor != 'dependabot[bot]'
 
     runs-on: ubuntu-latest
 
@@ -298,9 +302,8 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # The workflow's `if` above already limits this job to members and
-          # collaborators; this only stops the action from refusing a member
-          # whose repository permission is read.
+          # Any fork author; see the note on the job. What a run can do with
+          # that is bounded by the tools and the turn cap below.
           allowed_non_write_users: "*"
 
           prompt: |
@@ -337,8 +340,9 @@ jobs:
 
           # Read-only gh commands plus the one that posts. No plain Bash: the
           # code under review is not this repository's, and nothing in this job
-          # should run it.
-          claude_args: '--allowed-tools "Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr checks:*),Bash(gh run view:*),Bash(gh pr list:*),Bash(gh issue view:*),Bash(gh issue list:*),Bash(gh search:*)"'
+          # should run it. The turn cap is the cost bound for a run anyone can
+          # start; a diff-and-CI review of this kind takes well under 20.
+          claude_args: '--allowed-tools "Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr checks:*),Bash(gh run view:*),Bash(gh pr list:*),Bash(gh issue view:*),Bash(gh issue list:*),Bash(gh search:*)" --max-turns 40'
 
       # Same fallback as the job above, for the identity this job posts under.
       - name: Publish the review if Claude did not
