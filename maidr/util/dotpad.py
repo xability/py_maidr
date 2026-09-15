@@ -541,9 +541,16 @@ def attach_local_dotpad_sdk(
 
     Applies only to ``use_cdn=False``: that is the document whose reader
     has no network, and the one whose ``lib/`` folder already travels
-    with it. A page that names its own copy by URL keeps that -- a
-    configured URL wins over a local directory -- and a session that
-    never downloaded the SDK is left exactly as before.
+    with it. A page that names its own copy by URL keeps that -- either
+    setting, alone or together, wins over a local directory -- and a
+    session that never downloaded the SDK is left exactly as before.
+
+    Either setting, not only the module's. This dependency and the URL
+    one write the same globals and the later wins in the browser, so a
+    document carrying both with only the engine's URL configured would
+    load the module from ``lib/`` and the engine from that URL: the
+    offline copy's worst half, and the network dependency
+    ``use_cdn=False`` exists to remove.
 
     Parameters
     ----------
@@ -561,7 +568,10 @@ def attach_local_dotpad_sdk(
     bool
         Whether a copy was attached.
     """
-    if use_cdn is not False or get_dotpad_sdk().sdk_url is not None:
+    if use_cdn is not False:
+        return False
+    configured = get_dotpad_sdk()
+    if configured.sdk_url is not None or configured.asset_base_url is not None:
         return False
     local = dotpad_sdk_path()
     if local is None:

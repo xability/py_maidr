@@ -422,6 +422,27 @@ def test_a_configured_url_wins_over_a_local_copy(figure, local_sdk, tmp_path):
     assert "dotpad-sdk-3.0.2" not in html
 
 
+@pytest.mark.parametrize(
+    "configured",
+    [(None, ASSET_URL), (SDK_URL, ASSET_URL)],
+    ids=["asset-only", "both"],
+)
+def test_either_url_setting_keeps_a_local_copy_out(
+    figure, local_sdk, tmp_path, configured
+):
+    # Both would write the same globals and the later wins in the browser,
+    # so a document carrying both with only the engine's URL configured
+    # would load the module from lib/ and the engine from the URL.
+    maidr.set_dotpad_sdk(*configured)
+    out = tmp_path / "chart.html"
+    maidr.save_html(figure, str(out), use_cdn=False)
+    assert not (tmp_path / "lib" / "dotpad-sdk-3.0.2").exists()
+    html = out.read_text(encoding="utf-8")
+    assert html.count("MAIDR_DOTPAD_ASSET_BASE_URL") == 1
+    assert f'window.MAIDR_DOTPAD_ASSET_BASE_URL = "{ASSET_URL}";' in html
+    assert "dotpad-sdk-3.0.2" not in html
+
+
 def test_a_session_that_never_downloaded_is_left_alone(figure, tmp_path, monkeypatch):
     monkeypatch.setenv("MAIDR_DOTPAD_SDK_DIR", str(tmp_path / "nothing-here"))
     out = tmp_path / "chart.html"
