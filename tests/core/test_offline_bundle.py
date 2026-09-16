@@ -52,9 +52,9 @@ def test_bundled_math_css_exists():
     """
     math_css_path = dependencies.bundled_math_css_path()
     assert math_css_path.is_file()
-    assert math_css_path.stat().st_size > 1_000, (
-        "bundled maidr-math.css looks empty; it should carry KaTeX's rules"
-    )
+    assert (
+        math_css_path.stat().st_size > 1_000
+    ), "bundled maidr-math.css looks empty; it should carry KaTeX's rules"
     assert "KaTeX" in math_css_path.read_text(encoding="utf-8")
 
 
@@ -96,16 +96,14 @@ def test_inlined_katex_is_marked_as_already_present(bar_plot, mocker):
     without the marker it logs that maths will render unstyled, which is
     untrue here and is the only thing the reader would see.
     """
-    mocker.patch(
-        "maidr.util.environment.Environment.is_notebook", return_value=True
-    )
+    mocker.patch("maidr.util.environment.Environment.is_notebook", return_value=True)
 
     html = str(maidr.render(bar_plot, use_cdn=False).get_html_string())
 
     assert "__maidrMathCssSource" in html, "the KaTeX rules are not inlined"
-    assert "data-maidr-math" in html, (
-        "the inlined rules are not marked, so maidr.js will report them missing"
-    )
+    assert (
+        "data-maidr-math" in html
+    ), "the inlined rules are not marked, so maidr.js will report them missing"
 
 
 def test_fetch_script_bundles_every_asset_the_runtime_needs():
@@ -129,12 +127,12 @@ def test_fetch_script_bundles_every_asset_the_runtime_needs():
         dependencies.MAIDR_JS_FILENAME,
         dependencies.MAIDR_MATH_CSS_FILENAME,
     ):
-        assert f"package/dist/{filename}" in script, (
-            f"{filename} is never extracted from the npm tarball"
-        )
-        assert f'"$DEST_DIR/{filename}"' in script, (
-            f"{filename} is never written into the bundle directory"
-        )
+        assert (
+            f"package/dist/{filename}" in script
+        ), f"{filename} is never extracted from the npm tarball"
+        assert (
+            f'"$DEST_DIR/{filename}"' in script
+        ), f"{filename} is never written into the bundle directory"
 
 
 def test_maidr_bundled_files_dependency_has_no_script_tags():
@@ -177,9 +175,9 @@ def test_save_html_default_references_cdn(bar_plot, tmp_path):
     maidr.save_html(bar_plot, file=str(out))
 
     contents = out.read_text(encoding="utf-8")
-    assert "cdn.jsdelivr.net/npm/maidr" in contents, (
-        "CDN URL should still appear in the default output"
-    )
+    assert (
+        "cdn.jsdelivr.net/npm/maidr" in contents
+    ), "CDN URL should still appear in the default output"
 
 
 def test_save_html_use_cdn_false_creates_lib_dir_with_js(bar_plot, tmp_path):
@@ -190,7 +188,9 @@ def test_save_html_use_cdn_false_creates_lib_dir_with_js(bar_plot, tmp_path):
     lib_dir = tmp_path / "lib"
     assert lib_dir.exists(), "lib directory was not created"
 
-    subdirs = [p for p in lib_dir.iterdir() if p.is_dir() and p.name.startswith("maidr")]
+    subdirs = [
+        p for p in lib_dir.iterdir() if p.is_dir() and p.name.startswith("maidr")
+    ]
     assert subdirs, f"no maidr-* subdirectory under {lib_dir}"
     js_files = list(subdirs[0].glob("maidr.js"))
     math_css_files = list(subdirs[0].glob("maidr-math.css"))
@@ -205,12 +205,12 @@ def test_save_html_use_cdn_false_html_references_relative_path(bar_plot, tmp_pat
     maidr.save_html(bar_plot, file=str(out), use_cdn=False)
 
     contents = out.read_text(encoding="utf-8")
-    assert "cdn.jsdelivr.net/npm/maidr" not in contents, (
-        "use_cdn=False output must not reference the CDN"
-    )
-    assert re.search(r'src="[^"]*maidr\.js"', contents), (
-        "use_cdn=False output does not include a <script src='.../maidr.js'> tag"
-    )
+    assert (
+        "cdn.jsdelivr.net/npm/maidr" not in contents
+    ), "use_cdn=False output must not reference the CDN"
+    assert re.search(
+        r'src="[^"]*maidr\.js"', contents
+    ), "use_cdn=False output does not include a <script src='.../maidr.js'> tag"
     assert not re.search(r'href="[^"]*maidr\.css"', contents), (
         "use_cdn=False output still links maidr.css, which has been a "
         "placeholder with no rules in it since maidr 3.75.1"
@@ -241,21 +241,23 @@ def test_save_html_auto_emits_cdn_and_fallback(bar_plot, tmp_path):
     contents = out.read_text(encoding="utf-8")
 
     # CDN must still be referenced so online viewers get the latest version.
-    assert "cdn.jsdelivr.net/npm/maidr" in contents, (
-        "auto output must reference the CDN"
-    )
+    assert (
+        "cdn.jsdelivr.net/npm/maidr" in contents
+    ), "auto output must reference the CDN"
     # An onerror fallback must be present for offline viewers.
-    assert "onerror" in contents, (
-        "auto output must include a client-side onerror fallback handler"
-    )
+    assert (
+        "onerror" in contents
+    ), "auto output must include a client-side onerror fallback handler"
     # The bundled path must be mentioned in the fallback (as a string).
-    assert f"lib/maidr-{dependencies.maidr_js_version()}/maidr.js" in contents, (
-        "auto output does not reference the bundled fallback path"
-    )
+    assert (
+        f"lib/maidr-{dependencies.maidr_js_version()}/maidr.js" in contents
+    ), "auto output does not reference the bundled fallback path"
 
     # The bundle files must also be materialised under lib/.
     lib_dir = tmp_path / "lib"
-    subdirs = [p for p in lib_dir.iterdir() if p.is_dir() and p.name.startswith("maidr")]
+    subdirs = [
+        p for p in lib_dir.iterdir() if p.is_dir() and p.name.startswith("maidr")
+    ]
     assert subdirs, "auto mode did not copy bundle into lib/"
     assert (subdirs[0] / "maidr.js").stat().st_size > 1_000
 
@@ -274,9 +276,9 @@ def test_render_default_tag_contains_cdn(bar_plot):
 def test_render_use_cdn_false_tag_contains_no_cdn(bar_plot):
     tag = maidr.render(bar_plot, use_cdn=False)
     rendered = tag.render()["html"]
-    assert "cdn.jsdelivr.net" not in rendered, (
-        "use_cdn=False render still references the jsDelivr CDN"
-    )
+    assert (
+        "cdn.jsdelivr.net" not in rendered
+    ), "use_cdn=False render still references the jsDelivr CDN"
 
 
 def test_render_auto_tag_contains_cdn_and_fallback(bar_plot):
@@ -434,9 +436,7 @@ def reset_notebook_loaded():
 
 def test_init_notebook_noop_outside_notebook(mocker, reset_notebook_loaded):
     """Outside notebooks ``init_notebook()`` must not call IPython.display."""
-    mocker.patch(
-        "maidr.util.environment.Environment.is_notebook", return_value=False
-    )
+    mocker.patch("maidr.util.environment.Environment.is_notebook", return_value=False)
     maidr_api._NOTEBOOK_LOADED = False
 
     # If IPython were consulted in a non-notebook context this patch would
@@ -456,15 +456,11 @@ def test_init_notebook_noop_outside_notebook(mocker, reset_notebook_loaded):
     assert maidr_api._NOTEBOOK_LOADED is False
 
 
-def test_init_notebook_false_injects_bundled_source(
-    mocker, reset_notebook_loaded
-):
+def test_init_notebook_false_injects_bundled_source(mocker, reset_notebook_loaded):
     """``init_notebook(use_cdn=False)`` stashes JS/CSS on ``window``."""
     from unittest.mock import MagicMock
 
-    mocker.patch(
-        "maidr.util.environment.Environment.is_notebook", return_value=True
-    )
+    mocker.patch("maidr.util.environment.Environment.is_notebook", return_value=True)
     maidr_api._NOTEBOOK_LOADED = False
 
     fake_html_cls = MagicMock()
@@ -483,8 +479,12 @@ def test_init_notebook_false_injects_bundled_source(
     # KaTeX travels as a source string because a srcdoc iframe has no
     # base URL for maidr.js to resolve the stylesheet against.
     assert "window.__maidrMathCssSource" in html_arg
-    # No CDN reference when explicitly offline.
-    assert "cdn.jsdelivr.net" not in html_arg
+    # No loader from the CDN when explicitly offline. The loader URL rather
+    # than the bare host: the bundle itself names jsDelivr, for the DotPad
+    # SDK it fetches on first connect (#771), and a check on the host would
+    # fail on the bundle's own text -- slowly, since pytest then renders a
+    # diff of the whole 1.7 MB source.
+    assert "cdn.jsdelivr.net/npm/maidr" not in html_arg
     # Closing </script> must be escaped so an embedded </script> in the
     # bundled source cannot prematurely close the outer <script> tag.
     assert "</script>" in html_arg  # one outer, intentional
@@ -496,9 +496,7 @@ def test_init_notebook_true_injects_cdn_only(mocker, reset_notebook_loaded):
     """``init_notebook(use_cdn=True)`` emits CDN tags and no bundle."""
     from unittest.mock import MagicMock
 
-    mocker.patch(
-        "maidr.util.environment.Environment.is_notebook", return_value=True
-    )
+    mocker.patch("maidr.util.environment.Environment.is_notebook", return_value=True)
     maidr_api._NOTEBOOK_LOADED = False
 
     fake_html_cls = MagicMock()
@@ -523,9 +521,7 @@ def test_init_notebook_auto_emits_both(mocker, reset_notebook_loaded):
     """``init_notebook(use_cdn='auto')`` ships both the bundle and the CDN."""
     from unittest.mock import MagicMock
 
-    mocker.patch(
-        "maidr.util.environment.Environment.is_notebook", return_value=True
-    )
+    mocker.patch("maidr.util.environment.Environment.is_notebook", return_value=True)
     maidr_api._NOTEBOOK_LOADED = False
 
     fake_html_cls = MagicMock()
@@ -555,10 +551,7 @@ def test_init_notebook_tag_matches_the_pin(mocker, reset_notebook_loaded, monkey
     """
     from unittest.mock import MagicMock
 
-
-    mocker.patch(
-        "maidr.util.environment.Environment.is_notebook", return_value=True
-    )
+    mocker.patch("maidr.util.environment.Environment.is_notebook", return_value=True)
     monkeypatch.delenv(cdn.CDN_VERSION_ENV_VAR, raising=False)
     maidr.set_cdn_version("3.74.0")
     maidr_api._NOTEBOOK_LOADED = False
@@ -584,9 +577,7 @@ def test_init_notebook_is_idempotent(mocker, reset_notebook_loaded):
     """Second call is a no-op unless ``force=True``."""
     from unittest.mock import MagicMock
 
-    mocker.patch(
-        "maidr.util.environment.Environment.is_notebook", return_value=True
-    )
+    mocker.patch("maidr.util.environment.Environment.is_notebook", return_value=True)
     maidr_api._NOTEBOOK_LOADED = False
 
     fake_html_cls = MagicMock()
@@ -621,9 +612,7 @@ def test_render_in_notebook_uses_parent_source_bootstrap(
     ``window.parent.__maidrJsSource`` rather than emitting an HTMLDependency
     (which would be lost by the iframe wrapper's ``get_html_string``).
     """
-    mocker.patch(
-        "maidr.util.environment.Environment.is_notebook", return_value=True
-    )
+    mocker.patch("maidr.util.environment.Environment.is_notebook", return_value=True)
     tag = maidr.render(bar_plot, use_cdn=False)
     rendered = tag.render()["html"]
 
@@ -640,9 +629,7 @@ def test_render_in_notebook_auto_uses_parent_source_fallback(
     """``use_cdn='auto'`` in a notebook must fall back to the parent-source
     bootstrap (not to a relative ``lib/maidr.../maidr.js`` path which
     cannot resolve inside an iframe srcdoc)."""
-    mocker.patch(
-        "maidr.util.environment.Environment.is_notebook", return_value=True
-    )
+    mocker.patch("maidr.util.environment.Environment.is_notebook", return_value=True)
     tag = maidr.render(bar_plot, use_cdn="auto")
     rendered = tag.render()["html"]
 
@@ -701,12 +688,12 @@ def test_default_save_html_uses_auto_mode(bar_plot, tmp_path, monkeypatch):
     maidr.save_html(bar_plot, file=str(out))
 
     contents = out.read_text(encoding="utf-8")
-    assert "cdn.jsdelivr.net/npm/maidr" in contents, (
-        "default (``auto``) mode must still reference the CDN"
-    )
-    assert "onerror" in contents, (
-        "default (``auto``) mode must include a client-side onerror fallback"
-    )
+    assert (
+        "cdn.jsdelivr.net/npm/maidr" in contents
+    ), "default (``auto``) mode must still reference the CDN"
+    assert (
+        "onerror" in contents
+    ), "default (``auto``) mode must include a client-side onerror fallback"
     # The bundle must be materialised into ``lib/`` so the fallback can
     # actually load something when the CDN is unreachable.
     lib_dir = tmp_path / "lib"

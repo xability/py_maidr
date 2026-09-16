@@ -60,6 +60,7 @@ from maidr.util.cdn import (
     bundled_cdn_url,
     maidr_js_cdn_url,
 )
+from maidr.util.dotpad import dotpad_config_child, local_dotpad_sdk_dependency
 from maidr.util.environment import Environment
 from maidr.util.iframe_utils import chart_title_of, wrap_in_iframe_plotly
 
@@ -141,6 +142,7 @@ def _occupies_a_cell(trace: dict) -> bool:
     if is_hierarchy_trace(trace):
         return has_one_root(trace)
     return True
+
 
 #: Every trace type plotly places by a ``domain`` rectangle rather than by a
 #: cartesian axis pair. These share the default ``("x", "y")`` trace group with
@@ -525,9 +527,7 @@ class PlotlyMaidr:
                 self._axis_domain_start(layout, xaxis_name, yaxis_name),
             )
 
-            bar_traces = [
-                t for t in group_traces if t.get("type") == "bar"
-            ]
+            bar_traces = [t for t in group_traces if t.get("type") == "bar"]
             # An area trace is a scatter trace that plotly fills, so it is a
             # "connected line" by every structural test -- and left in the
             # line grouping it would be emitted twice, once as its own layer
@@ -555,12 +555,8 @@ class PlotlyMaidr:
                 and not is_area_trace(t)
                 and draws_marks(t)
             ]
-            box_traces = [
-                t for t in group_traces if t.get("type") == "box"
-            ]
-            pie_traces = [
-                t for t in group_traces if t.get("type") == "pie"
-            ]
+            box_traces = [t for t in group_traces if t.get("type") == "box"]
+            pie_traces = [t for t in group_traces if t.get("type") == "pie"]
             funnelarea_traces = [
                 t for t in group_traces if t.get("type") == "funnelarea"
             ]
@@ -573,9 +569,7 @@ class PlotlyMaidr:
             # group in the layer -- see `PlotlyGaugePlot._get_selector`. The
             # ones that draw no dial are skipped when the layers are built,
             # not when the positions are counted.
-            indicator_traces = [
-                t for t in group_traces if t.get("type") == "indicator"
-            ]
+            indicator_traces = [t for t in group_traces if t.get("type") == "indicator"]
 
             # `nth-child` counts within the subplot's SVG `scatterlayer`, so a
             # scatter trace's selector index is its position *there* — not its
@@ -591,12 +585,8 @@ class PlotlyMaidr:
             # Counting gl traces here therefore pushed every svg sibling one
             # position along, onto a selector that matched nothing — so a
             # single gl trace silently broke its neighbours' highlighting too.
-            scatter_family = [
-                t for t in group_traces if is_scatter_family_trace(t)
-            ]
-            svg_scatter = [
-                t for t in scatter_family if not renders_through_webgl(t)
-            ]
+            scatter_family = [t for t in group_traces if is_scatter_family_trace(t)]
+            svg_scatter = [t for t in scatter_family if not renders_through_webgl(t)]
             gl_scatter = [t for t in scatter_family if renders_through_webgl(t)]
 
             # Each trace's index *within its own renderer*. For an SVG trace
@@ -648,9 +638,7 @@ class PlotlyMaidr:
             # family because `draws_marks` reads `x`/`y`: a pie carries neither
             # and draws perfectly well, so asking it globally would drop every
             # pie in the figure.
-            merged: set[int] = {
-                id(t) for t in scatter_family if not draws_marks(t)
-            }
+            merged: set[int] = {id(t) for t in scatter_family if not draws_marks(t)}
 
             # `barnorm` only means anything for a stack: plotly scales each
             # category's segments to a common total, so the values are shares
@@ -753,18 +741,16 @@ class PlotlyMaidr:
             # of step with plotly's own trace and legend order.
             renderer_groups: dict[bool, list[dict]] = {}
             for trace in connected_traces:
-                renderer_groups.setdefault(
-                    renders_through_webgl(trace), []
-                ).append(trace)
+                renderer_groups.setdefault(renders_through_webgl(trace), []).append(
+                    trace
+                )
 
             for renderer_traces in renderer_groups.values():
                 # A staircase is a scatter/lines trace whose ``line.shape``
                 # makes plotly draw risers instead of interpolating, so it has
                 # to be split out here: merged into the multi-line layer it
                 # would be announced as an interpolated line.
-                step_traces = [
-                    t for t in renderer_traces if is_step_trace(t)
-                ]
+                step_traces = [t for t in renderer_traces if is_step_trace(t)]
                 # A `plotly.express` trendline is a fitted curve, not drawn
                 # data, and nothing structural says so -- same `type`, same
                 # `mode`, no `name`, the scatter's own colour. Merged into the
@@ -778,9 +764,7 @@ class PlotlyMaidr:
                 # only be `line` or make them all `smooth`.
                 unstepped = [t for t in renderer_traces if not is_step_trace(t)]
                 trendline_traces = [t for t in unstepped if is_trendline_trace(t)]
-                line_traces = [
-                    t for t in unstepped if not is_trendline_trace(t)
-                ]
+                line_traces = [t for t in unstepped if not is_trendline_trace(t)]
 
                 # Multi-line
                 if len(line_traces) > 1:
@@ -789,9 +773,7 @@ class PlotlyMaidr:
                     plot = PlotlyMultiLinePlot(
                         line_traces,
                         layout,
-                        scatter_positions=[
-                            position_of[id(t)] for t in line_traces
-                        ],
+                        scatter_positions=[position_of[id(t)] for t in line_traces],
                         **axis_kwargs,
                     )
                     plot.row_index = row
@@ -863,8 +845,7 @@ class PlotlyMaidr:
                             direction_group,
                             layout,
                             scatter_positions=[
-                                position_of[id(t)]
-                                for t in direction_group
+                                position_of[id(t)] for t in direction_group
                             ],
                             **axis_kwargs,
                         )
@@ -953,9 +934,7 @@ class PlotlyMaidr:
                 # carry no axis pair either -- so a pie beside a `go.Sunburst`
                 # still owns the titles, and falling back to the generic pair
                 # there would lose a label the author did write.
-                pie_owns_axes = all(
-                    _is_domain_trace(trace) for trace in group_traces
-                )
+                pie_owns_axes = all(_is_domain_trace(trace) for trace in group_traces)
 
                 for position, pie_trace in enumerate(pie_traces):
                     plot = PlotlyPiePlot(
@@ -1030,8 +1009,7 @@ class PlotlyMaidr:
             polar_traces = [
                 t
                 for t in group_traces
-                if t.get("type")
-                in ("scatterpolar", "scatterpolargl", "barpolar")
+                if t.get("type") in ("scatterpolar", "scatterpolargl", "barpolar")
             ]
             if polar_traces:
                 # `PlotType` is imported here rather than at module level
@@ -1104,22 +1082,16 @@ class PlotlyMaidr:
             # trace like a pie's.
             from maidr.plotly.choropleth import is_choropleth_trace
 
-            choropleth_traces = [
-                t for t in group_traces if is_choropleth_trace(t)
-            ]
+            choropleth_traces = [t for t in group_traces if is_choropleth_trace(t)]
             if choropleth_traces:
                 from maidr.plotly.choropleth import PlotlyChoroplethPlot
 
                 for choropleth_trace in choropleth_traces:
-                    plot = PlotlyChoroplethPlot(
-                        choropleth_trace, layout, **axis_kwargs
-                    )
+                    plot = PlotlyChoroplethPlot(choropleth_trace, layout, **axis_kwargs)
                     plot.row_index, plot.col_index = self._grid_position(
                         x_starts,
                         y_starts,
-                        self._block_domain_start(
-                            layout, geo_block(choropleth_trace)
-                        ),
+                        self._block_domain_start(layout, geo_block(choropleth_trace)),
                     )
                     self._plots.append(plot)
                 merged.update(id(t) for t in choropleth_traces)
@@ -1130,9 +1102,7 @@ class PlotlyMaidr:
             # layer drawn on the same map land in the same grid cell (#683).
             from maidr.plotly.geo import is_geo_scatter_trace
 
-            geo_scatter_traces = [
-                t for t in group_traces if is_geo_scatter_trace(t)
-            ]
+            geo_scatter_traces = [t for t in group_traces if is_geo_scatter_trace(t)]
             if geo_scatter_traces:
                 from maidr.plotly.geo import PlotlyGeoScatterPlot
 
@@ -1324,9 +1294,7 @@ class PlotlyMaidr:
             # subplot's `waterfalllayer`, so a trace's selector is scoped by
             # its position among *those* traces -- which the factory, seeing
             # one trace at a time, cannot know.
-            waterfall_traces = [
-                t for t in group_traces if t.get("type") == "waterfall"
-            ]
+            waterfall_traces = [t for t in group_traces if t.get("type") == "waterfall"]
             if waterfall_traces:
                 from maidr.plotly.waterfall import PlotlyWaterfallPlot
 
@@ -1384,9 +1352,7 @@ class PlotlyMaidr:
             for trace in group_traces:
                 if id(trace) in merged:
                     continue
-                if trace.get("type") == "heatmap" or is_histogram2d_trace(
-                    trace
-                ):
+                if trace.get("type") == "heatmap" or is_histogram2d_trace(trace):
                     # The image-drawing traces. Plotly appends one
                     # `<g class="hm">` per trace to the subplot's
                     # `heatmaplayer`, in declaration order, counting a
@@ -1421,9 +1387,7 @@ class PlotlyMaidr:
                         **axis_kwargs,
                     )
                 else:
-                    plot = PlotlyPlotFactory.create(
-                        trace, layout, **axis_kwargs
-                    )
+                    plot = PlotlyPlotFactory.create(trace, layout, **axis_kwargs)
                 if plot is not None:
                     plot.row_index = row
                     plot.col_index = col
@@ -1476,9 +1440,7 @@ class PlotlyMaidr:
                 pass
 
         if renderer == "auto":
-            _renderer = cast(
-                Literal["ipython", "browser"], Environment.get_renderer()
-            )
+            _renderer = cast(Literal["ipython", "browser"], Environment.get_renderer())
         else:
             _renderer = renderer
 
@@ -1515,7 +1477,16 @@ class PlotlyMaidr:
             to ``False`` or ``"auto"`` the bundled MAIDR JS assets are
             copied into ``lib_dir`` alongside the saved HTML.
         """
-        html = self._create_html_doc(use_iframe=False, use_cdn=use_cdn)
+        # A downloaded DotPad SDK travels in ``lib_dir`` with the bundle,
+        # declared ahead of it, so the offline document reaches a tactile
+        # display; ``maidr.util.dotpad``.
+        html = self._create_html_doc(
+            use_iframe=False,
+            use_cdn=use_cdn,
+            prelude=local_dotpad_sdk_dependency(
+                use_cdn=use_cdn, lib_prefix=lib_dir, include_version=include_version
+            ),
+        )
         return html.save_html(file, libdir=lib_dir, include_version=include_version)
 
     def destroy(self) -> None:
@@ -1709,9 +1680,7 @@ class PlotlyMaidr:
         # KaTeX travels as a string because ``maidr.js`` resolves
         # ``maidr-math.css`` against the URL it was loaded from, and an
         # inline script inside a srcdoc iframe has no URL to offer it.
-        def parent_source(
-            on_missing: str, on_unreachable: str | None = None
-        ) -> str:
+        def parent_source(on_missing: str, on_unreachable: str | None = None) -> str:
             """Return the parent-window loader, reporting failure as told.
 
             The two ``use_cdn`` modes reach this for different reasons and so
@@ -1969,9 +1938,7 @@ class PlotlyMaidr:
                     # Bundle unreadable; already warned.  A CDN tag is the
                     # only remaining source, and a chart that needs the
                     # network beats one that cannot be read at all.
-                    inline_tags = [
-                        tags.script(src=bundled_cdn_url(MAIDR_JS_FILENAME))
-                    ]
+                    inline_tags = [tags.script(src=bundled_cdn_url(MAIDR_JS_FILENAME))]
                 children.extend(inline_tags)
             else:
                 # The dependency copies the whole bundle, so ``maidr.js``
@@ -1990,6 +1957,13 @@ class PlotlyMaidr:
         children.append(tags.div(HTML(plotly_div)))
         children.append(tags.script(init_script, type="text/javascript"))
 
+        # Where the page should find the DotPad SDK, when the session says:
+        # ahead of ``maidr.js`` on every path. A head dependency for a
+        # document; a plain tag inside an iframe, which keeps only tags.
+        dotpad_child = dotpad_config_child(inline=will_iframe)
+        if dotpad_child is not None:
+            children.insert(0, dotpad_child)
+
         base_html = tags.div(*children)
 
         # Same condition as ``will_iframe`` above, reused so the branch
@@ -2004,15 +1978,15 @@ class PlotlyMaidr:
         self,
         use_iframe: bool = True,
         use_cdn: bool | Literal["auto"] = "auto",
+        *,
+        prelude: Any = None,
     ) -> HTMLDocument:
         """Create a full HTML document."""
-        return HTMLDocument(
-            self._create_html_tag(use_iframe, use_cdn=use_cdn), lang="en"
-        )
+        tag = self._create_html_tag(use_iframe, use_cdn=use_cdn)
+        children = [tag] if prelude is None else [prelude, tag]
+        return HTMLDocument(*children, lang="en")
 
-    def _open_plot_in_browser(
-        self, use_cdn: bool | Literal["auto"] = "auto"
-    ) -> None:
+    def _open_plot_in_browser(self, use_cdn: bool | Literal["auto"] = "auto") -> None:
         """Open the rendered HTML in a browser via a temp file.
 
         Parameters

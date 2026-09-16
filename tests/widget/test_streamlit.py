@@ -108,7 +108,10 @@ def test_each_cdn_mode_ships_the_source_it_promises(
     so a reference to the bundle would not survive the trip.
     """
     html = maidr_html(bar_axes, use_cdn=use_cdn)
-    assert ("cdn.jsdelivr" in html) is expect_cdn
+    # The maidr loader URL rather than the bare host: the inlined bundle
+    # names jsDelivr itself, for the DotPad SDK it fetches on first connect
+    # (#771), so the host alone is in every offline document too.
+    assert ("cdn.jsdelivr.net/npm/maidr" in html) is expect_cdn
     assert (_BUNDLE_HEAD in html) is expect_inline_bundle
 
 
@@ -151,7 +154,7 @@ def test_render_maidr_prefers_st_iframe(bar_axes, monkeypatch):
     assert len(st.iframe.calls) == 1
     assert v1.html.calls == []
     (args, kwargs) = st.iframe.calls[0]
-    assert "cdn.jsdelivr" in args[0]
+    assert "cdn.jsdelivr.net/npm/maidr" in args[0]
     assert kwargs == {"width": "stretch", "height": "content", "tab_index": None}
 
 
@@ -251,9 +254,7 @@ def test_legacy_fallback_forwards_tab_index_when_supported(bar_axes, monkeypatch
     assert v1.calls[0]["tab_index"] == 5
 
 
-def test_legacy_fallback_says_so_when_tab_index_cannot_be_set(
-    bar_axes, monkeypatch
-):
+def test_legacy_fallback_says_so_when_tab_index_cannot_be_set(bar_axes, monkeypatch):
     """Older still: the argument cannot be honoured, so it is not dropped mutely."""
     v1 = _stub_legacy_html(monkeypatch, accepts_tab_index=False)
 
@@ -274,9 +275,7 @@ def test_legacy_fallback_is_quiet_when_tab_index_is_unset(bar_axes, monkeypatch)
     assert not [w for w in caught if "tab_index" in str(w.message)]
 
 
-def test_a_chart_that_only_loads_maidr_remotely_is_not_inlined(
-    bar_axes, monkeypatch
-):
+def test_a_chart_that_only_loads_maidr_remotely_is_not_inlined(bar_axes, monkeypatch):
     """The Altair shape: ``use_cdn=False`` cannot be honoured, so say so.
 
     ``maidr.render`` hands an Altair chart to the Vega-Lite adapter before
@@ -288,7 +287,10 @@ def test_a_chart_that_only_loads_maidr_remotely_is_not_inlined(
 
     class _Remote:
         def get_html_string(self):
-            return '<div><script src="https://cdn.example/maidr@1/vegalite.js">' "</script></div>"
+            return (
+                '<div><script src="https://cdn.example/maidr@1/vegalite.js">'
+                "</script></div>"
+            )
 
     monkeypatch.setattr(widget.maidr, "render", lambda *a, **k: _Remote())
 
@@ -302,16 +304,14 @@ def test_a_chart_that_only_loads_maidr_remotely_is_not_inlined(
     ):
         with pytest.warns(UserWarning, match="cannot be honoured") as caught:
             call()
-        assert caught[0].filename == __file__, (
-            f"warning was blamed on {caught[0].filename}, not the caller"
-        )
+        assert (
+            caught[0].filename == __file__
+        ), f"warning was blamed on {caught[0].filename}, not the caller"
 
     assert _BUNDLE_HEAD not in maidr_html(bar_axes, use_cdn=False)
 
 
-def test_an_empty_bundle_does_not_vouch_for_a_missing_runtime(
-    bar_axes, monkeypatch
-):
+def test_an_empty_bundle_does_not_vouch_for_a_missing_runtime(bar_axes, monkeypatch):
     """A zero-byte bundle must not silence the no-runtime warning.
 
     A marker sliced from an empty file is ``""``, which is a substring of
@@ -362,9 +362,9 @@ def test_the_no_runtime_warning_blames_the_caller_not_the_library(
     ):
         with pytest.warns(UserWarning, match="no source for maidr.js") as caught:
             call()
-        assert caught[0].filename != library, (
-            f"warning was blamed on the library itself, at line {caught[0].lineno}"
-        )
+        assert (
+            caught[0].filename != library
+        ), f"warning was blamed on the library itself, at line {caught[0].lineno}"
         assert caught[0].filename == __file__
 
 
@@ -450,7 +450,7 @@ def test_a_real_streamlit_app_embeds_the_chart_as_srcdoc(monkeypatch):
     assert proto.srcdoc, "no document reached the frame"
     # The chart and its runtime both have to survive the trip.
     assert "maidr=" in proto.srcdoc
-    assert "cdn.jsdelivr" in proto.srcdoc
+    assert "cdn.jsdelivr.net/npm/maidr" in proto.srcdoc
 
 
 def test_a_real_streamlit_app_leaves_tab_index_unset(monkeypatch):
@@ -490,9 +490,9 @@ def test_tab_index_support_is_detected_on_the_real_streamlit():
     # Whatever the answer, it must be the true one for this install.
     expected = "tab_index" in inspect.signature(components.html).parameters
     assert _accepts_tab_index(components.html) is expected
-    assert hasattr(components.html, "__wrapped__"), (
-        "streamlit stopped wrapping components.html; re-check the probe"
-    )
+    assert hasattr(
+        components.html, "__wrapped__"
+    ), "streamlit stopped wrapping components.html; re-check the probe"
     assert expected is True, "this streamlit should support tab_index"
 
 
@@ -559,7 +559,7 @@ def test_the_resolved_mode_is_the_one_the_chart_was_built_with(bar_axes, monkeyp
 def test_import_error_advice_matches_the_failure(
     bar_axes, monkeypatch, error, expected
 ):
-    """"Install the extra" is wrong advice for a package already installed."""
+    """ "Install the extra" is wrong advice for a package already installed."""
     import builtins
 
     real_import = builtins.__import__
@@ -720,9 +720,9 @@ def test_no_plot_warns_and_blames_the_caller(bar_axes, monkeypatch):
     fallbacks = [w for w in caught if "current figure" in str(w.message)]
     assert len(fallbacks) == 1, [str(w.message) for w in caught]
     assert issubclass(fallbacks[0].category, UserWarning)
-    assert fallbacks[0].filename == __file__, (
-        f"warning was blamed on {fallbacks[0].filename}, not the caller"
-    )
+    assert (
+        fallbacks[0].filename == __file__
+    ), f"warning was blamed on {fallbacks[0].filename}, not the caller"
     # The default still renders the current figure; the warning is not a refusal.
     assert "maidr=" in html
 
@@ -731,9 +731,9 @@ def test_no_plot_warns_and_blames_the_caller(bar_axes, monkeypatch):
         render_maidr(use_cdn=True)
     fallbacks = [w for w in caught if "current figure" in str(w.message)]
     assert len(fallbacks) == 1, [str(w.message) for w in caught]
-    assert fallbacks[0].filename == __file__, (
-        f"warning was blamed on {fallbacks[0].filename}, not the caller"
-    )
+    assert (
+        fallbacks[0].filename == __file__
+    ), f"warning was blamed on {fallbacks[0].filename}, not the caller"
     assert "maidr=" in st.iframe.calls[0][0][0]
 
 

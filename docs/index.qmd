@@ -406,6 +406,54 @@ In sandboxed or egress-blocked environments (CI, air-gapped machines), `MAIDR_CD
 
 One exception is worth knowing about: **Altair** charts always load `maidr.js` from the CDN. That adapter has no bundled/offline path — `use_cdn` and `MAIDR_USE_CDN` are not plumbed through it — so `MAIDR_USE_CDN=false` will not make an Altair chart self-contained. `MAIDR_CDN_VERSION=bundled` does still remove the version lookup for Altair, which is why it is the better setting when any part of your work is air-gapped.
 
+### A tactile display, offline
+
+One thing an offline document still fetches: the SDK that drives a [DotPad
+tactile display](https://maidr.ai/docs/TACTILE_DISPLAY.html). `maidr.js` does
+not bundle it — its braille engine is a 14 MB liblouis build, which every page
+would carry for the few readers who own the device — and imports the vendor's
+published copy from jsDelivr, pinned by commit, the first time a DotPad is
+connected. Rendering, sonification and braille work offline regardless; only
+connecting the device reaches out.
+
+To keep that offline too, download the pinned copy once and py-maidr carries
+it with every `use_cdn=False` document:
+
+```python
+import maidr
+
+maidr.download_dotpad_sdk()          # ~14 MB, once, into a per-user cache
+maidr.save_html(fig, "chart.html", use_cdn=False)
+```
+
+The SDK is written to `lib/dotpad-sdk-3.0.2/` beside the file, next to the
+`lib/maidr-<version>/` folder that already travels with it, and the document
+declares where to find it ahead of `maidr.js`. Ship the HTML with its `lib/`
+folder, as before. Every downloaded file is verified against the size and
+SHA-256 recorded for the pinned commit, and the copy includes the LGPL licence
+text and wrapper sources the vendor asks redistributors to keep beside the
+braille engine. `MAIDR_DOTPAD_SDK_DIR` moves the cache somewhere else, for
+instance a directory shared by a whole machine.
+
+A page served from somewhere else — an intranet host, or a notebook, where the
+chart lives in a `srcdoc` iframe with no base URL for a relative path to
+resolve against — names its copy by URL instead, and every document py-maidr
+produces then declares it:
+
+```python
+maidr.set_dotpad_sdk(
+    "https://intranet.example/dotpad/DotPadSDK-3.0.2.js",
+    "https://intranet.example/dotpad/lib/",
+)
+# or: MAIDR_DOTPAD_SDK_URL=... MAIDR_DOTPAD_ASSET_BASE_URL=...
+```
+
+A configured URL wins over a downloaded copy. The second value names the
+directory holding the braille engine and is needed only when it is not the
+`lib/` folder beside the module. `maidr.dotpad_sdk_path()` reports whether a
+complete copy is on disk, and `maidr.get_dotpad_sdk()` what documents are
+being told.
+
 ::: {.callout-note}
 ## Shiny, notebooks and other async servers
 
@@ -528,6 +576,9 @@ The resolved version is looked up once per process, and the staleness warning fi
 | `MAIDR_CDN_VERSION` | Pin the CDN version — `bundled` is the recommended setting for restricted networks (does not affect `bundle_status()`, which always resolves unless passed `resolve=False`): a version such as `3.74.0`, `bundled`, or `latest` to skip resolution. If `bundled` is set but the installed `VERSION` file is missing or unreadable, py-maidr warns and falls back to `latest` without making a network request. |
 | `MAIDR_CDN_TIMEOUT` | Seconds allowed for the version lookup, shared across attempts (default `3`). Values of `0` or less fall back to the default, and anything above `30` is clamped to it with a warning — the units are seconds, so a value like `3000` is treated as a mistake rather than a request to wait fifty minutes. |
 | `MAIDR_BUNDLE_STALE_WARNING` | Set to `0` to silence the stale-bundle warning. |
+| `MAIDR_DOTPAD_SDK_URL` | URL of a copy of the DotPad SDK module every document should load instead of the vendor's on jsDelivr; `maidr.set_dotpad_sdk()` is the same setting from Python. |
+| `MAIDR_DOTPAD_ASSET_BASE_URL` | URL of the directory holding that SDK's braille engine, when it is not the `lib/` folder beside the module. |
+| `MAIDR_DOTPAD_SDK_DIR` | Where `maidr.download_dotpad_sdk()` writes the SDK and where `save_html(use_cdn=False)` looks for it; defaults to a per-user cache. |
 
 ## Keyboard Shortcuts and Controls
 

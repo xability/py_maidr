@@ -109,6 +109,17 @@ It is also the only one of the two that covers **Altair** charts: the Altair ada
 has no offline path and always references the CDN, so `MAIDR_USE_CDN=false` does not
 apply to it, while `MAIDR_CDN_VERSION=bundled` still removes the lookup.
 
+A [DotPad tactile display](https://maidr.ai/docs/TACTILE_DISPLAY.html) needs the
+vendor's SDK, which `maidr.js` fetches from jsDelivr the first time a device is
+connected rather than bundling its 14 MB braille engine. To take that offline too,
+download the pinned copy once and every `use_cdn=False` document carries it in
+its `lib/` folder:
+
+```python
+maidr.download_dotpad_sdk()   # once; ~14 MB into a per-user cache
+maidr.save_html(fig, "chart.html", use_cdn=False)
+```
+
 See [Offline Use and the JavaScript Bundle](https://py.maidr.ai/#offline-use-and-the-javascript-bundle) for the full set of options.
 
 

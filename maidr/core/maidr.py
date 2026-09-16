@@ -43,6 +43,7 @@ from maidr.util.cdn import (
     bundled_cdn_url,
     maidr_js_cdn_url,
 )
+from maidr.util.dotpad import dotpad_config_child, local_dotpad_sdk_dependency
 from maidr.util.grid_position import topmost_subplotspec
 from maidr.util.environment import Environment
 from maidr.util.iframe_utils import chart_title_of, wrap_in_iframe_matplotlib
@@ -194,13 +195,25 @@ class Maidr:
             * ``False``: copy the bundled ``maidr.js`` and its assets
               into ``lib_dir`` next to the saved HTML and reference the
               script with a relative path (no network access required).
+              A DotPad SDK downloaded with
+              :func:`maidr.download_dotpad_sdk` is copied there too, so
+              a tactile display works offline as well.
             * ``"auto"`` (default): attempt the CDN first and fall back
               to the bundled copy client-side if the CDN request fails.
               The bundled files are still copied alongside the HTML so
               the fallback works offline.
         """
+        # A reader with no network may still have a DotPad. When the SDK
+        # has been downloaded (``maidr.download_dotpad_sdk()``) it rides
+        # along in ``lib_dir`` like the bundle does, declared ahead of it;
+        # see ``maidr.util.dotpad``.
         html = self._create_html_doc(
-            use_iframe=False, data_in_svg=data_in_svg, use_cdn=use_cdn
+            use_iframe=False,
+            data_in_svg=data_in_svg,
+            use_cdn=use_cdn,
+            prelude=local_dotpad_sdk_dependency(
+                use_cdn=use_cdn, lib_prefix=lib_dir, include_version=include_version
+            ),
         )  # Always use direct HTML for saving
 
         # Write the HTML ourselves with explicit UTF-8 encoding to avoid
@@ -351,9 +364,7 @@ class Maidr:
         del self._plots
         del self._fig
 
-    def _open_plot_in_browser(
-        self, use_cdn: bool | Literal["auto"] = "auto"
-    ) -> None:
+    def _open_plot_in_browser(self, use_cdn: bool | Literal["auto"] = "auto") -> None:
         """Open the rendered HTML content using a temporary file.
 
         Parameters
@@ -547,6 +558,8 @@ class Maidr:
         use_iframe: bool = True,
         data_in_svg: bool = True,
         use_cdn: bool | Literal["auto"] = "auto",
+        *,
+        prelude: Any = None,
     ) -> HTMLDocument:
         """Create an HTML document from Tag objects.
 
@@ -558,11 +571,13 @@ class Maidr:
             See _create_html_tag for details on payload placement strategy.
         use_cdn : bool or {"auto"}, default="auto"
             Controls how ``maidr.js`` is referenced.  See :meth:`render`.
+        prelude : TagChild, optional
+            A child placed ahead of the chart, so a dependency it carries
+            renders its head above the bundle's.
         """
-        return HTMLDocument(
-            self._create_html_tag(use_iframe, data_in_svg, use_cdn=use_cdn),
-            lang="en",
-        )
+        tag = self._create_html_tag(use_iframe, data_in_svg, use_cdn=use_cdn)
+        children = [tag] if prelude is None else [prelude, tag]
+        return HTMLDocument(*children, lang="en")
 
     @staticmethod
     def _layer_axes_key(plot: MaidrPlot) -> Axes:
@@ -1146,15 +1161,11 @@ class Maidr:
                     # warned.  A CDN tag is the only remaining source, and
                     # a chart that needs the network beats one that cannot
                     # be read at all.  Same trade ``init_notebook`` makes.
-                    inline_tags = [
-                        tags.script(src=bundled_cdn_url(MAIDR_JS_FILENAME))
-                    ]
+                    inline_tags = [tags.script(src=bundled_cdn_url(MAIDR_JS_FILENAME))]
                 children = list(inline_tags)
                 if maidr is not None:
                     children.append(tags.script(maidr, type="text/javascript"))
-                children.append(
-                    tags.script(bootstrap_script, type="text/javascript")
-                )
+                children.append(tags.script(bootstrap_script, type="text/javascript"))
                 children.append(tags.div(plot))
             else:
                 dep = maidr_html_dependency()
@@ -1174,9 +1185,7 @@ class Maidr:
                 children = [dep]
                 if maidr is not None:
                     children.append(tags.script(maidr, type="text/javascript"))
-                children.append(
-                    tags.script(bootstrap_script, type="text/javascript")
-                )
+                children.append(tags.script(bootstrap_script, type="text/javascript"))
                 children.append(tags.div(plot))
         elif use_cdn == "auto":
             # Resolved lazily and only on the CDN paths: ``use_cdn=False``
@@ -1280,9 +1289,7 @@ class Maidr:
                 children = [files_dep]
                 if maidr is not None:
                     children.append(tags.script(maidr, type="text/javascript"))
-                children.append(
-                    tags.script(fallback_script, type="text/javascript")
-                )
+                children.append(tags.script(fallback_script, type="text/javascript"))
                 children.append(tags.div(plot))
         else:
             # CDN-only: same loader shape as before, but pointed at the
@@ -1312,6 +1319,13 @@ class Maidr:
                 children.append(tags.script(maidr, type="text/javascript"))
             children.append(tags.script(script, type="text/javascript"))
             children.append(tags.div(plot))
+
+        # Where the page should find the DotPad SDK, when the session says:
+        # ahead of ``maidr.js`` on every path. A head dependency for a
+        # document; a plain tag inside an iframe, which keeps only tags.
+        dotpad_child = dotpad_config_child(inline=will_iframe)
+        if dotpad_child is not None:
+            children.insert(0, dotpad_child)
 
         base_html = tags.div(*children)
 
