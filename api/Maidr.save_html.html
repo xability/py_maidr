@@ -241,7 +241,7 @@ cookieconsent.run({
 <meta name="DC.format" content="text/html">
 <meta name="DC.language" content="en">
 <meta name="DC.rights" content="GPL-3.0-or-later">
-<meta name="DC.date" content="2026-09-14">
+<meta name="DC.date" content="2026-09-15">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -423,7 +423,7 @@ cookieconsent.run({
 <tr class="odd">
 <td>use_cdn</td>
 <td><a href="https://docs.python.org/3/builtins/functions.html#bool">bool</a> or {'auto'}</td>
-<td>* <code>True</code>: load <code>maidr.js</code> from the CDN only. * <code>False</code>: copy the bundled <code>maidr.js</code> and its assets into <code>lib_dir</code> next to the saved HTML and reference the script with a relative path (no network access required). * <code>"auto"</code> (default): attempt the CDN first and fall back to the bundled copy client-side if the CDN request fails. The bundled files are still copied alongside the HTML so the fallback works offline.</td>
+<td>* <code>True</code>: load <code>maidr.js</code> from the CDN only. * <code>False</code>: copy the bundled <code>maidr.js</code> and its assets into <code>lib_dir</code> next to the saved HTML and reference the script with a relative path (no network access required). A DotPad SDK downloaded with :func:<code>maidr.download_dotpad_sdk</code> is copied there too, so a tactile display works offline as well. * <code>"auto"</code> (default): attempt the CDN first and fall back to the bundled copy client-side if the CDN request fails. The bundled files are still copied alongside the HTML so the fallback works offline.</td>
 <td><code>"auto"</code></td>
 </tr>
 </tbody>
