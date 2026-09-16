@@ -297,7 +297,10 @@ def test_each_cdn_mode_ships_the_source_it_promises(
     document = _iframe_document(payload["html"])
 
     assert payload["deps"] == [], "an iframed render cannot carry dependencies"
-    assert ("cdn.jsdelivr" in document) is expect_cdn
+    # The maidr loader URL rather than the bare host: the inlined bundle
+    # names jsDelivr itself, for the DotPad SDK it fetches on first connect
+    # (#771), so the host alone is in every offline document too.
+    assert ("cdn.jsdelivr.net/npm/maidr" in document) is expect_cdn
     assert (_BUNDLE_HEAD in document) is expect_inline_bundle
 
 
@@ -323,9 +326,7 @@ def test_none_renders_nothing(fake_session):
 
     open_before = set(plt.get_fignums())
     assert _render(blank) is None
-    assert set(plt.get_fignums()) == open_before, (
-        "rendering nothing opened a figure"
-    )
+    assert set(plt.get_fignums()) == open_before, "rendering nothing opened a figure"
 
 
 @pytest.mark.parametrize(
@@ -470,7 +471,7 @@ def test_a_figure_built_lazily_and_cached_stays_accessible(fake_session):
     ],
 )
 def test_import_error_advice_matches_the_failure(monkeypatch, error, expected):
-    """"Install the extra" is wrong advice for a package already installed."""
+    """ "Install the extra" is wrong advice for a package already installed."""
     import builtins
     import importlib
 
