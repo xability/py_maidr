@@ -460,10 +460,12 @@ def test_a_plotly_offline_document_carries_the_copy_too(local_sdk, tmp_path):
     out = tmp_path / "plotly.html"
     maidr.save_html(fig, str(out), use_cdn=False)
     assert (tmp_path / "lib" / "dotpad-sdk-3.0.2" / "DotPadSDK-3.0.2.js").is_file()
+    html = out.read_text(encoding="utf-8")
     assert (
         'window.MAIDR_DOTPAD_SDK_URL = "lib/dotpad-sdk-3.0.2/DotPadSDK-3.0.2.js";'
-        in out.read_text(encoding="utf-8")
+        in html
     )
+    assert _declaration_precedes_the_bundle(html)
 
 
 # ---------------------------------------------------------------------------

@@ -60,7 +60,7 @@ from maidr.util.cdn import (
     bundled_cdn_url,
     maidr_js_cdn_url,
 )
-from maidr.util.dotpad import attach_local_dotpad_sdk, dotpad_config_child
+from maidr.util.dotpad import dotpad_config_child, local_dotpad_sdk_dependency
 from maidr.util.environment import Environment
 from maidr.util.iframe_utils import chart_title_of, wrap_in_iframe_plotly
 
@@ -1477,11 +1477,15 @@ class PlotlyMaidr:
             to ``False`` or ``"auto"`` the bundled MAIDR JS assets are
             copied into ``lib_dir`` alongside the saved HTML.
         """
-        html = self._create_html_doc(use_iframe=False, use_cdn=use_cdn)
-        # A downloaded DotPad SDK travels in ``lib_dir`` with the bundle, so
-        # the offline document reaches a tactile display; ``maidr.util.dotpad``.
-        attach_local_dotpad_sdk(
-            html, use_cdn=use_cdn, lib_prefix=lib_dir, include_version=include_version
+        # A downloaded DotPad SDK travels in ``lib_dir`` with the bundle,
+        # declared ahead of it, so the offline document reaches a tactile
+        # display; ``maidr.util.dotpad``.
+        html = self._create_html_doc(
+            use_iframe=False,
+            use_cdn=use_cdn,
+            prelude=local_dotpad_sdk_dependency(
+                use_cdn=use_cdn, lib_prefix=lib_dir, include_version=include_version
+            ),
         )
         return html.save_html(file, libdir=lib_dir, include_version=include_version)
 
@@ -1974,11 +1978,13 @@ class PlotlyMaidr:
         self,
         use_iframe: bool = True,
         use_cdn: bool | Literal["auto"] = "auto",
+        *,
+        prelude: Any = None,
     ) -> HTMLDocument:
         """Create a full HTML document."""
-        return HTMLDocument(
-            self._create_html_tag(use_iframe, use_cdn=use_cdn), lang="en"
-        )
+        tag = self._create_html_tag(use_iframe, use_cdn=use_cdn)
+        children = [tag] if prelude is None else [prelude, tag]
+        return HTMLDocument(*children, lang="en")
 
     def _open_plot_in_browser(self, use_cdn: bool | Literal["auto"] = "auto") -> None:
         """Open the rendered HTML in a browser via a temp file.

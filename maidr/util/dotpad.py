@@ -530,14 +530,13 @@ def dotpad_sdk_dependency(
     )
 
 
-def attach_local_dotpad_sdk(
-    document,
+def local_dotpad_sdk_dependency(
     *,
     use_cdn,
     lib_prefix: Optional[str],
     include_version: bool,
-) -> bool:
-    """Bundle a downloaded SDK with a document that is going offline.
+):
+    """The dependency that bundles a downloaded SDK with a document going offline.
 
     Applies only to ``use_cdn=False``: that is the document whose reader
     has no network, and the one whose ``lib/`` folder already travels
@@ -552,13 +551,12 @@ def attach_local_dotpad_sdk(
     offline copy's worst half, and the network dependency
     ``use_cdn=False`` exists to remove.
 
+    The caller puts it first in the document. htmltools renders
+    dependency heads in document order, so that is what places the
+    globals above the bundle's ``<script>``, as the URL path already does.
+
     Parameters
     ----------
-    document : htmltools.HTMLDocument
-        The document about to be saved. The dependency goes in ahead of
-        everything already there: htmltools renders dependency heads in
-        document order, so this is what puts the globals above the
-        bundle's ``<script>``, as the URL path already does.
     use_cdn : bool or {"auto"}
         The document's resolved ``use_cdn``.
     lib_prefix : str or None
@@ -568,21 +566,18 @@ def attach_local_dotpad_sdk(
 
     Returns
     -------
-    bool
-        Whether a copy was attached.
+    htmltools.HTMLDependency or None
+        The dependency to lead the document with, or ``None`` when the
+        document should carry no copy.
     """
     if use_cdn is not False:
-        return False
+        return None
     configured = get_dotpad_sdk()
     if configured.sdk_url is not None or configured.asset_base_url is not None:
-        return False
+        return None
     local = dotpad_sdk_path()
     if local is None:
-        return False
-    document.content.insert(
-        0,
-        dotpad_sdk_dependency(
-            local, lib_prefix=lib_prefix, include_version=include_version
-        ),
+        return None
+    return dotpad_sdk_dependency(
+        local, lib_prefix=lib_prefix, include_version=include_version
     )
-    return True

@@ -43,7 +43,7 @@ from maidr.util.cdn import (
     bundled_cdn_url,
     maidr_js_cdn_url,
 )
-from maidr.util.dotpad import attach_local_dotpad_sdk, dotpad_config_child
+from maidr.util.dotpad import dotpad_config_child, local_dotpad_sdk_dependency
 from maidr.util.grid_position import topmost_subplotspec
 from maidr.util.environment import Environment
 from maidr.util.iframe_utils import chart_title_of, wrap_in_iframe_matplotlib
@@ -203,16 +203,18 @@ class Maidr:
               The bundled files are still copied alongside the HTML so
               the fallback works offline.
         """
-        html = self._create_html_doc(
-            use_iframe=False, data_in_svg=data_in_svg, use_cdn=use_cdn
-        )  # Always use direct HTML for saving
-
         # A reader with no network may still have a DotPad. When the SDK
         # has been downloaded (``maidr.download_dotpad_sdk()``) it rides
-        # along in ``lib_dir`` like the bundle does; see ``maidr.util.dotpad``.
-        attach_local_dotpad_sdk(
-            html, use_cdn=use_cdn, lib_prefix=lib_dir, include_version=include_version
-        )
+        # along in ``lib_dir`` like the bundle does, declared ahead of it;
+        # see ``maidr.util.dotpad``.
+        html = self._create_html_doc(
+            use_iframe=False,
+            data_in_svg=data_in_svg,
+            use_cdn=use_cdn,
+            prelude=local_dotpad_sdk_dependency(
+                use_cdn=use_cdn, lib_prefix=lib_dir, include_version=include_version
+            ),
+        )  # Always use direct HTML for saving
 
         # Write the HTML ourselves with explicit UTF-8 encoding to avoid
         # UnicodeEncodeError on Windows where the default encoding (e.g.
@@ -556,6 +558,8 @@ class Maidr:
         use_iframe: bool = True,
         data_in_svg: bool = True,
         use_cdn: bool | Literal["auto"] = "auto",
+        *,
+        prelude: Any = None,
     ) -> HTMLDocument:
         """Create an HTML document from Tag objects.
 
@@ -567,11 +571,13 @@ class Maidr:
             See _create_html_tag for details on payload placement strategy.
         use_cdn : bool or {"auto"}, default="auto"
             Controls how ``maidr.js`` is referenced.  See :meth:`render`.
+        prelude : TagChild, optional
+            A child placed ahead of the chart, so a dependency it carries
+            renders its head above the bundle's.
         """
-        return HTMLDocument(
-            self._create_html_tag(use_iframe, data_in_svg, use_cdn=use_cdn),
-            lang="en",
-        )
+        tag = self._create_html_tag(use_iframe, data_in_svg, use_cdn=use_cdn)
+        children = [tag] if prelude is None else [prelude, tag]
+        return HTMLDocument(*children, lang="en")
 
     @staticmethod
     def _layer_axes_key(plot: MaidrPlot) -> Axes:
