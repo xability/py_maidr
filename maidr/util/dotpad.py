@@ -555,7 +555,10 @@ def attach_local_dotpad_sdk(
     Parameters
     ----------
     document : htmltools.HTMLDocument
-        The document about to be saved; the dependency is appended to it.
+        The document about to be saved. The dependency goes in ahead of
+        everything already there: htmltools renders dependency heads in
+        document order, so this is what puts the globals above the
+        bundle's ``<script>``, as the URL path already does.
     use_cdn : bool or {"auto"}
         The document's resolved ``use_cdn``.
     lib_prefix : str or None
@@ -576,9 +579,10 @@ def attach_local_dotpad_sdk(
     local = dotpad_sdk_path()
     if local is None:
         return False
-    document.append(
+    document.content.insert(
+        0,
         dotpad_sdk_dependency(
             local, lib_prefix=lib_prefix, include_version=include_version
-        )
+        ),
     )
     return True
